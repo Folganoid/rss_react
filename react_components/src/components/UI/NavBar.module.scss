@@ -1,0 +1,17 @@
+.nav {
+    height: 80px;
+    width: 100%;
+    background-color: grey;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    ul {
+        list-style-type: none;
+        display: flex;
+
+        li {
+            margin: 0 20px;
+        }
+    }
+}
