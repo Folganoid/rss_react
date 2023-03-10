@@ -1,9 +1,9 @@
-import About from '../pages/About';
-import ErrorPage from '../pages/ErrorPage';
-import Home from '../pages/Home';
+import About from '../../pages/About';
+import ErrorPage from '../../pages/ErrorPage';
+import Home from '../../pages/Home';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Layout from './UI/Layout';
+import Layout from './Layout';
 
 export default class AppRouter extends React.Component {
   render() {

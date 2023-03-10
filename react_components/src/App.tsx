@@ -1,5 +1,5 @@
 import React from 'react';
-import AppRouter from './components/AppRouter';
+import AppRouter from './components/parts/AppRouter';
 import './styles/App.scss';
 
 function App() {

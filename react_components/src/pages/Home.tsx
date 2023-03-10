@@ -3,7 +3,7 @@ import React from 'react';
 
 export default class Home extends React.Component<object, { search: string }> {
   state = {
-    search: localStorage.getItem('search') || '',
+    search: localStorage.getItem('search') ?? '',
   };
 
   changeSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
