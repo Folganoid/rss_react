@@ -1,9 +1,9 @@
 import Input from '../components/UI/Input';
 import React from 'react';
-import data from '../data/frameworks.json';
-import Card from '../components/parts/Card';
+import Card from '../components/parts/Card/Card';
+import { CardEntity } from 'components/parts/Card/CardType';
 
-export default class Home extends React.Component<object, { search: string }> {
+export default class Home extends React.Component<{ data: CardEntity[] }, { search: string }> {
   state = {
     search: localStorage.getItem('search') || '',
   };
@@ -27,7 +27,7 @@ export default class Home extends React.Component<object, { search: string }> {
           <Input placeholder={'search'} onChange={this.changeSearch} value={search} />
         </div>
         <div className={'main__cards'}>
-          {data.map((el) => {
+          {this.props.data.map((el) => {
             return <Card key={el.id} data={el} />;
           })}
         </div>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { CardType } from '../../types/CardType';
+import { CardData } from './CardType';
 import cl from './Card.module.scss';
 
-export class Card extends Component<CardType, object> {
+export class Card extends Component<CardData, object> {
   render() {
     return (
       <article className={cl.card}>
