@@ -1,20 +1,20 @@
 [
-    {
-        "id": 1,
-        "image": "i_angular.jpg",
-        "name": "Angular",
-        "year": "2016",
-        "desc": "Angular (also referred to as 'Angular 2+') is a TypeScript-based, free and open-source web application framework led by the Angular Team at Google and by a community of individuals and corporations.",
-        "license": "MIT",
-        "site": "https://angular.io"
-    },
-    {
-        "id": 2,
-        "image": "i_aurelia.png",
-        "name": "Aurelia",
-        "year": "2014",
-        "desc": "Aurelia is a modern, front-end JavaScript framework for building browser, mobile, and desktop applications. It focuses on aligning closely with web platform specifications, using convention over configuration, and having minimal framework intrusion.",
-        "license": "MIT",
-        "site": "https://aurelia.io"
-    }
+  {
+    "id": 1,
+    "image": "i_angular.jpg",
+    "name": "Angular",
+    "year": "2016",
+    "desc": "Angular (also referred to as 'Angular 2+') is a TypeScript-based, free and open-source web application framework led by the Angular Team at Google and by a community of individuals and corporations.",
+    "license": "MIT",
+    "site": "https://angular.io"
+  },
+  {
+    "id": 2,
+    "image": "i_aurelia.png",
+    "name": "Aurelia",
+    "year": "2014",
+    "desc": "Aurelia is a modern, front-end JavaScript framework for building browser, mobile, and desktop applications. It focuses on aligning closely with web platform specifications, using convention over configuration, and having minimal framework intrusion.",
+    "license": "MIT",
+    "site": "https://aurelia.io"
+  }
 ]

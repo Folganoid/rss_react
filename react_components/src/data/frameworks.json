@@ -1,101 +1,101 @@
 [
-    {
-        "id": 1,
-        "image": "i_angular.jpg",
-        "name": "Angular",
-        "year": "2016",
-        "desc": "Angular (also referred to as 'Angular 2+') is a TypeScript-based, free and open-source web application framework led by the Angular Team at Google and by a community of individuals and corporations.",
-        "license": "MIT",
-        "site": "https://angular.io"
-    },
-    {
-        "id": 2,
-        "image": "i_aurelia.png",
-        "name": "Aurelia",
-        "year": "2014",
-        "desc": "Aurelia is a modern, front-end JavaScript framework for building browser, mobile, and desktop applications. It focuses on aligning closely with web platform specifications, using convention over configuration, and having minimal framework intrusion.",
-        "license": "MIT",
-        "site": "https://aurelia.io"
-    },
-    {
-        "id": 3,
-        "image": "i_backbone.jpg",
-        "name": "Backbone",
-        "year": "2010",
-        "desc": "Backbone.js is a JavaScript rich-client web app framework based on the model–view–controller design paradigm, intended to connect to an API over a RESTful JSON interface.",
-        "license": "MIT",
-        "site": "http://backbonejs.org"
-    },
-    {
-        "id": 4,
-        "image": "i_ember.jpg",
-        "name": "Ember",
-        "year": "2011",
-        "desc": "Ember.js is an open-source JavaScript web framework that utilizes a component-service pattern. It allows developers to create scalable single-page web applications by incorporating common idioms, best practices, and patterns from other single-page-app ecosystem patterns into the framework.",
-        "license": "MIT",
-        "site": "https://emberjs.com"
-    },
-    {
-        "id": 5,
-        "image": "i_meteor.png",
-        "name": "Meteor",
-        "year": "2012",
-        "desc": "Meteor, or MeteorJS, is a partly proprietary, mostly free and open-source isomorphic JavaScript web framework written using Node.js. Meteor allows for rapid prototyping and produces cross-platform (Android, iOS, Web) code.",
-        "license": "MIT",
-        "site": "https://www.meteor.com"
-    },
-    {
-        "id": 6,
-        "image": "i_mithril.jpg",
-        "name": "Mithril",
-        "year": "2014",
-        "desc": "Mithril.js is a modern client-side JavaScript framework for building Single Page Applications. It's small (< 10kb gzip), fast and provides routing and XHR utilities out of the box.",
-        "license": "MIT",
-        "site": "https://nodejs.org"
-    },
-    {
-        "id": 7,
-        "image": "i_node.jpg",
-        "name": "Node",
-        "year": "2009",
-        "desc": "Node.js is a cross-platform, open-source server environment that can run on Windows, Linux, Unix, macOS, and more. Node.js is a back-end JavaScript runtime environment, runs on the V8 JavaScript Engine, and executes JavaScript code outside a web browser.",
-        "license": "MIT",
-        "site": "https://nodejs.org"
-    },
-    {
-        "id": 8,
-        "image": "i_polymer.png",
-        "name": "Polymer",
-        "year": "2015",
-        "desc": "The Polymer library provides a set of features for creating custom elements. These features are designed to make it easier and faster to make custom elements that work like standard DOM elements.",
-        "license": "MIT",
-        "site": "https://polymer-library.polymer-project.org"
-    },
-    {
-        "id": 9,
-        "image": "i_react.jpg",
-        "name": "React",
-        "year": "2013",
-        "desc": "React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces based on components. It is maintained by Meta (formerly Facebook) and a community of individual developers and companies.",
-        "license": "MIT",
-        "site": "https://reactjs.org"
-    },
-    {
-        "id": 10,
-        "image": "i_vue.jpg",
-        "name": "Vue",
-        "year": "2014",
-        "desc": "Vue.js (commonly referred to as Vue) is an open-source model–view–viewmodel front end JavaScript framework for building user interfaces and single-page applications. It was created by Evan You, and is maintained by him and the rest of the active core team members.",
-        "license": "MIT",
-        "site": "https://vuejs.org"
-    },
-    {
-        "id": 11,
-        "image": "i_jquery.png",
-        "name": "jQuery",
-        "year": "2006",
-        "desc": "Query is a JavaScript library designed to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax. It is free, open-source software using the permissive MIT License.",
-        "license": "MIT",
-        "site": "https://jquery.com"
-    }
+  {
+    "id": 1,
+    "image": "i_angular.jpg",
+    "name": "Angular",
+    "year": "2016",
+    "desc": "Angular (also referred to as 'Angular 2+') is a TypeScript-based, free and open-source web application framework led by the Angular Team at Google and by a community of individuals and corporations.",
+    "license": "MIT",
+    "site": "https://angular.io"
+  },
+  {
+    "id": 2,
+    "image": "i_aurelia.png",
+    "name": "Aurelia",
+    "year": "2014",
+    "desc": "Aurelia is a modern, front-end JavaScript framework for building browser, mobile, and desktop applications. It focuses on aligning closely with web platform specifications, using convention over configuration, and having minimal framework intrusion.",
+    "license": "MIT",
+    "site": "https://aurelia.io"
+  },
+  {
+    "id": 3,
+    "image": "i_backbone.jpg",
+    "name": "Backbone",
+    "year": "2010",
+    "desc": "Backbone.js is a JavaScript rich-client web app framework based on the model–view–controller design paradigm, intended to connect to an API over a RESTful JSON interface.",
+    "license": "MIT",
+    "site": "http://backbonejs.org"
+  },
+  {
+    "id": 4,
+    "image": "i_ember.jpg",
+    "name": "Ember",
+    "year": "2011",
+    "desc": "Ember.js is an open-source JavaScript web framework that utilizes a component-service pattern. It allows developers to create scalable single-page web applications by incorporating common idioms, best practices, and patterns from other single-page-app ecosystem patterns into the framework.",
+    "license": "MIT",
+    "site": "https://emberjs.com"
+  },
+  {
+    "id": 5,
+    "image": "i_meteor.png",
+    "name": "Meteor",
+    "year": "2012",
+    "desc": "Meteor, or MeteorJS, is a partly proprietary, mostly free and open-source isomorphic JavaScript web framework written using Node.js. Meteor allows for rapid prototyping and produces cross-platform (Android, iOS, Web) code.",
+    "license": "MIT",
+    "site": "https://www.meteor.com"
+  },
+  {
+    "id": 6,
+    "image": "i_mithril.jpg",
+    "name": "Mithril",
+    "year": "2014",
+    "desc": "Mithril.js is a modern client-side JavaScript framework for building Single Page Applications. It's small (< 10kb gzip), fast and provides routing and XHR utilities out of the box.",
+    "license": "MIT",
+    "site": "https://nodejs.org"
+  },
+  {
+    "id": 7,
+    "image": "i_node.jpg",
+    "name": "Node",
+    "year": "2009",
+    "desc": "Node.js is a cross-platform, open-source server environment that can run on Windows, Linux, Unix, macOS, and more. Node.js is a back-end JavaScript runtime environment, runs on the V8 JavaScript Engine, and executes JavaScript code outside a web browser.",
+    "license": "MIT",
+    "site": "https://nodejs.org"
+  },
+  {
+    "id": 8,
+    "image": "i_polymer.png",
+    "name": "Polymer",
+    "year": "2015",
+    "desc": "The Polymer library provides a set of features for creating custom elements. These features are designed to make it easier and faster to make custom elements that work like standard DOM elements.",
+    "license": "MIT",
+    "site": "https://polymer-library.polymer-project.org"
+  },
+  {
+    "id": 9,
+    "image": "i_react.jpg",
+    "name": "React",
+    "year": "2013",
+    "desc": "React (also known as React.js or ReactJS) is a free and open-source front-end JavaScript library for building user interfaces based on components. It is maintained by Meta (formerly Facebook) and a community of individual developers and companies.",
+    "license": "MIT",
+    "site": "https://reactjs.org"
+  },
+  {
+    "id": 10,
+    "image": "i_vue.jpg",
+    "name": "Vue",
+    "year": "2014",
+    "desc": "Vue.js (commonly referred to as Vue) is an open-source model–view–viewmodel front end JavaScript framework for building user interfaces and single-page applications. It was created by Evan You, and is maintained by him and the rest of the active core team members.",
+    "license": "MIT",
+    "site": "https://vuejs.org"
+  },
+  {
+    "id": 11,
+    "image": "i_jquery.png",
+    "name": "jQuery",
+    "year": "2006",
+    "desc": "Query is a JavaScript library designed to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax. It is free, open-source software using the permissive MIT License.",
+    "license": "MIT",
+    "site": "https://jquery.com"
+  }
 ]
