@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { CardData } from './CardType';
 import cl from './Card.module.scss';
 
-export class Card extends Component<CardData, object> {
+export default class Card extends Component<CardData, object> {
   render() {
     return (
       <article className={cl.card}>
@@ -30,5 +30,3 @@ export class Card extends Component<CardData, object> {
     );
   }
 }
-
-export default Card;

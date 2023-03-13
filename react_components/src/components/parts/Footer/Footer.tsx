@@ -3,7 +3,7 @@ import cl from './Footer.module.scss';
 import rsLogo from '/images/rs.svg';
 import gitLogo from '/images/git.svg';
 
-class Footer extends React.Component {
+export default class Footer extends React.Component {
   render() {
     return (
       <footer className={cl.footer}>
@@ -18,5 +18,3 @@ class Footer extends React.Component {
     );
   }
 }
-
-export default Footer;

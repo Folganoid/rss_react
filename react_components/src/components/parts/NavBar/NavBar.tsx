@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import cl from './NavBar.module.scss';
 
-class NavBar extends React.Component {
+export default class NavBar extends React.Component {
   render() {
     return (
       <nav className={cl.nav}>
@@ -18,5 +18,3 @@ class NavBar extends React.Component {
     );
   }
 }
-
-export default NavBar;

@@ -10,7 +10,7 @@ export default class Home extends React.Component<{ data: CardEntity[] }, { sear
 
   changeSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({ search: e.target.value });
-    localStorage.setItem('search', e.target.value);
+    //localStorage.setItem('search', e.target.value);
   };
 
   componentWillUnmount() {
