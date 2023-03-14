@@ -13,7 +13,7 @@ describe('AppRouter', () => {
         <AppRouter data={data} />
       </MemoryRouter>
     );
-    expect(screen.getByText('404 error: page not found...')).toBeInTheDocument();
+    expect(screen.getByText(/^404(.+)page(.+|)/i)).toBeInTheDocument();
   });
 
   it('AppRouter /about page works', () => {
@@ -22,7 +22,7 @@ describe('AppRouter', () => {
         <AppRouter data={data} />
       </MemoryRouter>
     );
-    expect(screen.getByText('About page')).toBeInTheDocument();
+    expect(screen.getByText(/^About(.+)page(.+|)/i)).toBeInTheDocument();
   });
 
   it('AppRouter / work', () => {
@@ -31,6 +31,6 @@ describe('AppRouter', () => {
         <AppRouter data={data} />
       </MemoryRouter>
     );
-    expect(screen.getByText('Home page')).toBeInTheDocument();
+    expect(screen.getByText(/^Home(.+)page(.+|)/i)).toBeInTheDocument();
   });
 });

@@ -1,6 +1,6 @@
-import About from '../../pages/About';
-import ErrorPage from '../../pages/ErrorPage';
-import Home from '../../pages/Home';
+import About from '../../pages/About/About';
+import ErrorPage from '../../pages/ErrorPage/ErrorPage';
+import Home from '../../pages/Home/Home';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Layout from './Layout';

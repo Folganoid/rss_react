@@ -1,7 +1,8 @@
-import Input from '../components/UI/Input';
+import Input from '../../components/UI/Input';
 import React from 'react';
-import Card from '../components/parts/Card/Card';
+import Card from '../../components/parts/Card/Card';
 import { CardEntity } from 'components/parts/Card/CardType';
+import cl from './Home.module.scss';
 
 export default class Home extends React.Component<{ data: CardEntity[] }, { search: string }> {
   state = {
@@ -20,13 +21,13 @@ export default class Home extends React.Component<{ data: CardEntity[] }, { sear
   render() {
     const search = this.state.search;
     return (
-      <main className={'main'}>
-        <h1 className={'main__title'}>Home page</h1>
-        <div className={'main__search'}>
+      <main className={[cl.main, 'main'].join(' ')}>
+        <h1 className={cl.main__title}>Home page</h1>
+        <div className={cl.main__search}>
           <br />
-          <Input placeholder={'search'} onChange={this.changeSearch} value={search} />
+          <Input placeholder={'Search'} onChange={this.changeSearch} value={search} />
         </div>
-        <div className={'main__cards'}>
+        <div className={cl.main__cards}>
           {this.props.data.map((el) => {
             return <Card key={el.id} data={el} />;
           })}

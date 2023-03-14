@@ -2,7 +2,7 @@ import React from 'react';
 import { describe, it } from 'vitest';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Home from './Home';
-import data from '../data/frameworks.test.json';
+import data from '../../data/frameworks.test.json';
 
 describe('Home', () => {
   it('Home <main> exists', () => {
@@ -21,10 +21,18 @@ describe('Home', () => {
     expect(cards.length).toBe(2);
   });
 
+  it('Home Local storage is empty', () => {
+    expect(localStorage.getItem('search')).toBe('');
+  });
+
   it('Home input works', () => {
     render(<Home data={data} />);
     const input = screen.getByRole('textbox') as HTMLInputElement;
     fireEvent.change(input, { target: { value: 'xxx23' } });
     expect(input.value).toBe('xxx23');
+  });
+
+  it('Home Local storage was filled', () => {
+    expect(localStorage.getItem('search')).toBe('xxx23');
   });
 });
