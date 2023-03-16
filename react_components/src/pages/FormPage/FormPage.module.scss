@@ -1,0 +1,14 @@
+.main {
+  z-index: 100;
+
+  max-width: 1280px;
+  margin: 100px auto 50px auto;
+
+  &__form {
+    background: rgb(137, 137, 137);
+    margin: 10px;
+    border-radius: 10px;
+    -webkit-box-shadow: 9px 10px 15px -5px #000000;
+    box-shadow: 9px 10px 15px -5px #000000;
+  }
+}

@@ -13,6 +13,9 @@ export default class NavBar extends React.Component {
           <li>
             <NavLink to="/about">About us</NavLink>
           </li>
+          <li>
+            <NavLink to="/form">Form</NavLink>
+          </li>
         </ul>
       </nav>
     );
