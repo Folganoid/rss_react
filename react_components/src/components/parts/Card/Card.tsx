@@ -1,31 +1,31 @@
 import React, { Component } from 'react';
-import { CardData } from './CardType';
+import { ICard } from '../../interfaces/common';
 import cl from './Card.module.scss';
 
-export default class Card extends Component<CardData, object> {
+export default class Card extends Component<ICard, object> {
   render() {
     return (
       <article className={cl.card}>
         <img
-          src={`${import.meta.env.VITE_IMAGES_DIR}${this.props.data.image}`}
-          alt={this.props.data.name}
+          src={`${import.meta.env.VITE_IMAGES_DIR}${this.props.image}`}
+          alt={this.props.name}
           className={cl.card__image}
         />
         <div className={cl.card__body}>
-          <h2 className={cl.card__title}>{this.props.data.name}</h2>
+          <h2 className={cl.card__title}>{this.props.name}</h2>
           <p className={cl.card__year}>
             First release:&nbsp;
-            <b>{this.props.data.year}</b>
+            <b>{this.props.year}</b>
           </p>
           <p className={cl.card__license}>
-            License:&nbsp;<b>{this.props.data.license}</b>
+            License:&nbsp;<b>{this.props.license}</b>
           </p>
           <p className={cl.card__site}>
             Site:&nbsp;
-            <a href={this.props.data.site}>{this.props.data.site}</a>
+            <a href={this.props.site}>{this.props.site}</a>
           </p>
         </div>
-        <p className={cl.card__desc}>{this.props.data.desc}</p>
+        <p className={cl.card__desc}>{this.props.desc}</p>
       </article>
     );
   }

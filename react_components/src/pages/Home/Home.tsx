@@ -1,10 +1,10 @@
 import Input from '../../components/UI/Input';
 import React from 'react';
 import Card from '../../components/parts/Card/Card';
-import { CardEntity } from 'components/parts/Card/CardType';
+import { ICard } from '../../components/interfaces/common';
 import cl from './Home.module.scss';
 
-export default class Home extends React.Component<{ data: CardEntity[] }, { search: string }> {
+export default class Home extends React.Component<{ data: ICard[] }, { search: string }> {
   state = {
     search: localStorage.getItem('search') || '',
   };
@@ -29,7 +29,7 @@ export default class Home extends React.Component<{ data: CardEntity[] }, { sear
         </div>
         <div className={cl.main__cards}>
           {this.props.data.map((el) => {
-            return <Card key={el.id} data={el} />;
+            return <Card key={el.id} {...el} />;
           })}
         </div>
       </main>

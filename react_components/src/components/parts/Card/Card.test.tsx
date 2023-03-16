@@ -15,7 +15,7 @@ describe('Card', () => {
       site: 'https://#',
     };
 
-    render(<Card data={data} />);
+    render(<Card {...data} />);
     expect(screen.getByRole('article')).toBeInTheDocument();
     expect(screen.getByRole('img')).toBeInTheDocument();
     expect(screen.getByRole('heading')).toBeInTheDocument();

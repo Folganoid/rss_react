@@ -1,8 +1,4 @@
-export type CardData = {
-  data: CardEntity;
-};
-
-export type CardEntity = {
+export interface ICard {
   id: number;
   image: string;
   name: string;
@@ -10,4 +6,4 @@ export type CardEntity = {
   desc: string;
   license: string;
   site: string;
-};
+}
