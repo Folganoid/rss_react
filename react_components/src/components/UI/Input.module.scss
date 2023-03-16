@@ -3,4 +3,16 @@
   border-radius: 1rem;
   padding-left: 20px;
   margin: 0 0 20px 0;
+
+  &::file-selector-button {
+    height: 2rem;
+    border-radius: 1rem;
+    margin-left: -20px;
+    cursor: pointer;
+    transition: all 250ms ease;
+
+    &:hover {
+      background-color: grey;
+    }
+  }
 }

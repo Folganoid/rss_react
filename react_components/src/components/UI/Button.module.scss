@@ -1,0 +1,13 @@
+.button {
+  height: 2rem;
+  min-width: 150px;
+  max-width: 250px;
+  border-radius: 1rem;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: all 250ms ease;
+
+  &:hover {
+    background-color: grey;
+  }
+}
