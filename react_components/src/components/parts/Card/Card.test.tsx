@@ -9,10 +9,13 @@ describe('Card', () => {
       id: 1,
       image: 'i_angular.jpg',
       name: 'Angular',
-      year: '2016',
       desc: 'Angular XXX',
-      license: 'MIT',
       site: 'https://#',
+      openSource: true,
+      type: ['WEB framework', 'JS library'],
+      firstReleaseYear: 2016,
+      firstReleaseMonth: 'Sep',
+      lastReleaseDate: '2023-03-01',
     };
 
     render(<Card {...data} />);
@@ -22,6 +25,9 @@ describe('Card', () => {
     expect(screen.getByRole('link')).toBeInTheDocument();
     expect(screen.getByText('Site:')).toBeInTheDocument();
     expect(screen.getByText('Angular XXX')).toBeInTheDocument();
-    expect(screen.getByText('MIT')).toBeInTheDocument();
+    expect(screen.getByText('2023-03-01')).toBeInTheDocument();
+    expect(screen.getByText('Yes')).toBeInTheDocument();
+    expect(screen.getByText('WEB framework, JS library')).toBeInTheDocument();
+    expect(screen.getByText('2016 - Sep')).toBeInTheDocument();
   });
 });

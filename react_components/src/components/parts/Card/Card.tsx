@@ -13,12 +13,20 @@ export default class Card extends Component<ICard, object> {
         />
         <div className={cl.card__body}>
           <h2 className={cl.card__title}>{this.props.name}</h2>
-          <p className={cl.card__year}>
+          <p className={cl.card__type}>
+            Type:&nbsp;
+            <b>{this.props.type.join(', ')}</b>
+          </p>
+          <p className={cl.card__release}>
             First release:&nbsp;
-            <b>{this.props.year}</b>
+            <b>{this.props.firstReleaseYear + ' - ' + this.props.firstReleaseMonth}</b>
+          </p>
+          <p className={cl.card__release}>
+            Last release:&nbsp;
+            <b>{this.props.lastReleaseDate}</b>
           </p>
           <p className={cl.card__license}>
-            License:&nbsp;<b>{this.props.license}</b>
+            Is open source:&nbsp;<b>{this.props.openSource ? 'Yes' : 'No'}</b>
           </p>
           <p className={cl.card__site}>
             Site:&nbsp;

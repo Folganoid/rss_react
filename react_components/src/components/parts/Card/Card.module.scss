@@ -12,8 +12,8 @@
   &__image {
     height: auto;
     width: auto;
-    max-width: 40%;
-    max-height: 120px;
+    max-width: 50%;
+    max-height: 150px;
     margin: 5px;
     border-radius: 10px;
     justify-self: flex-start;
@@ -21,10 +21,11 @@
   }
 
   &__body {
-    width: 50%;
+    width: 40%;
     margin: 5px;
     background: inherit;
     justify-self: center;
+    flex-grow: 1;
 
     a {
       font-weight: 700;
@@ -50,7 +51,11 @@
     text-align: justify;
   }
 
-  &__year {
+  &__release {
+    background: inherit;
+  }
+
+  &__type {
     background: inherit;
   }
 
@@ -63,7 +68,7 @@
   }
 }
 
-@media (max-width: 840px) {
+@media (max-width: 1080px) {
   .card {
     width: calc(100% - 20px);
   }
