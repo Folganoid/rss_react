@@ -4,13 +4,14 @@ import cl from './Card.module.scss';
 
 export default class Card extends Component<ICard, object> {
   render() {
+    let image = `${import.meta.env.VITE_IMAGES_DIR}${this.props.image}`;
+    if (this.props.image.includes('http')) {
+      image = this.props.image;
+    }
+
     return (
       <article className={cl.card}>
-        <img
-          src={`${import.meta.env.VITE_IMAGES_DIR}${this.props.image}`}
-          alt={this.props.name}
-          className={cl.card__image}
-        />
+        <img src={image} alt={this.props.name} className={cl.card__image} />
         <div className={cl.card__body}>
           <h2 className={cl.card__title}>{this.props.name}</h2>
           <p className={cl.card__type}>
