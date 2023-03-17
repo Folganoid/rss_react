@@ -15,8 +15,14 @@ interface IState {
   jsChecked: boolean;
   reChecked: boolean;
   wfChecked: boolean;
-
   types: string[];
+
+  nameCorrect: boolean;
+  imageCorrect: boolean;
+  descCorrect: boolean;
+  siteCorrect: boolean;
+  dateCorrect: boolean;
+  typesCorrect: boolean;
 }
 
 interface IProps {
@@ -46,11 +52,18 @@ export default class FormA extends React.Component<IProps, IState> {
       fMonth: 'January',
       lDate: '',
       isOpenSource: false,
+
       jsChecked: false,
       reChecked: false,
       wfChecked: false,
-
       types: [],
+
+      nameCorrect: true,
+      imageCorrect: true,
+      descCorrect: true,
+      siteCorrect: true,
+      dateCorrect: true,
+      typesCorrect: true,
     };
 
     this.name = React.createRef();
@@ -61,12 +74,11 @@ export default class FormA extends React.Component<IProps, IState> {
     this.fMonth = React.createRef();
     this.lDate = React.createRef();
 
-    for (let i = 2000; i <= 2023; i++) {
+    for (let i = 2000; i < 2023; i++) {
       this.years.push(i);
     }
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.setImage = this.setImage.bind(this);
     this.handlerOpenSource = this.handlerOpenSource.bind(this);
     this.handleCheckBox = this.handleCheckBox.bind(this);
   }
@@ -79,7 +91,7 @@ export default class FormA extends React.Component<IProps, IState> {
     const name: string = target.name;
     this.setState({
       [name]: value,
-    } as Omit<IState, 'types' | 'image' | 'isOpenSource' | 'jsChecked' | 'reChecked' | 'wfChecked'>);
+    } as Pick<IState, 'name' | 'desc' | 'site' | 'fYear' | 'fMonth' | 'lDate'>);
   }
 
   handlerOpenSource(e: React.ChangeEvent<HTMLInputElement>) {
@@ -107,17 +119,19 @@ export default class FormA extends React.Component<IProps, IState> {
 
   formSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    this.setImage();
+
+    const imageRef = this.image as React.RefObject<HTMLInputElement>;
+    let imageLink = '';
+    let imageName = '';
+    if (imageRef && imageRef.current && imageRef.current.files && imageRef.current.files[0]) {
+      imageLink = URL.createObjectURL(imageRef.current.files[0]);
+      imageName = imageRef.current.files[0].name;
+    }
 
     const nameRef = this.name as React.RefObject<HTMLInputElement>;
     const name = nameRef && nameRef.current && nameRef.current.value ? nameRef.current.value : '';
     const descRef = this.desc as React.RefObject<HTMLTextAreaElement>;
     const desc = descRef && descRef.current && descRef.current.value ? descRef.current.value : '';
-    const imageRef = this.image as React.RefObject<HTMLInputElement>;
-    const image =
-      imageRef && imageRef.current && imageRef.current.files && imageRef.current.files[0]
-        ? URL.createObjectURL(imageRef.current.files[0])
-        : '';
     const siteRef = this.site as React.RefObject<HTMLInputElement>;
     const site = siteRef && siteRef.current && siteRef.current.value ? siteRef.current.value : '';
     const yearRef = this.fYear as React.RefObject<HTMLSelectElement>;
@@ -128,10 +142,10 @@ export default class FormA extends React.Component<IProps, IState> {
     const dateRef = this.lDate as React.RefObject<HTMLInputElement>;
     const lDate = dateRef && dateRef.current && dateRef.current.value ? dateRef.current.value : '';
 
-    this.props.addCard({
+    const newCard: ICard = {
       id: new Date().valueOf(),
       name: name,
-      image: image,
+      image: imageLink,
       desc: desc,
       site: site,
       firstReleaseYear: +year,
@@ -139,32 +153,93 @@ export default class FormA extends React.Component<IProps, IState> {
       lastReleaseDate: lDate,
       openSource: this.state.isOpenSource,
       type: this.state.types,
-    });
+    };
 
-    this.setState({
-      name: '',
-      image: '',
-      desc: '',
-      site: '',
-      fYear: '2000',
-      fMonth: 'January',
-      lDate: '',
-      isOpenSource: false,
-      jsChecked: false,
-      reChecked: false,
-      wfChecked: false,
-      types: [],
-    });
-  };
+    let nameCorrect = true;
+    let imageCorrect = true;
+    let descCorrect = true;
+    let siteCorrect = true;
+    let dateCorrect = true;
+    let typesCorrect = true;
 
-  setImage() {
-    const file = this.image as React.RefObject<HTMLInputElement>;
-    if (file && file.current && file.current.files && file.current.files[0]) {
+    if (name.length >= 3) {
+      this.setState({ nameCorrect: true });
+      nameCorrect = true;
+    } else {
+      this.setState({ nameCorrect: false });
+      nameCorrect = false;
+    }
+
+    if (desc.length >= 10) {
+      this.setState({ descCorrect: true });
+      descCorrect = true;
+    } else {
+      this.setState({ descCorrect: false });
+      descCorrect = false;
+    }
+
+    if (
+      site.match(
+        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+      )
+    ) {
+      this.setState({ siteCorrect: true });
+      siteCorrect = true;
+    } else {
+      this.setState({ siteCorrect: false });
+      siteCorrect = false;
+    }
+
+    if (imageName.match(/\.(gif|jpe?g|svg?|png)$/i)) {
+      this.setState({ imageCorrect: true });
+      imageCorrect = true;
+    } else {
+      this.setState({ imageCorrect: false });
+      imageCorrect = false;
+    }
+
+    if (Date.parse(lDate) < Date.parse('2023-01-01')) {
+      this.setState({ dateCorrect: true });
+      dateCorrect = true;
+    } else {
+      this.setState({ dateCorrect: false });
+      dateCorrect = false;
+    }
+
+    if (this.state.jsChecked || this.state.reChecked || this.state.wfChecked) {
+      this.setState({ typesCorrect: true });
+      typesCorrect = true;
+    } else {
+      this.setState({ typesCorrect: false });
+      typesCorrect = false;
+    }
+
+    if (descCorrect && nameCorrect && siteCorrect && dateCorrect && typesCorrect && imageCorrect) {
+      this.props.addCard(newCard);
+
       this.setState({
-        image: URL.createObjectURL(file.current.files[0]),
+        name: '',
+        image: '',
+        desc: '',
+        site: '',
+        fYear: '2000',
+        fMonth: 'January',
+        lDate: '',
+        isOpenSource: false,
+        jsChecked: false,
+        reChecked: false,
+        wfChecked: false,
+        types: [],
+
+        nameCorrect: true,
+        imageCorrect: true,
+        descCorrect: true,
+        siteCorrect: true,
+        dateCorrect: true,
+        typesCorrect: true,
       });
     }
-  }
+  };
 
   render() {
     const a = this.years;
@@ -183,6 +258,15 @@ export default class FormA extends React.Component<IProps, IState> {
               onChange={this.handleInputChange}
               value={this.state.name}
             />
+            <p
+              className={
+                this.state.nameCorrect
+                  ? cl.form__errorMsg
+                  : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
+              }
+            >
+              Must be at least 3 characters
+            </p>
           </label>
           <label>
             Upload image:
@@ -194,6 +278,15 @@ export default class FormA extends React.Component<IProps, IState> {
               onChange={this.handleInputChange}
               value={this.state.image}
             />
+            <p
+              className={
+                this.state.imageCorrect
+                  ? cl.form__errorMsg
+                  : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
+              }
+            >
+              Must be in .PNG / .JPG / .JPEG / .SVG / .GIF format
+            </p>
           </label>
           <br />
           <br />
@@ -208,6 +301,15 @@ export default class FormA extends React.Component<IProps, IState> {
               onChange={this.handleInputChange}
               value={this.state.desc}
             />
+            <p
+              className={
+                this.state.descCorrect
+                  ? cl.form__errorMsg
+                  : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
+              }
+            >
+              Must be at least 10 characters
+            </p>
           </label>
         </div>
 
@@ -223,6 +325,15 @@ export default class FormA extends React.Component<IProps, IState> {
             onChange={this.handleInputChange}
             value={this.state.site}
           />
+          <p
+            className={
+              this.state.siteCorrect
+                ? cl.form__errorMsg
+                : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
+            }
+          >
+            Must be in http(s)://xxx.xx(x) format
+          </p>
         </label>
 
         <br />
@@ -276,6 +387,15 @@ export default class FormA extends React.Component<IProps, IState> {
               ref={this.lDate}
               value={this.state.lDate}
             />
+            <p
+              className={
+                this.state.dateCorrect
+                  ? cl.form__errorMsg
+                  : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
+              }
+            >
+              Must be filled no later than 2022-12-31
+            </p>
           </label>
         </div>
 
@@ -327,6 +447,15 @@ export default class FormA extends React.Component<IProps, IState> {
             />
             &nbsp;WEB framework
           </label>
+          <p
+            className={
+              this.state.typesCorrect
+                ? cl.form__errorMsg
+                : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
+            }
+          >
+            At least one item must be selected
+          </p>
         </div>
 
         <br />

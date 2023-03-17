@@ -10,6 +10,18 @@
   -webkit-box-shadow: 9px 10px 15px -5px #000000;
   box-shadow: 9px 10px 15px -5px #000000;
 
+  &__errorMsg {
+    font-size: 0.6rem;
+    color: red;
+    background: inherit;
+    visibility: hidden;
+
+    &_invalid {
+      display: block;
+      visibility: visible;
+    }
+  }
+
   &__nameBlock {
     display: flex;
     flex-wrap: wrap;
