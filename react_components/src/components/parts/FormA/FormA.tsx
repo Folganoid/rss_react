@@ -23,6 +23,8 @@ interface IState {
   siteCorrect: boolean;
   dateCorrect: boolean;
   typesCorrect: boolean;
+
+  isButtonActive: boolean;
 }
 
 interface IProps {
@@ -64,6 +66,8 @@ export default class FormA extends React.Component<IProps, IState> {
       siteCorrect: true,
       dateCorrect: true,
       typesCorrect: true,
+
+      isButtonActive: false,
     };
 
     this.name = React.createRef();
@@ -81,6 +85,8 @@ export default class FormA extends React.Component<IProps, IState> {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handlerOpenSource = this.handlerOpenSource.bind(this);
     this.handleCheckBox = this.handleCheckBox.bind(this);
+    this.checkFields = this.checkFields.bind(this);
+    this.formSubmit = this.formSubmit.bind(this);
   }
 
   handleInputChange(
@@ -91,7 +97,8 @@ export default class FormA extends React.Component<IProps, IState> {
     const name: string = target.name;
     this.setState({
       [name]: value,
-    } as Pick<IState, 'name' | 'desc' | 'site' | 'fYear' | 'fMonth' | 'lDate'>);
+    } as Pick<IState, 'name' | 'desc' | 'site' | 'fYear' | 'fMonth' | 'lDate' | 'image'>);
+    this.checkFields(name);
   }
 
   handlerOpenSource(e: React.ChangeEvent<HTMLInputElement>) {
@@ -115,11 +122,32 @@ export default class FormA extends React.Component<IProps, IState> {
       types: arr,
       [name]: checked,
     } as Pick<IState, 'types' | 'jsChecked' | 'reChecked' | 'wfChecked'>);
+    this.checkFields('types');
   }
 
-  formSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  async checkFields(field = ''): Promise<void> {
+    if (field === 'name') await this.setState({ nameCorrect: true });
+    if (field === 'desc') await this.setState({ descCorrect: true });
+    if (field === 'lDate') await this.setState({ dateCorrect: true });
+    if (field === 'site') await this.setState({ siteCorrect: true });
+    if (field === 'image') await this.setState({ imageCorrect: true });
+    if (field === 'types') await this.setState({ typesCorrect: true });
 
+    if (
+      this.state.descCorrect &&
+      this.state.nameCorrect &&
+      this.state.siteCorrect &&
+      this.state.dateCorrect &&
+      this.state.typesCorrect &&
+      this.state.imageCorrect
+    ) {
+      this.setState({ isButtonActive: true });
+    } else {
+      this.setState({ isButtonActive: false });
+    }
+  }
+
+  async formValidate(): Promise<ICard | null> {
     const imageRef = this.image as React.RefObject<HTMLInputElement>;
     let imageLink = '';
     let imageName = '';
@@ -155,27 +183,16 @@ export default class FormA extends React.Component<IProps, IState> {
       type: this.state.types,
     };
 
-    let nameCorrect = true;
-    let imageCorrect = true;
-    let descCorrect = true;
-    let siteCorrect = true;
-    let dateCorrect = true;
-    let typesCorrect = true;
-
     if (name.length >= 3) {
-      this.setState({ nameCorrect: true });
-      nameCorrect = true;
+      await this.setState({ nameCorrect: true });
     } else {
-      this.setState({ nameCorrect: false });
-      nameCorrect = false;
+      await this.setState({ nameCorrect: false });
     }
 
     if (desc.length >= 10) {
-      this.setState({ descCorrect: true });
-      descCorrect = true;
+      await this.setState({ descCorrect: true });
     } else {
-      this.setState({ descCorrect: false });
-      descCorrect = false;
+      await this.setState({ descCorrect: false });
     }
 
     if (
@@ -183,38 +200,47 @@ export default class FormA extends React.Component<IProps, IState> {
         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
       )
     ) {
-      this.setState({ siteCorrect: true });
-      siteCorrect = true;
+      await this.setState({ siteCorrect: true });
     } else {
-      this.setState({ siteCorrect: false });
-      siteCorrect = false;
+      await this.setState({ siteCorrect: false });
     }
 
     if (imageName.match(/\.(gif|jpe?g|svg?|png)$/i)) {
-      this.setState({ imageCorrect: true });
-      imageCorrect = true;
+      await this.setState({ imageCorrect: true });
     } else {
-      this.setState({ imageCorrect: false });
-      imageCorrect = false;
+      await this.setState({ imageCorrect: false });
     }
 
     if (Date.parse(lDate) < Date.parse('2023-01-01')) {
-      this.setState({ dateCorrect: true });
-      dateCorrect = true;
+      await this.setState({ dateCorrect: true });
     } else {
-      this.setState({ dateCorrect: false });
-      dateCorrect = false;
+      await this.setState({ dateCorrect: false });
     }
 
     if (this.state.jsChecked || this.state.reChecked || this.state.wfChecked) {
-      this.setState({ typesCorrect: true });
-      typesCorrect = true;
+      await this.setState({ typesCorrect: true });
     } else {
-      this.setState({ typesCorrect: false });
-      typesCorrect = false;
+      await this.setState({ typesCorrect: false });
     }
 
-    if (descCorrect && nameCorrect && siteCorrect && dateCorrect && typesCorrect && imageCorrect) {
+    if (
+      this.state.descCorrect &&
+      this.state.nameCorrect &&
+      this.state.siteCorrect &&
+      this.state.dateCorrect &&
+      this.state.typesCorrect &&
+      this.state.imageCorrect
+    ) {
+      return newCard;
+    }
+    return null;
+  }
+
+  async formSubmit(e: React.FormEvent): Promise<void> {
+    e.preventDefault();
+    const newCard = await this.formValidate();
+
+    if (newCard) {
       this.props.addCard(newCard);
 
       this.setState({
@@ -239,7 +265,8 @@ export default class FormA extends React.Component<IProps, IState> {
         typesCorrect: true,
       });
     }
-  };
+    this.setState({ isButtonActive: false });
+  }
 
   render() {
     const a = this.years;
@@ -459,7 +486,7 @@ export default class FormA extends React.Component<IProps, IState> {
         </div>
 
         <br />
-        <Button type="submit" onClick={this.formSubmit}>
+        <Button type="submit" onClick={this.formSubmit} disabled={!this.state.isButtonActive}>
           Submit
         </Button>
       </form>
