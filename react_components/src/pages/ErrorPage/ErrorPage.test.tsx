@@ -4,9 +4,9 @@ import { render, screen } from '@testing-library/react';
 import ErrorPage from './ErrorPage';
 
 describe('ErrorPage', () => {
-  it('ErrorPage <main> exists', () => {
-    const { container } = render(<ErrorPage />);
-    expect(container.querySelector('main')).toBeTruthy;
+  it('About title exists', () => {
+    render(<ErrorPage />);
+    expect(screen.getByText(/404/i)).toBeInTheDocument();
   });
 
   it('ErrorPage has h1', () => {
