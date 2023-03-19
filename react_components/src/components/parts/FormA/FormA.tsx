@@ -103,7 +103,7 @@ export default class FormA extends React.Component<IProps, IState> {
 
   handlerOpenSource(e: React.ChangeEvent<HTMLInputElement>) {
     this.setState({
-      isOpenSource: e.target.checked ? true : false,
+      isOpenSource: e.target.name === 'isOpenSourceYes',
     });
   }
 
@@ -425,20 +425,26 @@ export default class FormA extends React.Component<IProps, IState> {
             </p>
           </label>
         </div>
-
         <br />
         <div className={cl.form__switchBlock}>
           <p>Is open source:</p>
           <label className={cl.form__switch}>
             <input
-              type="checkbox"
-              name="isOpenSource"
+              type="radio"
+              name="isOpenSourceYes"
               onChange={this.handlerOpenSource}
-              checked={this.state.isOpenSource ? true : false}
+              checked={this.state.isOpenSource}
             />
-            <span className={[cl.form__slider, cl.form__round].join(' ')}></span>
+            Yes:&nbsp;&nbsp;&nbsp;
+            <input
+              type="radio"
+              name="isOpenSourceNo"
+              onChange={this.handlerOpenSource}
+              checked={!this.state.isOpenSource}
+            />
+            No:
           </label>
-          <div>{this.state.isOpenSource ? 'Yes' : 'No'}</div>
+          <b>{this.state.isOpenSource ? 'Yes' : 'No'}</b>
         </div>
 
         <br />
