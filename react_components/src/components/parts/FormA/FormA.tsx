@@ -152,8 +152,13 @@ export default class FormA extends React.Component<IProps, IState> {
     let imageLink = '';
     let imageName = '';
     if (imageRef && imageRef.current && imageRef.current.files && imageRef.current.files[0]) {
-      imageLink = URL.createObjectURL(imageRef.current.files[0]);
-      imageName = imageRef.current.files[0].name;
+      try {
+        imageLink = URL.createObjectURL(imageRef.current.files[0]);
+        imageName = imageRef.current.files[0].name;
+      } catch (e) {
+        imageLink = 'i_default.jpg';
+        imageName = 'i_default.jpg';
+      }
     }
 
     const nameRef = this.name as React.RefObject<HTMLInputElement>;
@@ -304,6 +309,7 @@ export default class FormA extends React.Component<IProps, IState> {
               ref={this.image}
               onChange={this.handleInputChange}
               value={this.state.image}
+              data-testid="image"
             />
             <p
               className={
@@ -408,6 +414,7 @@ export default class FormA extends React.Component<IProps, IState> {
             Last release date:
             <br />
             <input
+              data-testid="lDate"
               name="lDate"
               type="date"
               onChange={this.handleInputChange}
