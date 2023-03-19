@@ -1,6 +1,6 @@
 import React from 'react';
 import { describe, it, vi } from 'vitest';
-import { fireEvent, render, screen, act, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, act } from '@testing-library/react';
 import FormA from './FormA';
 import user from '@testing-library/user-event';
 
