@@ -6,8 +6,8 @@ import data from '../../data/frameworks.test.json';
 
 describe('Home', () => {
   it('Home <main> exists', () => {
-    const { container } = render(<Home data={data} />);
-    expect(container.querySelector('main')).toBeTruthy;
+    render(<Home data={data} />);
+    expect(screen.getByText(/home/i)).toBeInTheDocument();
   });
 
   it('Home has input with type="text"', () => {
@@ -16,9 +16,8 @@ describe('Home', () => {
   });
 
   it('Home has 2 cards ', () => {
-    const { container } = render(<Home data={data} />);
-    const cards = container.querySelectorAll('article');
-    expect(cards.length).toBe(2);
+    render(<Home data={data} />);
+    expect(screen.getAllByRole('article').length).toEqual(2);
   });
 
   it('Home Local storage is empty', () => {
