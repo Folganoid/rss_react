@@ -1,13 +1,17 @@
 import React from 'react';
 import cl from './Input.module.scss';
-type InputProps = React.ComponentProps<'input'>;
+type InputProps = {
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
+  placeholder?: string;
+  name?: string;
+  value?: string;
+  type?: string;
+};
+type Ref = HTMLInputElement;
 
-export default class Input extends React.Component<InputProps> {
-  constructor(props: InputProps) {
-    super(props);
-  }
+const Input = React.forwardRef<Ref, InputProps>((props, ref) => (
+  <input className={cl.input} {...props} ref={ref} />
+));
 
-  render() {
-    return <input className={cl.input} {...this.props} />;
-  }
-}
+export default Input;

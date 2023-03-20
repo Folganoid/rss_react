@@ -1,6 +1,18 @@
 import React, { Component } from 'react';
-import { ICard } from '../../interfaces/common';
 import cl from './Card.module.scss';
+
+export interface ICard {
+  id: number;
+  image: string;
+  name: string;
+  desc: string;
+  openSource: boolean;
+  type: string[];
+  site: string;
+  firstReleaseYear: number;
+  firstReleaseMonth: string;
+  lastReleaseDate: string;
+}
 
 export default class Card extends Component<ICard, object> {
   render() {

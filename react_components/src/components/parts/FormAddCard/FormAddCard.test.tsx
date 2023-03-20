@@ -1,14 +1,14 @@
 import React from 'react';
 import { describe, it, vi } from 'vitest';
 import { fireEvent, render, screen, act } from '@testing-library/react';
-import FormA from './FormA';
+import FormAddCard from './FormAddCard';
 import user from '@testing-library/user-event';
 
 describe('FormA components exist', () => {
   const addCard = vi.fn();
 
   it('FormA <input name="name"> exists', () => {
-    render(<FormA addCard={addCard} />);
+    render(<FormAddCard addCard={addCard} />);
 
     expect(
       screen.getByRole('textbox', {
@@ -18,7 +18,7 @@ describe('FormA components exist', () => {
   });
 
   it('FormA <input name="description"> exists', () => {
-    render(<FormA addCard={addCard} />);
+    render(<FormAddCard addCard={addCard} />);
 
     expect(
       screen.getByRole('textbox', {
@@ -28,17 +28,17 @@ describe('FormA components exist', () => {
   });
 
   it('FormA 2x<select> exist', () => {
-    render(<FormA addCard={addCard} />);
+    render(<FormAddCard addCard={addCard} />);
     expect(screen.getAllByRole('combobox').length).toEqual(2);
   });
 
   it('FormA 2x<input type="radio"> exist', () => {
-    render(<FormA addCard={addCard} />);
+    render(<FormAddCard addCard={addCard} />);
     expect(screen.getAllByRole('radio').length).toEqual(2);
   });
 
   it('FormA <button> exists', () => {
-    render(<FormA addCard={addCard} />);
+    render(<FormAddCard addCard={addCard} />);
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 });
@@ -46,13 +46,13 @@ describe('FormA components exist', () => {
 describe('FormA components functional', () => {
   const addCard = vi.fn();
   it('FormA <button> disabled as default', () => {
-    render(<FormA addCard={addCard} />);
+    render(<FormAddCard addCard={addCard} />);
     const btn = screen.getByRole('button') as HTMLButtonElement;
     expect(btn.disabled).toEqual(true);
   });
 
   it('FormA <button> disabled=false if input typed', async () => {
-    await act(async () => render(<FormA addCard={addCard} />));
+    await act(async () => render(<FormAddCard addCard={addCard} />));
     const btn = screen.getByRole('button') as HTMLButtonElement;
     const inp = screen.getByRole('textbox', { name: /name/i }) as HTMLInputElement;
     await act(async () => fireEvent.change(inp, { target: { value: 'xxX' } }));
@@ -60,21 +60,21 @@ describe('FormA components functional', () => {
   });
 
   it('FormA <input name="name"> works', async () => {
-    await act(async () => render(<FormA addCard={addCard} />));
+    await act(async () => render(<FormAddCard addCard={addCard} />));
     const inp = screen.getByRole('textbox', { name: /name/i }) as HTMLInputElement;
     await act(async () => fireEvent.change(inp, { target: { value: 'xxX' } }));
     expect(inp.value).toEqual('xxX');
   });
 
   it('FormA <input name="description"> works', async () => {
-    await act(async () => render(<FormA addCard={addCard} />));
+    await act(async () => render(<FormAddCard addCard={addCard} />));
     const inp = screen.getByRole('textbox', { name: /description/i }) as HTMLTextAreaElement;
     await act(async () => fireEvent.change(inp, { target: { value: 'xxX' } }));
     expect(inp.value).toEqual('xxX');
   });
 
   it('FormA <input type="radio"> works', async () => {
-    await act(async () => render(<FormA addCard={addCard} />));
+    await act(async () => render(<FormAddCard addCard={addCard} />));
     const radios = screen.getAllByRole('radio') as HTMLInputElement[];
     await act(async () => fireEvent.click(radios[0]));
     expect(screen.getByText('Yes')).toBeInTheDocument();
@@ -83,7 +83,7 @@ describe('FormA components functional', () => {
   });
 
   it('FormA <input type="checkbox"> works', async () => {
-    await act(async () => render(<FormA addCard={addCard} />));
+    await act(async () => render(<FormAddCard addCard={addCard} />));
     const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[];
     expect(checkboxes.length).toEqual(3);
     expect(checkboxes[0].checked).toEqual(false);
@@ -102,7 +102,7 @@ describe('FormA components functional', () => {
   });
 
   it('FormA form validation', async () => {
-    await act(async () => render(<FormA addCard={addCard} />));
+    await act(async () => render(<FormAddCard addCard={addCard} />));
     const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[];
     const radios = screen.getAllByRole('radio') as HTMLInputElement[];
     const btn = screen.getByRole('button') as HTMLButtonElement;

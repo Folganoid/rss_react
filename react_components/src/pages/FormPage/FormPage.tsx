@@ -1,8 +1,7 @@
 import React from 'react';
 import cl from './FormPage.module.scss';
-import FormA from '../../components/parts/FormA/FormA';
-import { ICard } from 'components/interfaces/common';
-import Card from '../../components/parts/Card/Card';
+import FormAddCard from '../../components/parts/FormAddCard/FormAddCard';
+import Card, { ICard } from '../../components/parts/Card/Card';
 import clCard from '../Home/Home.module.scss';
 
 export default class FormPage extends React.Component<object, { cards: ICard[] }> {
@@ -26,7 +25,7 @@ export default class FormPage extends React.Component<object, { cards: ICard[] }
       <main className={cl.main}>
         <h1>Form page</h1>
         <br />
-        <FormA addCard={this.addCard} />
+        <FormAddCard addCard={this.addCard} />
         <br />
         <div className={clCard.main__cards}>
           {this.state.cards.map((el) => {

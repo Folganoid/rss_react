@@ -1,7 +1,9 @@
 import React from 'react';
-import cl from './FormA.module.scss';
+import cl from './FormAddCard.module.scss';
 import Button from '../../../components/UI/Button';
-import { ICard } from '../../interfaces/common';
+import Input from '../../../components/UI/Input';
+import Select from '../../../components/UI/Select';
+import { ICard } from '../Card/Card';
 
 interface IState {
   name: string;
@@ -31,8 +33,8 @@ interface IProps {
   addCard: (card: ICard) => void;
 }
 
-export default class FormA extends React.Component<IProps, IState> {
-  years: number[] = [];
+export default class FormAddCard extends React.Component<IProps, IState> {
+  years: { name: string; value: string }[] = [];
 
   name: React.Ref<HTMLInputElement>;
   desc: React.RefObject<HTMLTextAreaElement>;
@@ -79,19 +81,13 @@ export default class FormA extends React.Component<IProps, IState> {
     this.lDate = React.createRef();
 
     for (let i = 2000; i < 2023; i++) {
-      this.years.push(i);
+      this.years.push({ name: String(i), value: String(i) });
     }
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handlerOpenSource = this.handlerOpenSource.bind(this);
-    this.handleCheckBox = this.handleCheckBox.bind(this);
-    this.checkFields = this.checkFields.bind(this);
-    this.formSubmit = this.formSubmit.bind(this);
   }
 
-  handleInputChange(
+  handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) {
+  ) => {
     const target = event.target;
     const value: string = target.value;
     const name: string = target.name;
@@ -99,15 +95,15 @@ export default class FormA extends React.Component<IProps, IState> {
       [name]: value,
     } as Pick<IState, 'name' | 'desc' | 'site' | 'fYear' | 'fMonth' | 'lDate' | 'image'>);
     this.checkFields(name);
-  }
+  };
 
-  handlerOpenSource(e: React.ChangeEvent<HTMLInputElement>) {
+  handlerOpenSource = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       isOpenSource: e.target.name === 'isOpenSourceYes',
     });
-  }
+  };
 
-  handleCheckBox(e: React.ChangeEvent<HTMLInputElement>) {
+  handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
     let arr = this.state.types;
     const val = e.target.value;
     const name = e.target.name;
@@ -123,9 +119,9 @@ export default class FormA extends React.Component<IProps, IState> {
       [name]: checked,
     } as Pick<IState, 'types' | 'jsChecked' | 'reChecked' | 'wfChecked'>);
     this.checkFields('types');
-  }
+  };
 
-  async checkFields(field = ''): Promise<void> {
+  checkFields = async (field = ''): Promise<void> => {
     if (field === 'name') await this.setState({ nameCorrect: true });
     if (field === 'desc') await this.setState({ descCorrect: true });
     if (field === 'lDate') await this.setState({ dateCorrect: true });
@@ -145,9 +141,9 @@ export default class FormA extends React.Component<IProps, IState> {
     } else {
       this.setState({ isButtonActive: false });
     }
-  }
+  };
 
-  async formValidate(): Promise<ICard | null> {
+  formValidate = async (): Promise<ICard | null> => {
     const imageRef = this.image as React.RefObject<HTMLInputElement>;
     let imageLink = '';
     let imageName = '';
@@ -239,9 +235,9 @@ export default class FormA extends React.Component<IProps, IState> {
       return newCard;
     }
     return null;
-  }
+  };
 
-  async formSubmit(e: React.FormEvent): Promise<void> {
+  formSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     const newCard = await this.formValidate();
 
@@ -271,18 +267,16 @@ export default class FormA extends React.Component<IProps, IState> {
       });
     }
     this.setState({ isButtonActive: false });
-  }
+  };
 
   render() {
-    const a = this.years;
-
     return (
       <form className={cl.form}>
         <div className={cl.form__nameBlock}>
           <label>
             Name:
             <br />
-            <input
+            <Input
               name="name"
               type="text"
               placeholder="Name"
@@ -303,7 +297,7 @@ export default class FormA extends React.Component<IProps, IState> {
           <label>
             Upload image:
             <br />
-            <input
+            <Input
               type="file"
               name="image"
               ref={this.image}
@@ -350,7 +344,7 @@ export default class FormA extends React.Component<IProps, IState> {
         <label className={cl.form__site}>
           Site:
           <br />
-          <input
+          <Input
             name="site"
             type="text"
             placeholder="Site"
@@ -374,41 +368,37 @@ export default class FormA extends React.Component<IProps, IState> {
           <label>
             First release year:
             <br />
-            <select
+            <Select
               name="fYear"
               onChange={this.handleInputChange}
               ref={this.fYear}
               value={this.state.fYear}
-            >
-              {a.map((el) => (
-                <option key={el} value={el}>
-                  {el}
-                </option>
-              ))}
-            </select>
+              options={this.years}
+            />
           </label>
           <label>
             First release month:
             <br />
-            <select
+            <Select
               name="fMonth"
               onChange={this.handleInputChange}
               ref={this.fMonth}
               value={this.state.fMonth}
-            >
-              <option value="January">January</option>
-              <option value="February">February</option>
-              <option value="March">March</option>
-              <option value="April">April</option>
-              <option value="May">May</option>
-              <option value="June">June</option>
-              <option value="July">July</option>
-              <option value="August">August</option>
-              <option value="September">September</option>
-              <option value="October">October</option>
-              <option value="November">November</option>
-              <option value="December">December</option>
-            </select>
+              options={[
+                { value: 'January', name: 'January' },
+                { value: 'February', name: 'February' },
+                { value: 'March', name: 'March' },
+                { value: 'April', name: 'April' },
+                { value: 'May', name: 'May' },
+                { value: 'June', name: 'June' },
+                { value: 'July', name: 'July' },
+                { value: 'August', name: 'August' },
+                { value: 'September', name: 'September' },
+                { value: 'October', name: 'October' },
+                { value: 'November', name: 'November' },
+                { value: 'December', name: 'December' },
+              ]}
+            />
           </label>
           <label>
             Last release date:
