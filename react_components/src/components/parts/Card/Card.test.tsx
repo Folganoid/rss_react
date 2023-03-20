@@ -7,10 +7,10 @@ describe('Card', () => {
   it('Card has data fields', () => {
     const data = {
       id: 1,
-      image: 'i_angular.jpg',
+      image: 'http://sdfsf.i_angular.jpg',
       name: 'Angular',
       desc: 'Angular XXX',
-      site: 'https://#',
+      site: 'http://i_default.jpg',
       openSource: true,
       type: ['WEB framework', 'JS library'],
       firstReleaseYear: 2016,
@@ -29,5 +29,6 @@ describe('Card', () => {
     expect(screen.getByText('Yes')).toBeInTheDocument();
     expect(screen.getByText('WEB framework, JS library')).toBeInTheDocument();
     expect(screen.getByText('2016 - Sep')).toBeInTheDocument();
+    expect(screen.getByText('http://i_default.jpg')).toBeInTheDocument();
   });
 });
