@@ -10,6 +10,11 @@
   -webkit-box-shadow: 9px 10px 15px -5px #000000;
   box-shadow: 9px 10px 15px -5px #000000;
 
+  label {
+    background: inherit;
+    margin: 0 0 0 20px;
+  }
+
   &__errorMsg {
     font-size: 0.6rem;
     color: red;
@@ -55,11 +60,7 @@
 
   &__desc {
     width: 100%;
-  }
-
-  label {
-    background: inherit;
-    margin: 0 0 0 20px;
+    margin-top: 10px;
   }
 
   &__switchBlock {

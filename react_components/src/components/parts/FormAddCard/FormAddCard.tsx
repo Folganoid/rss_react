@@ -316,8 +316,6 @@ export default class FormAddCard extends React.Component<IProps, IState> {
             </p>
           </label>
           <br />
-          <br />
-          <br />
           <label className={cl.form__desc}>
             Description:
             <br />
@@ -403,7 +401,7 @@ export default class FormAddCard extends React.Component<IProps, IState> {
           <label>
             Last release date:
             <br />
-            <input
+            <Input
               data-testid="lDate"
               name="lDate"
               type="date"

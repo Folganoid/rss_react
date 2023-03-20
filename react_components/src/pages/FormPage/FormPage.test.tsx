@@ -1,8 +1,7 @@
 import React from 'react';
 import { describe, it } from 'vitest';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import FormPage from './FormPage';
-import { act } from 'react-dom/test-utils';
 import user from '@testing-library/user-event';
 
 describe('FormPage', () => {
@@ -13,7 +12,7 @@ describe('FormPage', () => {
   });
 
   it('FormPage Card creating', async () => {
-    await act(async () => render(<FormPage />));
+    await waitFor(async () => render(<FormPage />));
     const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[];
     const radios = screen.getAllByRole('radio') as HTMLInputElement[];
     const btn = screen.getByRole('button') as HTMLButtonElement;
@@ -27,15 +26,15 @@ describe('FormPage', () => {
     const blob = new Blob(['hello']);
     const file = new File([blob], 'i_angular.jpg', { type: 'image/jpg' });
 
-    await act(async () => fireEvent.click(radios[0]));
-    await act(async () => fireEvent.click(checkboxes[0]));
-    await act(async () => fireEvent.change(inpName, { target: { value: 'XXX' } }));
-    await act(async () => fireEvent.change(inpDesc, { target: { value: '1234567890' } }));
-    await act(async () => fireEvent.change(inpSite, { target: { value: 'https://xxx.xxx' } }));
-    await act(async () => fireEvent.change(inpDate, { target: { value: '2021-01-01' } }));
-    await act(async () => user.upload(inpImage, file));
+    await waitFor(async () => fireEvent.click(radios[0]));
+    await waitFor(async () => fireEvent.click(checkboxes[0]));
+    await waitFor(async () => fireEvent.change(inpName, { target: { value: 'XXX' } }));
+    await waitFor(async () => fireEvent.change(inpDesc, { target: { value: '1234567890' } }));
+    await waitFor(async () => fireEvent.change(inpSite, { target: { value: 'https://xxx.xxx' } }));
+    await waitFor(async () => fireEvent.change(inpDate, { target: { value: '2021-01-01' } }));
+    await waitFor(async () => user.upload(inpImage, file));
 
-    await act(async () => fireEvent.click(btn));
+    await waitFor(async () => fireEvent.click(btn));
 
     expect(screen.getAllByRole('article').length).toEqual(1);
     expect(btn.disabled).toEqual(true);
@@ -48,18 +47,18 @@ describe('FormPage', () => {
     expect(checkboxes[2].checked).toEqual(false);
     expect(screen.getByText('No')).toBeInTheDocument();
 
-    await act(async () => fireEvent.change(inpName, { target: { value: 'XXX' } }));
-    await act(async () => fireEvent.change(inpDesc, { target: { value: '1234567890' } }));
-    await act(async () => fireEvent.change(inpSite, { target: { value: 'https://xxx.xxx' } }));
-    await act(async () => fireEvent.change(inpDate, { target: { value: '2021-01-01' } }));
-    await act(async () => user.upload(inpImage, file));
-    await act(async () => fireEvent.click(checkboxes[1]));
-    await act(async () => fireEvent.click(btn));
+    await waitFor(async () => fireEvent.change(inpName, { target: { value: 'XXX' } }));
+    await waitFor(async () => fireEvent.change(inpDesc, { target: { value: '1234567890' } }));
+    await waitFor(async () => fireEvent.change(inpSite, { target: { value: 'https://xxx.xxx' } }));
+    await waitFor(async () => fireEvent.change(inpDate, { target: { value: '2021-01-01' } }));
+    await waitFor(async () => user.upload(inpImage, file));
+    await waitFor(async () => fireEvent.click(checkboxes[1]));
+    await waitFor(async () => fireEvent.click(btn));
     expect(screen.getAllByRole('article').length).toEqual(2);
 
-    await act(async () => user.upload(inpImage, file));
-    await act(async () => fireEvent.click(checkboxes[1]));
-    await act(async () => fireEvent.click(btn));
+    await waitFor(async () => user.upload(inpImage, file));
+    await waitFor(async () => fireEvent.click(checkboxes[1]));
+    await waitFor(async () => fireEvent.click(btn));
     expect(screen.getAllByRole('article').length).toEqual(2);
   });
 });
