@@ -1,0 +1,29 @@
+.nameBlock {
+  display: flex;
+  flex-wrap: wrap;
+  background: inherit;
+
+  textarea {
+    border-radius: 1rem;
+    padding: 5px 10px;
+    width: 91%;
+    height: 5rem;
+  }
+}
+
+.errorMsg {
+  font-size: 0.6rem;
+  color: red;
+  background: inherit;
+  visibility: hidden;
+
+  &_invalid {
+    display: block;
+    visibility: visible;
+  }
+}
+
+.desc {
+  width: 100%;
+  margin-top: 10px;
+}

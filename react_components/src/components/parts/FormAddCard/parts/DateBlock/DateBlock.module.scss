@@ -1,0 +1,18 @@
+.dateBlock {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: inherit;
+}
+
+.errorMsg {
+  font-size: 0.6rem;
+  color: red;
+  background: inherit;
+  visibility: hidden;
+
+  &_invalid {
+    display: block;
+    visibility: visible;
+  }
+}

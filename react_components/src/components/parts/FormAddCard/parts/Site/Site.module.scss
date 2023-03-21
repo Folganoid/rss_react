@@ -1,0 +1,11 @@
+.errorMsg {
+  font-size: 0.6rem;
+  color: red;
+  background: inherit;
+  visibility: hidden;
+
+  &_invalid {
+    display: block;
+    visibility: visible;
+  }
+}

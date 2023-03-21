@@ -7,6 +7,7 @@ type InputProps = {
   name?: string;
   value?: string;
   type?: string;
+  ref?: HTMLInputElement;
 };
 type Ref = HTMLInputElement;
 

@@ -1,9 +1,12 @@
 import React from 'react';
 import cl from './FormAddCard.module.scss';
 import Button from '../../../components/UI/Button';
-import Input from '../../../components/UI/Input';
-import Select from '../../../components/UI/Select';
 import { ICard } from '../Card/Card';
+import Site from './parts/Site/Site';
+import NameBlock from './parts/NameBlock/NameBlock';
+import DateBlock from './parts/DateBlock/DateBlock';
+import TypesBlock from './parts/TypesBlock/TypesBlock';
+import SwitchBlock from './parts/SwitchBlock/SwitchBlock';
 
 interface IState {
   nameCorrect: boolean;
@@ -18,15 +21,13 @@ interface IProps {
   addCard: (card: ICard) => void;
 }
 
-enum ETypes {
+export enum ETypes {
   'JS library',
   'Runtime environment',
   'WEB framework',
 }
 
 export default class FormAddCard extends React.Component<IProps, IState> {
-  years: { name: string; value: string }[] = [];
-
   name: React.RefObject<HTMLInputElement>;
   desc: React.RefObject<HTMLTextAreaElement>;
   site: React.RefObject<HTMLInputElement>;
@@ -66,10 +67,6 @@ export default class FormAddCard extends React.Component<IProps, IState> {
     this.jsChecked = React.createRef();
     this.reChecked = React.createRef();
     this.wfChecked = React.createRef();
-
-    for (let i = 2000; i < 2023; i++) {
-      this.years.push({ name: String(i), value: String(i) });
-    }
   }
 
   formValidate = async (): Promise<ICard | null> => {
@@ -209,177 +206,35 @@ export default class FormAddCard extends React.Component<IProps, IState> {
   render() {
     return (
       <form className={cl.form}>
-        <div className={cl.form__nameBlock}>
-          <label>
-            Name:
-            <br />
-            <Input name="name" type="text" placeholder="Name" ref={this.name} />
-            <p
-              className={
-                this.state.nameCorrect
-                  ? cl.form__errorMsg
-                  : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
-              }
-            >
-              Must be at least 3 characters
-            </p>
-          </label>
-          <label>
-            Upload image:
-            <br />
-            <Input type="file" name="image" ref={this.image} data-testid="image" />
-            <p
-              className={
-                this.state.imageCorrect
-                  ? cl.form__errorMsg
-                  : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
-              }
-            >
-              Must be in .PNG / .JPG / .JPEG / .SVG / .GIF format
-            </p>
-          </label>
-          <br />
-          <label className={cl.form__desc}>
-            Description:
-            <br />
-            <textarea name="desc" placeholder="Description" ref={this.desc} />
-            <p
-              className={
-                this.state.descCorrect
-                  ? cl.form__errorMsg
-                  : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
-              }
-            >
-              Must be at least 10 characters
-            </p>
-          </label>
-        </div>
-
+        <NameBlock
+          refForwardName={this.name}
+          refForwardImage={this.image}
+          refForwardDesc={this.desc}
+          nameCorrect={this.state.nameCorrect}
+          imageCorrect={this.state.imageCorrect}
+          descCorrect={this.state.descCorrect}
+        />
         <br />
-        <label className={cl.form__site}>
-          Site:
-          <br />
-          <Input name="site" type="text" placeholder="Site" ref={this.site} />
-          <p
-            className={
-              this.state.siteCorrect
-                ? cl.form__errorMsg
-                : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
-            }
-          >
-            Must be in http(s)://xxx.xx(x) format
-          </p>
-        </label>
-
+        <Site refForward={this.site} siteCorrect={this.state.siteCorrect} />
         <br />
-        <div className={cl.form__dateBlock}>
-          <label>
-            First release year:
-            <br />
-            <Select name="fYear" ref={this.fYear} options={this.years} />
-          </label>
-          <label>
-            First release month:
-            <br />
-            <Select
-              name="fMonth"
-              ref={this.fMonth}
-              options={[
-                { value: 'January', name: 'January' },
-                { value: 'February', name: 'February' },
-                { value: 'March', name: 'March' },
-                { value: 'April', name: 'April' },
-                { value: 'May', name: 'May' },
-                { value: 'June', name: 'June' },
-                { value: 'July', name: 'July' },
-                { value: 'August', name: 'August' },
-                { value: 'September', name: 'September' },
-                { value: 'October', name: 'October' },
-                { value: 'November', name: 'November' },
-                { value: 'December', name: 'December' },
-              ]}
-            />
-          </label>
-          <label>
-            Last release date:
-            <br />
-            <Input data-testid="lDate" name="lDate" type="date" ref={this.lDate} />
-            <p
-              className={
-                this.state.dateCorrect
-                  ? cl.form__errorMsg
-                  : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
-              }
-            >
-              Must be filled no later than 2022-12-31
-            </p>
-          </label>
-        </div>
+        <DateBlock
+          refForwardYear={this.fYear}
+          refForwardMonth={this.fMonth}
+          refForwardDate={this.lDate}
+          dateCorrect={this.state.dateCorrect}
+        />
         <br />
-        <div className={cl.form__switchBlock}>
-          <p>Is open source:</p>
-          <label className={cl.form__switch}>
-            <input
-              type="radio"
-              name="isOpenSource"
-              defaultChecked={true}
-              ref={this.isOpenSourceYes}
-            />
-            Yes:&nbsp;&nbsp;&nbsp;
-            <input
-              type="radio"
-              name="isOpenSource"
-              defaultChecked={false}
-              ref={this.isOpenSourceNo}
-            />
-            No:
-          </label>
-        </div>
-
+        <SwitchBlock
+          refForwardIsOpenYes={this.isOpenSourceYes}
+          refForwardIsOpenNo={this.isOpenSourceNo}
+        />
         <br />
-        <div className={cl.form__typesBlock}>
-          <p>Types:</p>
-          <label>
-            <input
-              type="checkbox"
-              name="jsChecked"
-              value={ETypes[0]}
-              ref={this.jsChecked}
-              defaultChecked={false}
-            />
-            &nbsp;JS library
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="reChecked"
-              value={ETypes[1]}
-              ref={this.reChecked}
-              defaultChecked={false}
-            />
-            &nbsp;Runtime environment
-          </label>
-          <label>
-            <input
-              type="checkbox"
-              name="wfChecked"
-              value={ETypes[2]}
-              ref={this.wfChecked}
-              defaultChecked={false}
-            />
-            &nbsp;WEB framework
-          </label>
-          <p
-            className={
-              this.state.typesCorrect
-                ? cl.form__errorMsg
-                : [cl.form__errorMsg, cl.form__errorMsg_invalid].join(' ')
-            }
-          >
-            At least one item must be selected
-          </p>
-        </div>
-
+        <TypesBlock
+          refForwardJs={this.jsChecked}
+          refForwardRe={this.reChecked}
+          refForwardWf={this.wfChecked}
+          typesCorrect={this.state.typesCorrect}
+        />
         <br />
         <Button type="submit" onClick={this.formSubmit}>
           Submit
