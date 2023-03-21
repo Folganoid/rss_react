@@ -4,8 +4,8 @@ import Home from '../../pages/Home/Home';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Layout from './Layout';
-import { ICard } from '../interfaces/common';
 import FormPage from '../../pages/FormPage/FormPage';
+import { ICard } from './Card/Card';
 
 export default class AppRouter extends React.Component<{ data: ICard[] }, object> {
   render() {

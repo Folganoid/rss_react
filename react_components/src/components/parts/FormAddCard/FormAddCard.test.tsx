@@ -7,7 +7,7 @@ import user from '@testing-library/user-event';
 describe('FormA components exist', () => {
   const addCard = vi.fn();
 
-  it('FormA <input name="name"> exists', () => {
+  it('FormAddCard <input name="name"> exists', () => {
     render(<FormAddCard addCard={addCard} />);
 
     expect(
@@ -17,7 +17,7 @@ describe('FormA components exist', () => {
     ).toBeInTheDocument();
   });
 
-  it('FormA <input name="description"> exists', () => {
+  it('FormAddCard <input name="description"> exists', () => {
     render(<FormAddCard addCard={addCard} />);
 
     expect(
@@ -27,62 +27,40 @@ describe('FormA components exist', () => {
     ).toBeInTheDocument();
   });
 
-  it('FormA 2x<select> exist', () => {
+  it('FormAddCard 2x<select> exist', () => {
     render(<FormAddCard addCard={addCard} />);
     expect(screen.getAllByRole('combobox').length).toEqual(2);
   });
 
-  it('FormA 2x<input type="radio"> exist', () => {
+  it('FormAddCard 2x<input type="radio"> exist', () => {
     render(<FormAddCard addCard={addCard} />);
     expect(screen.getAllByRole('radio').length).toEqual(2);
   });
 
-  it('FormA <button> exists', () => {
+  it('FormAddCard <button> exists', () => {
     render(<FormAddCard addCard={addCard} />);
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 });
 
-describe('FormA components functional', () => {
+describe('FormAddCard components functional', () => {
   const addCard = vi.fn();
-  it('FormA <button> disabled as default', () => {
-    render(<FormAddCard addCard={addCard} />);
-    const btn = screen.getByRole('button') as HTMLButtonElement;
-    expect(btn.disabled).toEqual(true);
-  });
 
-  it('FormA <button> disabled=false if input typed', async () => {
-    await waitFor(async () => render(<FormAddCard addCard={addCard} />));
-    const btn = screen.getByRole('button') as HTMLButtonElement;
-    const inp = screen.getByRole('textbox', { name: /name/i }) as HTMLInputElement;
-    await waitFor(async () => fireEvent.change(inp, { target: { value: 'xxX' } }));
-    expect(btn.disabled).toEqual(false);
-  });
-
-  it('FormA <input name="name"> works', async () => {
+  it('FormAddCard <input name="name"> works', async () => {
     await waitFor(async () => render(<FormAddCard addCard={addCard} />));
     const inp = screen.getByRole('textbox', { name: /name/i }) as HTMLInputElement;
     await waitFor(async () => fireEvent.change(inp, { target: { value: 'xxX' } }));
     expect(inp.value).toEqual('xxX');
   });
 
-  it('FormA <input name="description"> works', async () => {
+  it('FormAddCard <input name="description"> works', async () => {
     await waitFor(async () => render(<FormAddCard addCard={addCard} />));
     const inp = screen.getByRole('textbox', { name: /description/i }) as HTMLTextAreaElement;
     await waitFor(async () => fireEvent.change(inp, { target: { value: 'xxX' } }));
     expect(inp.value).toEqual('xxX');
   });
 
-  it('FormA <input type="radio"> works', async () => {
-    await waitFor(async () => render(<FormAddCard addCard={addCard} />));
-    const radios = screen.getAllByRole('radio') as HTMLInputElement[];
-    await waitFor(async () => fireEvent.click(radios[0]));
-    expect(screen.getByText('Yes')).toBeInTheDocument();
-    await waitFor(async () => fireEvent.click(radios[1]));
-    expect(screen.getByText('No')).toBeInTheDocument();
-  });
-
-  it('FormA <input type="checkbox"> works', async () => {
+  it('FormAddCard <input type="checkbox"> works', async () => {
     await waitFor(async () => render(<FormAddCard addCard={addCard} />));
     const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[];
     expect(checkboxes.length).toEqual(3);
@@ -101,7 +79,7 @@ describe('FormA components functional', () => {
     expect(checkboxes[0].checked).toEqual(false);
   });
 
-  it('FormA form validation', async () => {
+  it('FormAddCard form validation', async () => {
     await waitFor(async () => render(<FormAddCard addCard={addCard} />));
     const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[];
     const radios = screen.getAllByRole('radio') as HTMLInputElement[];
@@ -116,46 +94,39 @@ describe('FormA components functional', () => {
     const blob = new Blob(['hello']);
     const file = new File([blob], 'i_angular.jpg', { type: 'image/jpg' });
 
+    // form is not filled
     await waitFor(async () => fireEvent.click(radios[0]));
     await waitFor(async () => fireEvent.change(inpName, { target: { value: 'XX' } }));
     await waitFor(async () => fireEvent.change(inpDesc, { target: { value: '123456789' } }));
     await waitFor(async () => fireEvent.change(inpSite, { target: { value: 'https://xxx' } }));
     await waitFor(async () => fireEvent.change(inpDate, { target: { value: '2024-01-01' } }));
     await waitFor(async () => fireEvent.click(btn));
-    expect(btn.disabled).toEqual(true);
+    expect(inpName.value).toEqual('XX');
 
     await waitFor(async () => user.upload(inpImage, file));
     await waitFor(async () => fireEvent.change(inpName, { target: { value: 'XXX' } }));
     await waitFor(async () => fireEvent.click(btn));
-    expect(btn.disabled).toEqual(true);
     expect(inpName.value).toEqual('XXX');
 
     await waitFor(async () => fireEvent.change(inpDesc, { target: { value: '1234567890' } }));
     await waitFor(async () => fireEvent.change(inpSite, { target: { value: 'https://xxx.xxx' } }));
     await waitFor(async () => fireEvent.click(btn));
-    expect(btn.disabled).toEqual(true);
     expect(inpName.value).toEqual('XXX');
 
     await waitFor(async () => fireEvent.click(checkboxes[0]));
     await waitFor(async () => fireEvent.click(btn));
-    expect(btn.disabled).toEqual(true);
     expect(inpName.value).toEqual('XXX');
 
     await waitFor(async () => fireEvent.click(checkboxes[1]));
     await waitFor(async () => fireEvent.click(btn));
-    expect(btn.disabled).toEqual(true);
     expect(inpName.value).toEqual('XXX');
 
     await waitFor(async () => fireEvent.click(checkboxes[2]));
     await waitFor(async () => fireEvent.click(btn));
-    expect(btn.disabled).toEqual(true);
     expect(inpName.value).toEqual('XXX');
-    expect(screen.getByText('Yes')).toBeInTheDocument();
 
     await waitFor(async () => fireEvent.change(inpDate, { target: { value: '2022-01-01' } }));
-    expect(btn.disabled).toEqual(false);
     await waitFor(async () => fireEvent.click(btn));
-    expect(btn.disabled).toEqual(true);
 
     expect(inpName.value).toEqual('');
     expect(inpDesc.value).toEqual('');
@@ -164,6 +135,5 @@ describe('FormA components functional', () => {
     expect(checkboxes[0].checked).toEqual(false);
     expect(checkboxes[1].checked).toEqual(false);
     expect(checkboxes[2].checked).toEqual(false);
-    expect(screen.getByText('No')).toBeInTheDocument();
   });
 });

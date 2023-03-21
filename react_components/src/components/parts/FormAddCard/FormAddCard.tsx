@@ -6,70 +6,52 @@ import Select from '../../../components/UI/Select';
 import { ICard } from '../Card/Card';
 
 interface IState {
-  name: string;
-  desc: string;
-  image: string;
-  site: string;
-  fYear: string;
-  fMonth: string;
-  lDate: string;
-  isOpenSource: boolean;
-  jsChecked: boolean;
-  reChecked: boolean;
-  wfChecked: boolean;
-  types: string[];
-
   nameCorrect: boolean;
   imageCorrect: boolean;
   descCorrect: boolean;
   siteCorrect: boolean;
   dateCorrect: boolean;
   typesCorrect: boolean;
-
-  isButtonActive: boolean;
 }
 
 interface IProps {
   addCard: (card: ICard) => void;
 }
 
+enum ETypes {
+  'JS library',
+  'Runtime environment',
+  'WEB framework',
+}
+
 export default class FormAddCard extends React.Component<IProps, IState> {
   years: { name: string; value: string }[] = [];
 
-  name: React.Ref<HTMLInputElement>;
+  name: React.RefObject<HTMLInputElement>;
   desc: React.RefObject<HTMLTextAreaElement>;
-  site: React.Ref<HTMLInputElement>;
+  site: React.RefObject<HTMLInputElement>;
   image: React.RefObject<HTMLInputElement>;
   fYear: React.RefObject<HTMLSelectElement>;
   fMonth: React.RefObject<HTMLSelectElement>;
   lDate: React.RefObject<HTMLInputElement>;
 
+  isOpenSourceYes: React.RefObject<HTMLInputElement>;
+  isOpenSourceNo: React.RefObject<HTMLInputElement>;
+
+  jsChecked: React.RefObject<HTMLInputElement>;
+  reChecked: React.RefObject<HTMLInputElement>;
+  wfChecked: React.RefObject<HTMLInputElement>;
+
   constructor(props: IProps) {
     super(props);
 
     this.state = {
-      name: '',
-      desc: '',
-      image: '',
-      site: '',
-      fYear: '2000',
-      fMonth: 'January',
-      lDate: '',
-      isOpenSource: false,
-
-      jsChecked: false,
-      reChecked: false,
-      wfChecked: false,
-      types: [],
-
       nameCorrect: true,
       imageCorrect: true,
       descCorrect: true,
       siteCorrect: true,
       dateCorrect: true,
       typesCorrect: true,
-
-      isButtonActive: false,
     };
 
     this.name = React.createRef();
@@ -79,69 +61,16 @@ export default class FormAddCard extends React.Component<IProps, IState> {
     this.fYear = React.createRef();
     this.fMonth = React.createRef();
     this.lDate = React.createRef();
+    this.isOpenSourceYes = React.createRef();
+    this.isOpenSourceNo = React.createRef();
+    this.jsChecked = React.createRef();
+    this.reChecked = React.createRef();
+    this.wfChecked = React.createRef();
 
     for (let i = 2000; i < 2023; i++) {
       this.years.push({ name: String(i), value: String(i) });
     }
   }
-
-  handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const target = event.target;
-    const value: string = target.value;
-    const name: string = target.name;
-    this.setState({
-      [name]: value,
-    } as Pick<IState, 'name' | 'desc' | 'site' | 'fYear' | 'fMonth' | 'lDate' | 'image'>);
-    this.checkFields(name);
-  };
-
-  handlerOpenSource = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      isOpenSource: e.target.name === 'isOpenSourceYes',
-    });
-  };
-
-  handleCheckBox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let arr = this.state.types;
-    const val = e.target.value;
-    const name = e.target.name;
-    const checked = e.target.checked;
-    if (checked && !arr.includes(val)) {
-      arr.push(val);
-    }
-    if (!checked && arr.includes(val)) {
-      arr = arr.filter((e) => e !== val);
-    }
-    this.setState({
-      types: arr,
-      [name]: checked,
-    } as Pick<IState, 'types' | 'jsChecked' | 'reChecked' | 'wfChecked'>);
-    this.checkFields('types');
-  };
-
-  checkFields = async (field = ''): Promise<void> => {
-    if (field === 'name') await this.setState({ nameCorrect: true });
-    if (field === 'desc') await this.setState({ descCorrect: true });
-    if (field === 'lDate') await this.setState({ dateCorrect: true });
-    if (field === 'site') await this.setState({ siteCorrect: true });
-    if (field === 'image') await this.setState({ imageCorrect: true });
-    if (field === 'types') await this.setState({ typesCorrect: true });
-
-    if (
-      this.state.descCorrect &&
-      this.state.nameCorrect &&
-      this.state.siteCorrect &&
-      this.state.dateCorrect &&
-      this.state.typesCorrect &&
-      this.state.imageCorrect
-    ) {
-      this.setState({ isButtonActive: true });
-    } else {
-      this.setState({ isButtonActive: false });
-    }
-  };
 
   formValidate = async (): Promise<ICard | null> => {
     const imageRef = this.image as React.RefObject<HTMLInputElement>;
@@ -171,6 +100,11 @@ export default class FormAddCard extends React.Component<IProps, IState> {
     const dateRef = this.lDate as React.RefObject<HTMLInputElement>;
     const lDate = dateRef && dateRef.current && dateRef.current.value ? dateRef.current.value : '';
 
+    const types: string[] = [];
+    if (this.jsChecked.current?.checked) types.push(ETypes[0]);
+    if (this.reChecked.current?.checked) types.push(ETypes[1]);
+    if (this.wfChecked.current?.checked) types.push(ETypes[2]);
+
     const newCard: ICard = {
       id: new Date().valueOf(),
       name: name,
@@ -180,8 +114,8 @@ export default class FormAddCard extends React.Component<IProps, IState> {
       firstReleaseYear: +year,
       firstReleaseMonth: month,
       lastReleaseDate: lDate,
-      openSource: this.state.isOpenSource,
-      type: this.state.types,
+      openSource: !!this.isOpenSourceYes.current?.checked,
+      type: types,
     };
 
     if (name.length >= 3) {
@@ -218,7 +152,11 @@ export default class FormAddCard extends React.Component<IProps, IState> {
       await this.setState({ dateCorrect: false });
     }
 
-    if (this.state.jsChecked || this.state.reChecked || this.state.wfChecked) {
+    if (
+      this.jsChecked.current?.checked ||
+      this.reChecked.current?.checked ||
+      this.wfChecked.current?.checked
+    ) {
       await this.setState({ typesCorrect: true });
     } else {
       await this.setState({ typesCorrect: false });
@@ -245,19 +183,6 @@ export default class FormAddCard extends React.Component<IProps, IState> {
       this.props.addCard(newCard);
 
       this.setState({
-        name: '',
-        image: '',
-        desc: '',
-        site: '',
-        fYear: '2000',
-        fMonth: 'January',
-        lDate: '',
-        isOpenSource: false,
-        jsChecked: false,
-        reChecked: false,
-        wfChecked: false,
-        types: [],
-
         nameCorrect: true,
         imageCorrect: true,
         descCorrect: true,
@@ -265,8 +190,20 @@ export default class FormAddCard extends React.Component<IProps, IState> {
         dateCorrect: true,
         typesCorrect: true,
       });
+
+      if (this.name.current) this.name.current.value = '';
+      if (this.image.current) this.image.current.value = '';
+      if (this.desc.current) this.desc.current.value = '';
+      if (this.site.current) this.site.current.value = '';
+      if (this.fYear.current) this.fYear.current.value = '2000';
+      if (this.fMonth.current) this.fMonth.current.value = 'January';
+      if (this.lDate.current) this.lDate.current.value = '';
+      if (this.jsChecked.current) this.jsChecked.current.checked = false;
+      if (this.wfChecked.current) this.wfChecked.current.checked = false;
+      if (this.reChecked.current) this.reChecked.current.checked = false;
+      if (this.isOpenSourceYes.current) this.isOpenSourceYes.current.checked = true;
+      if (this.isOpenSourceNo.current) this.isOpenSourceNo.current.checked = false;
     }
-    this.setState({ isButtonActive: false });
   };
 
   render() {
@@ -276,14 +213,7 @@ export default class FormAddCard extends React.Component<IProps, IState> {
           <label>
             Name:
             <br />
-            <Input
-              name="name"
-              type="text"
-              placeholder="Name"
-              ref={this.name}
-              onChange={this.handleInputChange}
-              value={this.state.name}
-            />
+            <Input name="name" type="text" placeholder="Name" ref={this.name} />
             <p
               className={
                 this.state.nameCorrect
@@ -297,14 +227,7 @@ export default class FormAddCard extends React.Component<IProps, IState> {
           <label>
             Upload image:
             <br />
-            <Input
-              type="file"
-              name="image"
-              ref={this.image}
-              onChange={this.handleInputChange}
-              value={this.state.image}
-              data-testid="image"
-            />
+            <Input type="file" name="image" ref={this.image} data-testid="image" />
             <p
               className={
                 this.state.imageCorrect
@@ -319,13 +242,7 @@ export default class FormAddCard extends React.Component<IProps, IState> {
           <label className={cl.form__desc}>
             Description:
             <br />
-            <textarea
-              name="desc"
-              placeholder="Description"
-              ref={this.desc}
-              onChange={this.handleInputChange}
-              value={this.state.desc}
-            />
+            <textarea name="desc" placeholder="Description" ref={this.desc} />
             <p
               className={
                 this.state.descCorrect
@@ -342,14 +259,7 @@ export default class FormAddCard extends React.Component<IProps, IState> {
         <label className={cl.form__site}>
           Site:
           <br />
-          <Input
-            name="site"
-            type="text"
-            placeholder="Site"
-            ref={this.site}
-            onChange={this.handleInputChange}
-            value={this.state.site}
-          />
+          <Input name="site" type="text" placeholder="Site" ref={this.site} />
           <p
             className={
               this.state.siteCorrect
@@ -366,22 +276,14 @@ export default class FormAddCard extends React.Component<IProps, IState> {
           <label>
             First release year:
             <br />
-            <Select
-              name="fYear"
-              onChange={this.handleInputChange}
-              ref={this.fYear}
-              value={this.state.fYear}
-              options={this.years}
-            />
+            <Select name="fYear" ref={this.fYear} options={this.years} />
           </label>
           <label>
             First release month:
             <br />
             <Select
               name="fMonth"
-              onChange={this.handleInputChange}
               ref={this.fMonth}
-              value={this.state.fMonth}
               options={[
                 { value: 'January', name: 'January' },
                 { value: 'February', name: 'February' },
@@ -401,14 +303,7 @@ export default class FormAddCard extends React.Component<IProps, IState> {
           <label>
             Last release date:
             <br />
-            <Input
-              data-testid="lDate"
-              name="lDate"
-              type="date"
-              onChange={this.handleInputChange}
-              ref={this.lDate}
-              value={this.state.lDate}
-            />
+            <Input data-testid="lDate" name="lDate" type="date" ref={this.lDate} />
             <p
               className={
                 this.state.dateCorrect
@@ -426,20 +321,19 @@ export default class FormAddCard extends React.Component<IProps, IState> {
           <label className={cl.form__switch}>
             <input
               type="radio"
-              name="isOpenSourceYes"
-              onChange={this.handlerOpenSource}
-              checked={this.state.isOpenSource}
+              name="isOpenSource"
+              defaultChecked={true}
+              ref={this.isOpenSourceYes}
             />
             Yes:&nbsp;&nbsp;&nbsp;
             <input
               type="radio"
-              name="isOpenSourceNo"
-              onChange={this.handlerOpenSource}
-              checked={!this.state.isOpenSource}
+              name="isOpenSource"
+              defaultChecked={false}
+              ref={this.isOpenSourceNo}
             />
             No:
           </label>
-          <b>{this.state.isOpenSource ? 'Yes' : 'No'}</b>
         </div>
 
         <br />
@@ -449,9 +343,9 @@ export default class FormAddCard extends React.Component<IProps, IState> {
             <input
               type="checkbox"
               name="jsChecked"
-              value="JS library"
-              checked={this.state.jsChecked}
-              onChange={this.handleCheckBox}
+              value={ETypes[0]}
+              ref={this.jsChecked}
+              defaultChecked={false}
             />
             &nbsp;JS library
           </label>
@@ -459,9 +353,9 @@ export default class FormAddCard extends React.Component<IProps, IState> {
             <input
               type="checkbox"
               name="reChecked"
-              value="Runtime environment"
-              checked={this.state.reChecked}
-              onChange={this.handleCheckBox}
+              value={ETypes[1]}
+              ref={this.reChecked}
+              defaultChecked={false}
             />
             &nbsp;Runtime environment
           </label>
@@ -469,9 +363,9 @@ export default class FormAddCard extends React.Component<IProps, IState> {
             <input
               type="checkbox"
               name="wfChecked"
-              value="WEB framework"
-              checked={this.state.wfChecked}
-              onChange={this.handleCheckBox}
+              value={ETypes[2]}
+              ref={this.wfChecked}
+              defaultChecked={false}
             />
             &nbsp;WEB framework
           </label>
@@ -487,7 +381,7 @@ export default class FormAddCard extends React.Component<IProps, IState> {
         </div>
 
         <br />
-        <Button type="submit" onClick={this.formSubmit} disabled={!this.state.isButtonActive}>
+        <Button type="submit" onClick={this.formSubmit}>
           Submit
         </Button>
       </form>

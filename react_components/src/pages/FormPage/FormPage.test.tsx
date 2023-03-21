@@ -37,7 +37,6 @@ describe('FormPage', () => {
     await waitFor(async () => fireEvent.click(btn));
 
     expect(screen.getAllByRole('article').length).toEqual(1);
-    expect(btn.disabled).toEqual(true);
     expect(inpName.value).toEqual('');
     expect(inpDesc.value).toEqual('');
     expect(inpSite.value).toEqual('');
@@ -45,7 +44,6 @@ describe('FormPage', () => {
     expect(checkboxes[0].checked).toEqual(false);
     expect(checkboxes[1].checked).toEqual(false);
     expect(checkboxes[2].checked).toEqual(false);
-    expect(screen.getByText('No')).toBeInTheDocument();
 
     await waitFor(async () => fireEvent.change(inpName, { target: { value: 'XXX' } }));
     await waitFor(async () => fireEvent.change(inpDesc, { target: { value: '1234567890' } }));
