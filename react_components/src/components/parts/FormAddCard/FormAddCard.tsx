@@ -19,6 +19,7 @@ interface IState {
 
 interface IProps {
   addCard: (card: ICard) => void;
+  controlModalOk: (show: boolean) => void;
 }
 
 export enum ETypes {
@@ -200,6 +201,8 @@ export default class FormAddCard extends React.Component<IProps, IState> {
       if (this.reChecked.current) this.reChecked.current.checked = false;
       if (this.isOpenSourceYes.current) this.isOpenSourceYes.current.checked = true;
       if (this.isOpenSourceNo.current) this.isOpenSourceNo.current.checked = false;
+
+      this.props.controlModalOk(true);
     }
   };
 

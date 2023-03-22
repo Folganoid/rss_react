@@ -8,7 +8,7 @@ describe('FormA components exist', () => {
   const addCard = vi.fn();
 
   it('FormAddCard <input name="name"> exists', () => {
-    render(<FormAddCard addCard={addCard} />);
+    render(<FormAddCard addCard={addCard} controlModalOk={vi.fn()} />);
 
     expect(
       screen.getByRole('textbox', {
@@ -18,7 +18,7 @@ describe('FormA components exist', () => {
   });
 
   it('FormAddCard <input name="description"> exists', () => {
-    render(<FormAddCard addCard={addCard} />);
+    render(<FormAddCard addCard={addCard} controlModalOk={vi.fn()} />);
 
     expect(
       screen.getByRole('textbox', {
@@ -28,17 +28,17 @@ describe('FormA components exist', () => {
   });
 
   it('FormAddCard 2x<select> exist', () => {
-    render(<FormAddCard addCard={addCard} />);
+    render(<FormAddCard addCard={addCard} controlModalOk={vi.fn()} />);
     expect(screen.getAllByRole('combobox').length).toEqual(2);
   });
 
   it('FormAddCard 2x<input type="radio"> exist', () => {
-    render(<FormAddCard addCard={addCard} />);
+    render(<FormAddCard addCard={addCard} controlModalOk={vi.fn()} />);
     expect(screen.getAllByRole('radio').length).toEqual(2);
   });
 
   it('FormAddCard <button> exists', () => {
-    render(<FormAddCard addCard={addCard} />);
+    render(<FormAddCard controlModalOk={vi.fn()} addCard={addCard} />);
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 });
@@ -47,21 +47,21 @@ describe('FormAddCard components functional', () => {
   const addCard = vi.fn();
 
   it('FormAddCard <input name="name"> works', async () => {
-    await waitFor(async () => render(<FormAddCard addCard={addCard} />));
+    await waitFor(async () => render(<FormAddCard addCard={addCard} controlModalOk={vi.fn()} />));
     const inp = screen.getByRole('textbox', { name: /name/i }) as HTMLInputElement;
     await waitFor(async () => fireEvent.change(inp, { target: { value: 'xxX' } }));
     expect(inp.value).toEqual('xxX');
   });
 
   it('FormAddCard <input name="description"> works', async () => {
-    await waitFor(async () => render(<FormAddCard addCard={addCard} />));
+    await waitFor(async () => render(<FormAddCard addCard={addCard} controlModalOk={vi.fn()} />));
     const inp = screen.getByRole('textbox', { name: /description/i }) as HTMLTextAreaElement;
     await waitFor(async () => fireEvent.change(inp, { target: { value: 'xxX' } }));
     expect(inp.value).toEqual('xxX');
   });
 
   it('FormAddCard <input type="checkbox"> works', async () => {
-    await waitFor(async () => render(<FormAddCard addCard={addCard} />));
+    await waitFor(async () => render(<FormAddCard addCard={addCard} controlModalOk={vi.fn()} />));
     const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[];
     expect(checkboxes.length).toEqual(3);
     expect(checkboxes[0].checked).toEqual(false);
@@ -80,7 +80,7 @@ describe('FormAddCard components functional', () => {
   });
 
   it('FormAddCard form validation', async () => {
-    await waitFor(async () => render(<FormAddCard addCard={addCard} />));
+    await waitFor(async () => render(<FormAddCard addCard={addCard} controlModalOk={vi.fn()} />));
     const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[];
     const radios = screen.getAllByRole('radio') as HTMLInputElement[];
     const btn = screen.getByRole('button') as HTMLButtonElement;

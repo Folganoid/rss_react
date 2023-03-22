@@ -1,7 +1,6 @@
 import Input from '../../components/UI/Input';
 import React from 'react';
-import Card from '../../components/parts/Card/Card';
-import { ICard } from '../../components/interfaces/common';
+import Card, { ICard } from '../../components/parts/Card/Card';
 import cl from './Home.module.scss';
 
 export default class Home extends React.Component<{ data: ICard[] }, { search: string }> {
@@ -11,7 +10,6 @@ export default class Home extends React.Component<{ data: ICard[] }, { search: s
 
   changeSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
     this.setState({ search: e.target.value });
-    //localStorage.setItem('search', e.target.value);
   };
 
   componentWillUnmount() {
