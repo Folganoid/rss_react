@@ -8,23 +8,17 @@ interface IProps {
   show: boolean;
 }
 
-export default class ModalOk extends React.Component<IProps> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
-  handleClick = () => {
-    this.props.control(false);
+export default function ModalOk(props: IProps) {
+  const handleClick = () => {
+    props.control(false);
   };
 
-  render() {
-    return (
-      <div className={this.props.show ? cl.modal : cl.disable}>
-        <div className={cl.modal__container}>
-          <h1>{this.props.title}</h1>
-          <Button onClick={this.handleClick}>Ok</Button>
-        </div>
+  return (
+    <div className={props.show ? cl.modal : cl.disable}>
+      <div className={cl.modal__container}>
+        <h1>{props.title}</h1>
+        <Button onClick={handleClick}>Ok</Button>
       </div>
-    );
-  }
+    </div>
+  );
 }

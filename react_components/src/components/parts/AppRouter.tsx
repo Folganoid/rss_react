@@ -7,17 +7,15 @@ import Layout from './Layout';
 import FormPage from '../../pages/FormPage/FormPage';
 import { ICard } from './Card/Card';
 
-export default class AppRouter extends React.Component<{ data: ICard[] }, object> {
-  render() {
-    return (
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home data={this.props.data} />} />
-          <Route path="about" element={<About />} />
-          <Route path="form" element={<FormPage />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Route>
-      </Routes>
-    );
-  }
+export default function AppRouter(props: { data: ICard[] }) {
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Home data={props.data} />} />
+        <Route path="about" element={<About />} />
+        <Route path="form" element={<FormPage />} />
+        <Route path="*" element={<ErrorPage />} />
+      </Route>
+    </Routes>
+  );
 }
