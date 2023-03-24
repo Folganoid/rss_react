@@ -1,10 +1,10 @@
 import Input from '../../components/UI/Input';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Card, { ICard } from '../../components/parts/Card/Card';
 import cl from './Home.module.scss';
 
 export default function Home(props: { data: ICard[] }) {
-  const inputRef: React.RefObject<HTMLInputElement> = React.createRef();
+  const inputRef: React.RefObject<HTMLInputElement> = useRef(null);
   let val = inputRef.current?.value;
   const changeSearch = (): void => {
     if (inputRef && inputRef.current) val = inputRef.current.value;
