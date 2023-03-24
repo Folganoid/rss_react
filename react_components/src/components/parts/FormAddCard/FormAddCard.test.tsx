@@ -84,7 +84,7 @@ describe('FormAddCard components functional', () => {
     const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[];
     const radios = screen.getAllByRole('radio') as HTMLInputElement[];
     const btn = screen.getByRole('button') as HTMLButtonElement;
-
+    const selects = screen.getAllByRole('combobox') as HTMLSelectElement[];
     const inpName = screen.getByRole('textbox', { name: /name/i }) as HTMLInputElement;
     const inpDesc = screen.getByRole('textbox', { name: /description/i }) as HTMLTextAreaElement;
     const inpSite = screen.getByRole('textbox', { name: /site/i }) as HTMLInputElement;
@@ -106,10 +106,15 @@ describe('FormAddCard components functional', () => {
     await waitFor(async () => user.upload(inpImage, file));
     await waitFor(async () => fireEvent.change(inpName, { target: { value: 'XXX' } }));
     await waitFor(async () => fireEvent.click(btn));
+    await waitFor(async () => fireEvent.change(selects[0], { target: { value: '' } }));
+    await waitFor(async () => fireEvent.change(selects[1], { target: { value: '' } }));
+
     expect(inpName.value).toEqual('XXX');
 
     await waitFor(async () => fireEvent.change(inpDesc, { target: { value: '1234567890' } }));
     await waitFor(async () => fireEvent.change(inpSite, { target: { value: 'https://xxx.xxx' } }));
+    await waitFor(async () => fireEvent.change(selects[0], { target: { value: '2009' } }));
+    await waitFor(async () => fireEvent.change(selects[1], { target: { value: 'May' } }));
     await waitFor(async () => fireEvent.click(btn));
     expect(inpName.value).toEqual('XXX');
 
