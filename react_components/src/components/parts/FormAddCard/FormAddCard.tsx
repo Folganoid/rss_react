@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MutableRefObject, RefObject, useRef, useState } from 'react';
 import cl from './FormAddCard.module.scss';
 import Button from '../../../components/UI/Button';
 import { ICard } from '../Card/Card';
@@ -7,15 +7,6 @@ import NameBlock from './parts/NameBlock/NameBlock';
 import DateBlock from './parts/DateBlock/DateBlock';
 import TypesBlock from './parts/TypesBlock/TypesBlock';
 import SwitchBlock from './parts/SwitchBlock/SwitchBlock';
-
-interface IState {
-  nameCorrect: boolean;
-  imageCorrect: boolean;
-  descCorrect: boolean;
-  siteCorrect: boolean;
-  dateCorrect: boolean;
-  typesCorrect: boolean;
-}
 
 interface IProps {
   addCard: (card: ICard) => void;
@@ -28,221 +19,177 @@ export enum ETypes {
   'WEB framework',
 }
 
-export default class FormAddCard extends React.Component<IProps, IState> {
-  name: React.RefObject<HTMLInputElement>;
-  desc: React.RefObject<HTMLTextAreaElement>;
-  site: React.RefObject<HTMLInputElement>;
-  image: React.RefObject<HTMLInputElement>;
-  fYear: React.RefObject<HTMLSelectElement>;
-  fMonth: React.RefObject<HTMLSelectElement>;
-  lDate: React.RefObject<HTMLInputElement>;
+export default function FormAddCard(props: IProps) {
+  const [nameCorrect, setNameCorrect] = useState(true);
+  const [imageCorrect, setImageCorrect] = useState(true);
+  const [descCorrect, setDescCorrect] = useState(true);
+  const [siteCorrect, setSiteCorrect] = useState(true);
+  const [dateCorrect, setDateCorrect] = useState(true);
+  const [typesCorrect, setTypesCorrect] = useState(true);
 
-  isOpenSourceYes: React.RefObject<HTMLInputElement>;
-  isOpenSourceNo: React.RefObject<HTMLInputElement>;
+  const name: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
+  const desc: MutableRefObject<HTMLTextAreaElement | null | undefined> = useRef();
+  const site: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
+  const image: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
+  const fYear: MutableRefObject<HTMLSelectElement | null | undefined> = useRef();
+  const fMonth: MutableRefObject<HTMLSelectElement | null | undefined> = useRef();
+  const lDate: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
 
-  jsChecked: React.RefObject<HTMLInputElement>;
-  reChecked: React.RefObject<HTMLInputElement>;
-  wfChecked: React.RefObject<HTMLInputElement>;
+  const isOpenSourceYes: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
+  const isOpenSourceNo: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
 
-  constructor(props: IProps) {
-    super(props);
+  const jsChecked: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
+  const reChecked: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
+  const wfChecked: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
 
-    this.state = {
-      nameCorrect: true,
-      imageCorrect: true,
-      descCorrect: true,
-      siteCorrect: true,
-      dateCorrect: true,
-      typesCorrect: true,
-    };
-
-    this.name = React.createRef();
-    this.desc = React.createRef();
-    this.site = React.createRef();
-    this.image = React.createRef();
-    this.fYear = React.createRef();
-    this.fMonth = React.createRef();
-    this.lDate = React.createRef();
-    this.isOpenSourceYes = React.createRef();
-    this.isOpenSourceNo = React.createRef();
-    this.jsChecked = React.createRef();
-    this.reChecked = React.createRef();
-    this.wfChecked = React.createRef();
-  }
-
-  formValidate = async (): Promise<ICard | null> => {
-    const imageRef = this.image as React.RefObject<HTMLInputElement>;
-    let imageLink = '';
+  const formValidate = (): ICard | null => {
+    let cardOk = true;
     let imageName = '';
-    if (imageRef && imageRef.current && imageRef.current.files && imageRef.current.files[0]) {
+    let imageLink = '';
+    if (image && image.current && image.current.files && image.current.files[0]) {
       try {
-        imageLink = URL.createObjectURL(imageRef.current.files[0]);
-        imageName = imageRef.current.files[0].name;
+        imageName = image.current.files[0].name;
+        imageLink = URL.createObjectURL(image.current.files[0]);
       } catch (e) {
-        imageLink = 'i_default.jpg';
         imageName = 'i_default.jpg';
+        imageLink = 'i_default.jpg';
       }
     }
 
-    const nameRef = this.name as React.RefObject<HTMLInputElement>;
-    const name = nameRef && nameRef.current && nameRef.current.value ? nameRef.current.value : '';
-    const descRef = this.desc as React.RefObject<HTMLTextAreaElement>;
-    const desc = descRef && descRef.current && descRef.current.value ? descRef.current.value : '';
-    const siteRef = this.site as React.RefObject<HTMLInputElement>;
-    const site = siteRef && siteRef.current && siteRef.current.value ? siteRef.current.value : '';
-    const yearRef = this.fYear as React.RefObject<HTMLSelectElement>;
-    const year = yearRef && yearRef.current && yearRef.current.value ? yearRef.current.value : '';
-    const monthRef = this.fMonth as React.RefObject<HTMLSelectElement>;
-    const month =
-      monthRef && monthRef.current && monthRef.current.value ? monthRef.current.value : '';
-    const dateRef = this.lDate as React.RefObject<HTMLInputElement>;
-    const lDate = dateRef && dateRef.current && dateRef.current.value ? dateRef.current.value : '';
-
     const types: string[] = [];
-    if (this.jsChecked.current?.checked) types.push(ETypes[0]);
-    if (this.reChecked.current?.checked) types.push(ETypes[1]);
-    if (this.wfChecked.current?.checked) types.push(ETypes[2]);
+    if (jsChecked.current?.checked) types.push(ETypes[0]);
+    if (reChecked.current?.checked) types.push(ETypes[1]);
+    if (wfChecked.current?.checked) types.push(ETypes[2]);
 
     const newCard: ICard = {
       id: new Date().valueOf(),
-      name: name,
+      name: name.current?.value || '',
       image: imageLink,
-      desc: desc,
-      site: site,
-      firstReleaseYear: +year,
-      firstReleaseMonth: month,
-      lastReleaseDate: lDate,
-      openSource: !!this.isOpenSourceYes.current?.checked,
+      desc: desc.current?.value || '',
+      site: site.current?.value || '',
+      firstReleaseYear: Number(fYear.current?.value || 0),
+      firstReleaseMonth: fMonth.current?.value || '',
+      lastReleaseDate: lDate.current?.value || '',
+      openSource: !!isOpenSourceYes.current?.checked,
       type: types,
     };
-
-    if (name.length >= 3) {
-      await this.setState({ nameCorrect: true });
+    if (newCard.name.length >= 3) {
+      setNameCorrect(true);
     } else {
-      await this.setState({ nameCorrect: false });
+      setNameCorrect(false);
+      cardOk = false;
     }
 
-    if (desc.length >= 10) {
-      await this.setState({ descCorrect: true });
+    if (newCard.desc.length >= 10) {
+      setDescCorrect(true);
     } else {
-      await this.setState({ descCorrect: false });
+      setDescCorrect(false);
+      cardOk = false;
     }
 
     if (
-      site.match(
+      newCard.site.match(
         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
       )
     ) {
-      await this.setState({ siteCorrect: true });
+      setSiteCorrect(true);
     } else {
-      await this.setState({ siteCorrect: false });
+      setSiteCorrect(false);
+      cardOk = false;
     }
 
     if (imageName.match(/\.(gif|jpe?g|svg?|png)$/i)) {
-      await this.setState({ imageCorrect: true });
+      setImageCorrect(true);
     } else {
-      await this.setState({ imageCorrect: false });
+      setImageCorrect(false);
+      cardOk = false;
     }
 
-    if (Date.parse(lDate) < Date.parse('2023-01-01')) {
-      await this.setState({ dateCorrect: true });
+    if (Date.parse(newCard.lastReleaseDate) < Date.parse('2023-01-01')) {
+      console.log('+', newCard.lastReleaseDate);
+      setDateCorrect(true);
     } else {
-      await this.setState({ dateCorrect: false });
+      setDateCorrect(false);
+      cardOk = false;
     }
 
-    if (
-      this.jsChecked.current?.checked ||
-      this.reChecked.current?.checked ||
-      this.wfChecked.current?.checked
-    ) {
-      await this.setState({ typesCorrect: true });
+    if (jsChecked.current?.checked || reChecked.current?.checked || wfChecked.current?.checked) {
+      setTypesCorrect(true);
     } else {
-      await this.setState({ typesCorrect: false });
+      setTypesCorrect(false);
+      cardOk = false;
     }
-
-    if (
-      this.state.descCorrect &&
-      this.state.nameCorrect &&
-      this.state.siteCorrect &&
-      this.state.dateCorrect &&
-      this.state.typesCorrect &&
-      this.state.imageCorrect
-    ) {
+    if (cardOk) {
       return newCard;
     }
     return null;
   };
 
-  formSubmit = async (e: React.FormEvent): Promise<void> => {
+  const formSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    const newCard = await this.formValidate();
-
+    const newCard = await formValidate();
     if (newCard) {
-      this.props.addCard(newCard);
+      props.addCard(newCard);
 
-      this.setState({
-        nameCorrect: true,
-        imageCorrect: true,
-        descCorrect: true,
-        siteCorrect: true,
-        dateCorrect: true,
-        typesCorrect: true,
-      });
+      await setNameCorrect(true);
+      await setImageCorrect(true);
+      await setDescCorrect(true);
+      await setSiteCorrect(true);
+      await setDateCorrect(true);
+      await setTypesCorrect(true);
 
-      if (this.name.current) this.name.current.value = '';
-      if (this.image.current) this.image.current.value = '';
-      if (this.desc.current) this.desc.current.value = '';
-      if (this.site.current) this.site.current.value = '';
-      if (this.fYear.current) this.fYear.current.value = '2000';
-      if (this.fMonth.current) this.fMonth.current.value = 'January';
-      if (this.lDate.current) this.lDate.current.value = '';
-      if (this.jsChecked.current) this.jsChecked.current.checked = false;
-      if (this.wfChecked.current) this.wfChecked.current.checked = false;
-      if (this.reChecked.current) this.reChecked.current.checked = false;
-      if (this.isOpenSourceYes.current) this.isOpenSourceYes.current.checked = true;
-      if (this.isOpenSourceNo.current) this.isOpenSourceNo.current.checked = false;
+      if (name.current) name.current.value = '';
+      if (image.current) image.current.value = '';
+      if (desc.current) desc.current.value = '';
+      if (site.current) site.current.value = '';
+      if (fYear.current) fYear.current.value = '2000';
+      if (fMonth.current) fMonth.current.value = 'January';
+      if (lDate.current) lDate.current.value = '';
+      if (jsChecked.current) jsChecked.current.checked = false;
+      if (wfChecked.current) wfChecked.current.checked = false;
+      if (reChecked.current) reChecked.current.checked = false;
+      if (isOpenSourceYes.current) isOpenSourceYes.current.checked = true;
+      if (isOpenSourceNo.current) isOpenSourceNo.current.checked = false;
 
-      this.props.controlModalOk(true);
+      props.controlModalOk(true);
     }
   };
 
-  render() {
-    return (
-      <form className={cl.form}>
-        <NameBlock
-          refForwardName={this.name}
-          refForwardImage={this.image}
-          refForwardDesc={this.desc}
-          nameCorrect={this.state.nameCorrect}
-          imageCorrect={this.state.imageCorrect}
-          descCorrect={this.state.descCorrect}
-        />
-        <br />
-        <Site refForward={this.site} siteCorrect={this.state.siteCorrect} />
-        <br />
-        <DateBlock
-          refForwardYear={this.fYear}
-          refForwardMonth={this.fMonth}
-          refForwardDate={this.lDate}
-          dateCorrect={this.state.dateCorrect}
-        />
-        <br />
-        <SwitchBlock
-          refForwardIsOpenYes={this.isOpenSourceYes}
-          refForwardIsOpenNo={this.isOpenSourceNo}
-        />
-        <br />
-        <TypesBlock
-          refForwardJs={this.jsChecked}
-          refForwardRe={this.reChecked}
-          refForwardWf={this.wfChecked}
-          typesCorrect={this.state.typesCorrect}
-        />
-        <br />
-        <Button type="submit" onClick={this.formSubmit}>
-          Submit
-        </Button>
-      </form>
-    );
-  }
+  return (
+    <form className={cl.form}>
+      <NameBlock
+        refForwardName={name as RefObject<HTMLInputElement>}
+        refForwardImage={image as RefObject<HTMLInputElement>}
+        refForwardDesc={desc as RefObject<HTMLTextAreaElement>}
+        nameCorrect={nameCorrect}
+        imageCorrect={imageCorrect}
+        descCorrect={descCorrect}
+      />
+      <br />
+      <Site refForward={site as RefObject<HTMLInputElement>} siteCorrect={siteCorrect} />
+      <br />
+      <DateBlock
+        refForwardYear={fYear as RefObject<HTMLSelectElement>}
+        refForwardMonth={fMonth as RefObject<HTMLSelectElement>}
+        refForwardDate={lDate as RefObject<HTMLInputElement>}
+        dateCorrect={dateCorrect}
+      />
+      <br />
+      <SwitchBlock
+        refForwardIsOpenYes={isOpenSourceYes as RefObject<HTMLInputElement>}
+        refForwardIsOpenNo={isOpenSourceNo as RefObject<HTMLInputElement>}
+      />
+      <br />
+      <TypesBlock
+        refForwardJs={jsChecked as RefObject<HTMLInputElement>}
+        refForwardRe={reChecked as RefObject<HTMLInputElement>}
+        refForwardWf={wfChecked as RefObject<HTMLInputElement>}
+        typesCorrect={typesCorrect}
+      />
+      <br />
+      <Button type="submit" onClick={formSubmit}>
+        Submit
+      </Button>
+    </form>
+  );
 }
