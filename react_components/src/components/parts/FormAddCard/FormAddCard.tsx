@@ -1,16 +1,24 @@
-import React, { MutableRefObject, RefObject, useRef, useState } from 'react';
+import React from 'react';
 import cl from './FormAddCard.module.scss';
 import Button from '../../../components/UI/Button';
 import { ICard } from '../Card/Card';
-import Site from './parts/Site/Site';
-import NameBlock from './parts/NameBlock/NameBlock';
-import DateBlock from './parts/DateBlock/DateBlock';
-import TypesBlock from './parts/TypesBlock/TypesBlock';
-import SwitchBlock from './parts/SwitchBlock/SwitchBlock';
+import { useForm, SubmitHandler, Controller, Validate } from 'react-hook-form';
 
 interface IProps {
   addCard: (card: ICard) => void;
   controlModalOk: (show: boolean) => void;
+}
+
+export interface IFormValues {
+  site: string;
+  name: string;
+  image: string;
+  desc: string;
+  fYear: string;
+  fMonth: string;
+  lDate: string;
+  radio: string;
+  checkbox: string[];
 }
 
 export enum ETypes {
@@ -20,174 +28,271 @@ export enum ETypes {
 }
 
 export default function FormAddCard(props: IProps) {
-  const [nameCorrect, setNameCorrect] = useState(true);
-  const [imageCorrect, setImageCorrect] = useState(true);
-  const [descCorrect, setDescCorrect] = useState(true);
-  const [siteCorrect, setSiteCorrect] = useState(true);
-  const [dateCorrect, setDateCorrect] = useState(true);
-  const [typesCorrect, setTypesCorrect] = useState(true);
-
-  const name: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
-  const desc: MutableRefObject<HTMLTextAreaElement | null | undefined> = useRef();
-  const site: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
-  const image: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
-  const fYear: MutableRefObject<HTMLSelectElement | null | undefined> = useRef();
-  const fMonth: MutableRefObject<HTMLSelectElement | null | undefined> = useRef();
-  const lDate: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
-
-  const isOpenSourceYes: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
-  const isOpenSourceNo: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
-
-  const jsChecked: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
-  const reChecked: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
-  const wfChecked: MutableRefObject<HTMLInputElement | null | undefined> = useRef();
-
-  const formValidate = (): ICard | null => {
-    let cardOk = true;
-    let imageName = '';
-    let imageLink = '';
-    if (image && image.current && image.current.files && image.current.files[0]) {
-      try {
-        imageName = image.current.files[0].name;
-        imageLink = URL.createObjectURL(image.current.files[0]);
-      } catch (e) {
-        imageName = 'i_default.jpg';
-        imageLink = 'i_default.jpg';
-      }
-    }
-
-    const types: string[] = [];
-    if (jsChecked.current?.checked) types.push(ETypes[0]);
-    if (reChecked.current?.checked) types.push(ETypes[1]);
-    if (wfChecked.current?.checked) types.push(ETypes[2]);
-
+  const {
+    register,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<IFormValues>({
+    defaultValues: {
+      lDate: '',
+      checkbox: [],
+    },
+  });
+  const onSubmit: SubmitHandler<IFormValues> = (data) => {
     const newCard: ICard = {
       id: new Date().valueOf(),
-      name: name.current?.value || '',
-      image: imageLink,
-      desc: desc.current?.value || '',
-      site: site.current?.value || '',
-      firstReleaseYear: Number(fYear.current?.value || 0),
-      firstReleaseMonth: fMonth.current?.value || '',
-      lastReleaseDate: lDate.current?.value || '',
-      openSource: !!isOpenSourceYes.current?.checked,
-      type: types,
+      name: data.name,
+      image: URL.createObjectURL(new Blob([data.image[0]])),
+      desc: data.desc,
+      site: data.site,
+      firstReleaseYear: +data.fYear,
+      firstReleaseMonth: data.fMonth,
+      lastReleaseDate: data.lDate,
+      openSource: data.radio === 'true',
+      type: data.checkbox,
     };
-    if (newCard.name.length >= 3) {
-      setNameCorrect(true);
-    } else {
-      setNameCorrect(false);
-      cardOk = false;
-    }
-
-    if (newCard.desc.length >= 10) {
-      setDescCorrect(true);
-    } else {
-      setDescCorrect(false);
-      cardOk = false;
-    }
-
-    if (
-      newCard.site.match(
-        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
-      )
-    ) {
-      setSiteCorrect(true);
-    } else {
-      setSiteCorrect(false);
-      cardOk = false;
-    }
-
-    if (imageName.match(/\.(gif|jpe?g|svg?|png)$/i)) {
-      setImageCorrect(true);
-    } else {
-      setImageCorrect(false);
-      cardOk = false;
-    }
-
-    if (Date.parse(newCard.lastReleaseDate) < Date.parse('2023-01-01')) {
-      console.log('+', newCard.lastReleaseDate);
-      setDateCorrect(true);
-    } else {
-      setDateCorrect(false);
-      cardOk = false;
-    }
-
-    if (jsChecked.current?.checked || reChecked.current?.checked || wfChecked.current?.checked) {
-      setTypesCorrect(true);
-    } else {
-      setTypesCorrect(false);
-      cardOk = false;
-    }
-    if (cardOk) {
-      return newCard;
-    }
-    return null;
+    props.addCard(newCard);
+    reset();
   };
 
-  const formSubmit = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault();
-    const newCard = await formValidate();
-    if (newCard) {
-      props.addCard(newCard);
+  const years = [
+    '2010',
+    '2011',
+    '2012',
+    '2013',
+    '2014',
+    '2015',
+    '2016',
+    '2017',
+    '2018',
+    '2019',
+    '2020',
+    '2021',
+    '2022',
+  ];
+  const months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 
-      await setNameCorrect(true);
-      await setImageCorrect(true);
-      await setDescCorrect(true);
-      await setSiteCorrect(true);
-      await setDateCorrect(true);
-      await setTypesCorrect(true);
+  const validateDate = (value: string): boolean => {
+    if (Date.parse(value) < Date.parse('2023-01-01')) return true;
+    return false;
+  };
 
-      if (name.current) name.current.value = '';
-      if (image.current) image.current.value = '';
-      if (desc.current) desc.current.value = '';
-      if (site.current) site.current.value = '';
-      if (fYear.current) fYear.current.value = '2000';
-      if (fMonth.current) fMonth.current.value = 'January';
-      if (lDate.current) lDate.current.value = '';
-      if (jsChecked.current) jsChecked.current.checked = false;
-      if (wfChecked.current) wfChecked.current.checked = false;
-      if (reChecked.current) reChecked.current.checked = false;
-      if (isOpenSourceYes.current) isOpenSourceYes.current.checked = true;
-      if (isOpenSourceNo.current) isOpenSourceNo.current.checked = false;
-
-      props.controlModalOk(true);
+  const validateImage: Validate<string | FileList, IFormValues> = (value) => {
+    if (!value || !value[0]) {
+      return false;
     }
+    //const imageLink = URL.createObjectURL(new Blob([value[0]]));
+    const imageName = value[0] as File;
+    if (!imageName.name.match(/\.(gif|jpe?g|svg?|png)$/i)) {
+      return false;
+    }
+    return true;
+  };
+
+  const validateCheckbox = (value: string[]): boolean => {
+    return value.length > 0;
   };
 
   return (
-    <form className={cl.form}>
-      <NameBlock
-        refForwardName={name as RefObject<HTMLInputElement>}
-        refForwardImage={image as RefObject<HTMLInputElement>}
-        refForwardDesc={desc as RefObject<HTMLTextAreaElement>}
-        nameCorrect={nameCorrect}
-        imageCorrect={imageCorrect}
-        descCorrect={descCorrect}
+    <form className={cl.form} onSubmit={handleSubmit(onSubmit)}>
+      <div className={cl.nameBlock}>
+        <label>
+          Name:
+          <br />
+          <input
+            type={'text'}
+            placeholder="Name"
+            {...register('name', { required: true, minLength: 3, maxLength: 20 })}
+          />
+          <p className={!errors?.name ? cl.errorMsg : [cl.errorMsg, cl.errorMsg_invalid].join(' ')}>
+            Must be 3-20 characters...
+          </p>
+        </label>
+        <label>
+          Upload image:
+          <br />
+          <input
+            type="file"
+            data-testid="image"
+            {...register('image', { validate: validateImage })}
+          />
+          <p
+            className={!errors?.image ? cl.errorMsg : [cl.errorMsg, cl.errorMsg_invalid].join(' ')}
+          >
+            Must be in .PNG / .JPG / .JPEG / .SVG / .GIF format
+          </p>
+        </label>
+        <br />
+        <label className={cl.desc}>
+          Description:
+          <br />
+          <textarea
+            placeholder="Description"
+            {...register('desc', { required: true, minLength: 10 })}
+          />
+          <p className={!errors?.desc ? cl.errorMsg : [cl.errorMsg, cl.errorMsg_invalid].join(' ')}>
+            Must be at least 10 characters
+          </p>
+        </label>
+        <label>
+          Site:
+          <br />
+          <input
+            type="text"
+            placeholder="Site"
+            {...register('site', {
+              pattern:
+                /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/i,
+              required: true,
+            })}
+          />
+          <p className={!errors?.site ? cl.errorMsg : [cl.errorMsg, cl.errorMsg_invalid].join(' ')}>
+            Must be in http(s)://xxx.xx(x) format
+          </p>
+        </label>
+      </div>
+      <div className={cl.dateBlock}>
+        <label>
+          First release year:
+          <br />
+          <select {...register('fYear')}>
+            {...years.map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          First release month:
+          <br />
+          <select {...register('fMonth')}>
+            {...months.map((e) => (
+              <option key={e} value={e}>
+                {e}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
+          Last release date:
+          <br />
+          <Controller
+            name="lDate"
+            control={control}
+            rules={{ validate: validateDate }}
+            render={({ field }) => <input data-testid="lDate" type="date" {...field} />}
+          />
+          <p
+            className={!errors?.lDate ? cl.errorMsg : [cl.errorMsg, cl.errorMsg_invalid].join(' ')}
+          >
+            Must be filled no later than 2022-12-31
+          </p>
+        </label>
+      </div>
+      <div className={cl.switchBlock}>
+        <p>Is open source:</p>
+        <label className={cl.switch}>
+          <input {...register('radio')} type="radio" value="true" defaultChecked={true} />
+          Yes:&nbsp;&nbsp;&nbsp;
+          <input {...register('radio')} type="radio" value="false" />
+          No:
+        </label>
+      </div>
+
+      <Controller
+        control={control}
+        name="checkbox"
+        render={({ field }) => (
+          <div className={cl.typesBlock}>
+            <p>Types:</p>
+            <label>
+              <input
+                type="checkbox"
+                value={ETypes[0]}
+                defaultChecked={false}
+                onChange={(e) => {
+                  const { checked, value } = e.target;
+                  if (checked) {
+                    field.onChange([...field.value, value]);
+                  } else {
+                    field.onChange(field.value.filter((v) => v !== value && v));
+                  }
+                }}
+              />
+              &nbsp;JS library
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value={ETypes[1]}
+                defaultChecked={false}
+                onChange={(e) => {
+                  const { checked, value } = e.target;
+                  if (checked) {
+                    field.onChange([...field.value, value]);
+                  } else {
+                    field.onChange(field.value.filter((v) => v !== value && v));
+                  }
+                }}
+              />
+              &nbsp;Runtime environment
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                value={ETypes[2]}
+                defaultChecked={false}
+                onChange={(e) => {
+                  const { checked, value } = e.target;
+                  if (checked) {
+                    field.onChange([...field.value, value]);
+                  } else {
+                    field.onChange(field.value.filter((v) => v !== value && v));
+                  }
+                }}
+              />
+              &nbsp;WEB framework
+            </label>
+            <p
+              className={
+                !errors.checkbox ? cl.errorMsg : [cl.errorMsg, cl.errorMsg_invalid].join(' ')
+              }
+            >
+              At least one item must be selected
+            </p>
+          </div>
+        )}
+        rules={{ validate: validateCheckbox }}
       />
-      <br />
-      <Site refForward={site as RefObject<HTMLInputElement>} siteCorrect={siteCorrect} />
-      <br />
-      <DateBlock
-        refForwardYear={fYear as RefObject<HTMLSelectElement>}
-        refForwardMonth={fMonth as RefObject<HTMLSelectElement>}
-        refForwardDate={lDate as RefObject<HTMLInputElement>}
-        dateCorrect={dateCorrect}
-      />
-      <br />
-      <SwitchBlock
-        refForwardIsOpenYes={isOpenSourceYes as RefObject<HTMLInputElement>}
-        refForwardIsOpenNo={isOpenSourceNo as RefObject<HTMLInputElement>}
-      />
-      <br />
-      <TypesBlock
-        refForwardJs={jsChecked as RefObject<HTMLInputElement>}
-        refForwardRe={reChecked as RefObject<HTMLInputElement>}
-        refForwardWf={wfChecked as RefObject<HTMLInputElement>}
-        typesCorrect={typesCorrect}
-      />
-      <br />
-      <Button type="submit" onClick={formSubmit}>
+      <Button
+        type="submit"
+        disabled={
+          errors.name ||
+          errors.desc ||
+          errors.image ||
+          errors.site ||
+          errors.lDate ||
+          errors.checkbox
+            ? true
+            : false
+        }
+      >
         Submit
       </Button>
     </form>
