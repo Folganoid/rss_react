@@ -1,20 +1,31 @@
 import Input from '../../../../../components/UI/Input';
-import React, { RefObject } from 'react';
+import React from 'react';
 import cl from './Site.module.scss';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { IFormValues } from '../../FormAddCard';
 
 type IProps = {
-  siteCorrect: boolean;
-  refForward: RefObject<HTMLInputElement>;
+  register: UseFormRegister<IFormValues>;
+  errors: FieldErrors<IFormValues>;
 };
 
 export default function Site(props: IProps) {
-  const { refForward } = props;
   return (
     <label>
       Site:
       <br />
-      <Input name="site" type="text" placeholder="Site" ref={refForward} />
-      <p className={props.siteCorrect ? cl.errorMsg : [cl.errorMsg, cl.errorMsg_invalid].join(' ')}>
+      <Input
+        type="text"
+        placeholder="Site"
+        {...props.register('site', {
+          pattern:
+            /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/i,
+          required: true,
+        })}
+      />
+      <p
+        className={!props.errors?.site ? cl.errorMsg : [cl.errorMsg, cl.errorMsg_invalid].join(' ')}
+      >
         Must be in http(s)://xxx.xx(x) format
       </p>
     </label>

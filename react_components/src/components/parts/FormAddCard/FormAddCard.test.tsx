@@ -76,7 +76,11 @@ describe('FormAddCard components functional', () => {
     expect(checkboxes[2].checked).toEqual(true);
 
     await waitFor(async () => fireEvent.click(checkboxes[0]));
+    await waitFor(async () => fireEvent.click(checkboxes[1]));
+    await waitFor(async () => fireEvent.click(checkboxes[2]));
     expect(checkboxes[0].checked).toEqual(false);
+    expect(checkboxes[1].checked).toEqual(false);
+    expect(checkboxes[2].checked).toEqual(false);
   });
 
   it('FormAddCard form validation', async () => {
@@ -91,9 +95,6 @@ describe('FormAddCard components functional', () => {
     const inpDate = screen.getByTestId('lDate') as HTMLInputElement;
     const inpImage = screen.getByTestId('image') as HTMLInputElement;
 
-    const blob = new Blob(['hello']);
-    const file = new File([blob], 'i_angular.jpg', { type: 'image/jpg' });
-
     // form is not filled
     await waitFor(async () => fireEvent.click(radios[0]));
     await waitFor(async () => fireEvent.change(inpName, { target: { value: 'XX' } }));
@@ -103,7 +104,10 @@ describe('FormAddCard components functional', () => {
     await waitFor(async () => fireEvent.click(btn));
     expect(inpName.value).toEqual('XX');
 
-    await waitFor(async () => user.upload(inpImage, file));
+    const blob2 = new Blob(['hello2']);
+    const file2 = new File([blob2], 'i_angular.txt', { type: 'text/plain' });
+
+    await waitFor(async () => user.upload(inpImage, file2));
     await waitFor(async () => fireEvent.change(inpName, { target: { value: 'XXX' } }));
     await waitFor(async () => fireEvent.click(btn));
     await waitFor(async () => fireEvent.change(selects[0], { target: { value: '' } }));
@@ -120,6 +124,9 @@ describe('FormAddCard components functional', () => {
 
     await waitFor(async () => fireEvent.click(checkboxes[0]));
     await waitFor(async () => fireEvent.click(btn));
+    const blob = new Blob(['hello']);
+    const file = new File([blob], 'i_angular.jpg', { type: 'image/jpg' });
+    await waitFor(async () => user.upload(inpImage, file));
     expect(inpName.value).toEqual('XXX');
 
     await waitFor(async () => fireEvent.click(checkboxes[1]));
@@ -130,6 +137,7 @@ describe('FormAddCard components functional', () => {
     await waitFor(async () => fireEvent.click(btn));
     expect(inpName.value).toEqual('XXX');
 
+    // form filled
     await waitFor(async () => fireEvent.change(inpDate, { target: { value: '2022-01-01' } }));
     await waitFor(async () => fireEvent.click(btn));
 

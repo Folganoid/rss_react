@@ -1,9 +1,11 @@
-import React, { RefObject } from 'react';
+import React from 'react';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { IFormValues } from '../../FormAddCard';
 import cl from './SwitchBlock.module.scss';
 
 type IProps = {
-  refForwardIsOpenYes: RefObject<HTMLInputElement>;
-  refForwardIsOpenNo: RefObject<HTMLInputElement>;
+  register: UseFormRegister<IFormValues>;
+  errors: FieldErrors<IFormValues>;
 };
 
 export default function SwitchBlock(props: IProps) {
@@ -11,19 +13,9 @@ export default function SwitchBlock(props: IProps) {
     <div className={cl.switchBlock}>
       <p>Is open source:</p>
       <label className={cl.switch}>
-        <input
-          type="radio"
-          name="isOpenSource"
-          defaultChecked={true}
-          ref={props.refForwardIsOpenYes}
-        />
+        <input {...props.register('radio')} type="radio" value="true" defaultChecked={true} />
         Yes:&nbsp;&nbsp;&nbsp;
-        <input
-          type="radio"
-          name="isOpenSource"
-          defaultChecked={false}
-          ref={props.refForwardIsOpenNo}
-        />
+        <input {...props.register('radio')} type="radio" value="false" />
         No:
       </label>
     </div>

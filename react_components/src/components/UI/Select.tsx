@@ -4,7 +4,6 @@ import cl from './Select.module.scss';
 type SelectProps = {
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   className?: string;
-  name?: string;
   value?: string;
   options?: { name: string; value: string }[];
 };
