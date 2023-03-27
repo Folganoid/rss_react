@@ -1,7 +1,7 @@
 import React from 'react';
 import cl from './Select.module.scss';
 
-type SelectProps = {
+type SProps = {
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   className?: string;
   value?: string;
@@ -9,7 +9,7 @@ type SelectProps = {
 };
 type Ref = HTMLSelectElement;
 
-const Select = React.forwardRef<Ref, SelectProps>((props, ref) => (
+const Select = React.forwardRef<Ref, SProps>((props, ref) => (
   <select className={cl.select} {...props} ref={ref}>
     {props.options?.map((op) => (
       <option key={op.value} value={op.value}>

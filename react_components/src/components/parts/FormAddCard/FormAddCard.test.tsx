@@ -101,7 +101,9 @@ describe('FormAddCard components functional', () => {
     await waitFor(async () => fireEvent.change(inpDesc, { target: { value: '123456789' } }));
     await waitFor(async () => fireEvent.change(inpSite, { target: { value: 'https://xxx' } }));
     await waitFor(async () => fireEvent.change(inpDate, { target: { value: '2024-01-01' } }));
+    expect(btn.disabled).toBeFalsy();
     await waitFor(async () => fireEvent.click(btn));
+    expect(btn.disabled).toBeTruthy();
     expect(inpName.value).toEqual('XX');
 
     const blob2 = new Blob(['hello2']);
@@ -139,7 +141,9 @@ describe('FormAddCard components functional', () => {
 
     // form filled
     await waitFor(async () => fireEvent.change(inpDate, { target: { value: '2022-01-01' } }));
+    expect(btn.disabled).toBeFalsy();
     await waitFor(async () => fireEvent.click(btn));
+    expect(btn.disabled).toBeFalsy();
 
     expect(inpName.value).toEqual('');
     expect(inpDesc.value).toEqual('');
