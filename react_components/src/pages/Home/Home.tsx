@@ -2,16 +2,22 @@ import Input from '../../components/UI/Input';
 import React, { KeyboardEvent, useState } from 'react';
 import cl from './Home.module.scss';
 import Api from '../../services/API/Api';
+import CardHome, { ICardHome } from '../../components/parts/CardHome/CardHome';
 
 export default function Home() {
-  const [search, setSearch] = useState(localStorage.getItem('search') || '');
+  const [search, setSearch] = useState<string>(localStorage.getItem('search') || '');
+  const [data, setData] = useState<ICardHome[]>([]);
   const ApiService = new Api();
 
   const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      localStorage.setItem('search', search);
-      const data = await ApiService.getCharacterByName(search);
-      console.log(data);
+      try {
+        localStorage.setItem('search', search);
+        const res = await ApiService.getCharacterByName(search);
+        if (res) setData(res);
+      } catch (err) {
+        console.log('Error: something wrong with API...');
+      }
     }
   };
 
@@ -33,7 +39,11 @@ export default function Home() {
           value={search}
         />
       </div>
-      <div className={cl.main__cards}></div>
+      <div className={cl.main__cards}>
+        {data.map((el: ICardHome) => (
+          <CardHome key={el._id} {...el} />
+        ))}
+      </div>
     </main>
   );
 }
