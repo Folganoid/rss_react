@@ -1,0 +1,14 @@
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+}
+
+
+@media (max-width: 840px) {
+  .cards {
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+}
