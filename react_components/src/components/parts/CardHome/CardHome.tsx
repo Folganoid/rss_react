@@ -13,6 +13,7 @@ export interface ICardHome {
   hair?: string;
   name: string;
   wikiUrl?: string;
+  setModal?: (card: ICardHome) => void;
 }
 
 export default function CardHome(props: ICardHome) {
@@ -24,8 +25,12 @@ export default function CardHome(props: ICardHome) {
     image = `${import.meta.env.VITE_IMAGES_DIR}male.png`;
   }
 
+  const cardHandler = () => {
+    if (props.setModal) props.setModal(props);
+  };
+
   return (
-    <article className={cl.card}>
+    <article className={cl.card} onClick={cardHandler}>
       <img src={image} alt={props.name} className={cl.card__image} />
       <div className={cl.card__body}>
         <h2 className={cl.card__title}>{props.name}</h2>

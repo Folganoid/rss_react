@@ -5,12 +5,16 @@ import Loader from '../../components/parts/Loader/Loader';
 import CardList from '../../components/parts/CardList/CardList';
 import ModalError from '../../components/parts/ModalError/ModalError';
 import useLoadDataCards from '../../hooks/LoadCardData';
+import { ICardHome } from '../../components/parts/CardHome/CardHome';
+import ModalCard from '../../components/parts/ModalCard/ModalCard';
 
 export default function Home() {
   const [search, setSearch] = useState<string>(localStorage.getItem('search') || '');
   const { data, errors, isLoading, loadData } = useLoadDataCards();
+  const [modal, setModal] = useState<ICardHome | null>(null);
+
   const getCardList = useMemo(() => {
-    return <CardList cardList={data} />;
+    return <CardList cardList={data} setModal={setModal} />;
   }, [data]);
 
   const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
@@ -33,6 +37,7 @@ export default function Home() {
     <main className={[cl.main, 'main'].join(' ')}>
       {errors.length ? <ModalError errors={errors} /> : ''}
       {isLoading && <Loader />}
+      {modal && <ModalCard {...modal} setModal={setModal} />}
       <h1 className={cl.main__title}>Home page</h1>
       <br />
       <h2 className={cl.main__title}>Let&apos;s search Lord of the Rings characters by name...</h2>

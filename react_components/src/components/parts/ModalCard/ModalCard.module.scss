@@ -1,0 +1,110 @@
+.modal {
+    top: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+  
+    &__card {
+      cursor: default;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      height: 500px;
+      max-width: 800px;
+      min-width: 500px;
+      background: rgb(137, 137, 137);
+      border-radius: 10px;
+      -webkit-box-shadow: 9px 10px 15px -5px #000000;
+      box-shadow: 9px 10px 15px -5px #000000;
+    }
+
+    &__image {
+      height: auto;
+      width: auto;
+      max-width: 30%;
+      max-height: 120px;
+      margin: 5px;
+      border-radius: 10px;
+      justify-self: flex-start;
+      opacity: 0.85;
+      background: inherit;
+    }
+  
+    &__body {
+      width: 95%;
+      margin: 5px;
+      background: inherit;
+      display: flex;
+    }
+  
+    &__title {
+      background: inherit;
+      font-size: 2.6rem;
+      text-align: center;
+      flex-grow: 1;
+    }
+  
+    &__desc {
+      background: inherit;
+      width: 95%;
+      margin: 20px;
+      text-align: justify;
+  
+      hr {
+        margin: 10px 0;
+        border: 1px dashed black;
+        background: inherit;
+      }
+  
+      p {
+        text-align: start;
+        background: inherit;
+        a {
+          font-weight: 700;
+          background: inherit;
+        }
+    
+        b {
+          font-weight: 700;
+          background: inherit;
+        }
+        .boldGrey {
+          color: lightgrey;
+          background: inherit;
+          font-weight: 900;
+        }
+        .grey {
+          color: lightgrey;
+          background: inherit;
+        }
+      }
+    }
+  }
+
+  .close {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 2rem;
+    font-weight: 900;
+    height: 50px;
+    width: 50px;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    transition: all 250ms ease;
+
+    &:hover {
+      background-color: grey;
+    }
+  }
+
+  

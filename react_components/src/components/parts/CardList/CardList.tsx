@@ -4,6 +4,7 @@ import cl from './CardList.module.scss';
 
 interface IProps {
   cardList: ICardHome[];
+  setModal?: (card: ICardHome) => void;
 }
 
 export default function CardList(props: IProps) {
@@ -14,7 +15,7 @@ export default function CardList(props: IProps) {
       </h1>
       <div className={cl.cards}>
         {props.cardList.map((el: ICardHome) => (
-          <CardHome key={el._id} {...el} />
+          <CardHome key={el._id} {...el} setModal={props.setModal} />
         ))}
       </div>
     </>
