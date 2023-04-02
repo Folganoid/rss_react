@@ -1,15 +1,17 @@
 import Input from '../../components/UI/Input';
 import React, { KeyboardEvent, useEffect, useMemo, useState } from 'react';
 import cl from './Home.module.scss';
-import Api from '../../services/API/Api';
-import { ICardHome } from '../../components/parts/CardHome/CardHome';
 import Loader from '../../components/parts/Loader/Loader';
 import CardList from '../../components/parts/CardList/CardList';
+import ModalError from '../../components/parts/ModalError/ModalError';
+import useLoadDataCards from '../../hooks/LoadCardData';
 
 export default function Home() {
   const [search, setSearch] = useState<string>(localStorage.getItem('search') || '');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [data, setData] = useState<ICardHome[]>([]);
+  const { data, errors, isLoading, loadData } = useLoadDataCards();
+  const getCardList = useMemo(() => {
+    return <CardList cardList={data} />;
+  }, [data]);
 
   const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && localStorage.getItem('search') !== search) {
@@ -22,29 +24,14 @@ export default function Home() {
     if (e.target.value.match(/^[a-zA-Z]*$/)) setSearch(e.target.value);
   };
 
-  const loadData = async (src: string) => {
-    try {
-      setIsLoading(true);
-      const ApiService = new Api();
-      const res = await ApiService.getCharacterByName(src);
-      if (res) setData(res);
-    } catch (err) {
-      console.log('Error: something wrong with API...');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const getCardList = useMemo(() => {
-    return <CardList cardList={data} />;
-  }, [data]);
-
   useEffect(() => {
     loadData(localStorage.getItem('search') || '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <main className={[cl.main, 'main'].join(' ')}>
+      {errors.length ? <ModalError errors={errors} /> : ''}
       {isLoading && <Loader />}
       <h1 className={cl.main__title}>Home page</h1>
       <br />
@@ -58,7 +45,7 @@ export default function Home() {
           value={search}
         />
       </div>
-      {getCardList}
+      {data.length ? getCardList : <h1 className={cl.notFound}>Characters not found...</h1>}
     </main>
   );
 }

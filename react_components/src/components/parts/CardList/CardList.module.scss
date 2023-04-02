@@ -5,6 +5,15 @@
     width: 100%;
 }
 
+.title {
+  text-align: center;
+  margin: 10px 0;
+
+  b {
+    font-weight: 700;
+  }
+}
+
 
 @media (max-width: 840px) {
   .cards {

@@ -8,10 +8,15 @@ interface IProps {
 
 export default function CardList(props: IProps) {
   return (
-    <div className={cl.cards}>
-      {props.cardList.map((el: ICardHome) => (
-        <CardHome key={el._id} {...el} />
-      ))}
-    </div>
+    <>
+      <h1 className={cl.title}>
+        Found <b>{props.cardList.length}</b> characters...
+      </h1>
+      <div className={cl.cards}>
+        {props.cardList.map((el: ICardHome) => (
+          <CardHome key={el._id} {...el} />
+        ))}
+      </div>
+    </>
   );
 }
