@@ -1,8 +1,8 @@
 .cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
 }
 
 .title {
@@ -13,7 +13,6 @@
     font-weight: 700;
   }
 }
-
 
 @media (max-width: 840px) {
   .cards {
