@@ -3,7 +3,6 @@ import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import AppRouter from './AppRouter';
-import data from '../../data/frameworks.test.json';
 
 describe('AppRouter', () => {
   it('AppRouter 404 page works', () => {

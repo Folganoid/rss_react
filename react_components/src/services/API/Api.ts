@@ -7,8 +7,8 @@ export default class Api {
     Authorization: string;
   };
 
-  constructor() {
-    this.path = import.meta.env.VITE_API_PATH;
+  constructor(path: string) {
+    this.path = path;
     this.headers = {
       'Content-Type': 'application/json',
       Authorization: import.meta.env.VITE_API_KEY,
@@ -18,7 +18,7 @@ export default class Api {
   getCharacterByName(name = '', limit = 0): Promise<ICardHome[] | never> {
     return fetch(
       `${this.path}/character${name ? `?name=/${name}/i` : ''}${
-        limit > 0 ? `?limit=${limit}` : ''
+        limit > 0 ? `&limit=${limit}` : ''
       }`,
       { headers: this.headers }
     )

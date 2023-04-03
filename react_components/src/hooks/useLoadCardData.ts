@@ -11,7 +11,7 @@ export default function useLoadDataCards() {
   const loadDataByName = async (src: string): Promise<void> => {
     try {
       setIsLoading(true);
-      const ApiService = new Api();
+      const ApiService = new Api(import.meta.env.VITE_API_PATH);
       const res = await ApiService.getCharacterByName(src);
       if (res) setData(res);
     } catch (err) {

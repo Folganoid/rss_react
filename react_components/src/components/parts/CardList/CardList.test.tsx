@@ -1,5 +1,5 @@
 import React from 'react';
-import { describe, it, vi } from 'vitest';
+import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import CardList from './CardList';
 
@@ -33,7 +33,7 @@ describe('CardList', () => {
     },
   ];
 
-  it('CardList has data fields', () => {
+  it('CardList has data fields', async () => {
     render(<CardList cardList={data} />);
     expect(screen.getAllByRole('article').length).toEqual(2);
     expect(screen.getAllByRole('img').length).toEqual(2);
