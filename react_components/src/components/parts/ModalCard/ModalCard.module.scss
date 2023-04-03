@@ -20,7 +20,7 @@
     align-items: center;
     height: 500px;
     max-width: 800px;
-    min-width: 500px;
+    min-width: 600px;
     background: rgb(137, 137, 137);
     border-radius: 10px;
     -webkit-box-shadow: 9px 10px 15px -5px #000000;
@@ -104,5 +104,15 @@
 
   &:hover {
     background-color: grey;
+  }
+}
+
+@media (max-width: 640px) {
+  .modal {
+  
+    &__card {
+      max-width: 500px;
+      min-width: 500px;
+    }
   }
 }

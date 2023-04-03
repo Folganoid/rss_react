@@ -4,23 +4,23 @@ import cl from './Home.module.scss';
 import Loader from '../../components/parts/Loader/Loader';
 import CardList from '../../components/parts/CardList/CardList';
 import ModalError from '../../components/parts/ModalError/ModalError';
-import useLoadDataCards from '../../hooks/LoadCardData';
+import useLoadDataCards from '../../hooks/useLoadCardData';
 import { ICardHome } from '../../components/parts/CardHome/CardHome';
 import ModalCard from '../../components/parts/ModalCard/ModalCard';
 
 export default function Home() {
   const [search, setSearch] = useState<string>(localStorage.getItem('search') || '');
-  const { data, errors, isLoading, loadData } = useLoadDataCards();
   const [modal, setModal] = useState<ICardHome | null>(null);
+  const { data, errors, isLoading, loadDataByName } = useLoadDataCards();
 
   const getCardList = useMemo(() => {
     return <CardList cardList={data} setModal={setModal} />;
   }, [data]);
 
   const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && localStorage.getItem('search') !== search) {
+    if (e.key === 'Enter') {
       localStorage.setItem('search', search);
-      loadData(search);
+      loadDataByName(search);
     }
   };
 
@@ -29,7 +29,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    loadData(localStorage.getItem('search') || '');
+    loadDataByName(localStorage.getItem('search') || '');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

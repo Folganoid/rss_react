@@ -9,7 +9,7 @@ describe('AppRouter', () => {
   it('AppRouter 404 page works', () => {
     render(
       <MemoryRouter initialEntries={['/not-exist']}>
-        <AppRouter data={data} />
+        <AppRouter />
       </MemoryRouter>
     );
     expect(screen.getByText(/^404(.+)page(.+|)/i)).toBeInTheDocument();
@@ -18,7 +18,7 @@ describe('AppRouter', () => {
   it('AppRouter /about page works', () => {
     render(
       <MemoryRouter initialEntries={['/about']}>
-        <AppRouter data={data} />
+        <AppRouter />
       </MemoryRouter>
     );
     expect(screen.getByText(/^About(.+)page(.+|)/i)).toBeInTheDocument();
@@ -27,7 +27,7 @@ describe('AppRouter', () => {
   it('AppRouter / work', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
-        <AppRouter data={data} />
+        <AppRouter />
       </MemoryRouter>
     );
     expect(screen.getByText(/^Home(.+)page(.+|)/i)).toBeInTheDocument();

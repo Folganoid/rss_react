@@ -1,24 +1,14 @@
 import { ICardHome } from '../components/parts/CardHome/CardHome';
 import { useState } from 'react';
 import Api from '../services/API/Api';
+import useAddError from './useAddError';
 
 export default function useLoadDataCards() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<ICardHome[]>([]);
-  const [errors, setErrors] = useState<string[]>([]);
+  const { errors, addErrors } = useAddError(5000);
 
-  const addErrors = (error: string) => {
-    setErrors((prev) => {
-      return [...prev, error];
-    });
-    setTimeout(() => {
-      setErrors((prev) => {
-        return prev.slice(1);
-      });
-    }, 5000);
-  };
-
-  const loadData = async (src: string): Promise<void> => {
+  const loadDataByName = async (src: string): Promise<void> => {
     try {
       setIsLoading(true);
       const ApiService = new Api();
@@ -35,7 +25,6 @@ export default function useLoadDataCards() {
     data,
     errors,
     isLoading,
-    addErrors,
-    loadData,
+    loadDataByName,
   };
 }
