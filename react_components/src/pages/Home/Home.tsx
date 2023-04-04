@@ -40,7 +40,7 @@ export default function Home() {
       {modal && <ModalCard {...modal} setModal={setModal} />}
       <h1 className={cl.main__title}>Home page</h1>
       <br />
-      <h2 className={cl.main__title}>Let&apos;s search Lord of the Rings characters by name...</h2>
+      <h2 className={cl.main__title}>Let&apos;s search Rick and Morty characters by name...</h2>
       <div className={cl.main__search}>
         <br />
         <Input

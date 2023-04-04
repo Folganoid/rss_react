@@ -2,17 +2,15 @@ import React from 'react';
 import cl from './CardHome.module.scss';
 
 export interface ICardHome {
-  _id: string;
-  height?: string;
-  race?: string;
-  gender?: string;
-  birth?: string;
-  spouse?: string;
-  death?: string;
-  realm?: string;
-  hair?: string;
+  id: number;
   name: string;
-  wikiUrl?: string;
+  status: string;
+  species: string;
+  type: string;
+  gender: string;
+  image: string;
+  created: string;
+  url: string;
   setModal?: (card: ICardHome) => void;
 }
 
@@ -37,15 +35,11 @@ export default function CardHome(props: ICardHome) {
         <div className={cl.card__desc}>
           <p>
             <b>Gender: </b>
-            <span className={cl.grey}>
-              {!props.gender || props.gender?.includes('NaN') ? '?' : props.gender}
-            </span>
+            <span className={cl.grey}>{props.gender}</span>
           </p>
           <p>
-            <b>Race: </b>
-            <span className={cl.boldGrey}>
-              {!props.race || props.race?.includes('NaN') ? '?' : props.race}
-            </span>
+            <b>Species: </b>
+            <span className={cl.boldGrey}>{props.species}</span>
           </p>
         </div>
       </div>

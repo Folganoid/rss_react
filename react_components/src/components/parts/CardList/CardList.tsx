@@ -15,7 +15,7 @@ export default function CardList(props: IProps) {
       </h1>
       <div className={cl.cards}>
         {props.cardList.map((el: ICardHome) => (
-          <CardHome key={el._id} {...el} setModal={props.setModal} />
+          <CardHome key={el.id} {...el} setModal={props.setModal} />
         ))}
       </div>
     </>

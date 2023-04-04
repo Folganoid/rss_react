@@ -4,28 +4,55 @@ export default class Api {
   path: string;
   headers: {
     'Content-Type': string;
-    Authorization: string;
   };
 
   constructor(path: string) {
     this.path = path;
     this.headers = {
       'Content-Type': 'application/json',
-      Authorization: import.meta.env.VITE_API_KEY,
     };
   }
 
-  getCharacterByName(name = '', limit = 0): Promise<ICardHome[] | never> {
-    return fetch(
-      `${this.path}/character${name ? `?name=/${name}/i` : ''}${
-        limit > 0 ? `&limit=${limit}` : ''
-      }`,
-      { headers: this.headers }
-    )
+  getCharacter(name = '', page = 1) {
+    return fetch(`${this.path}/character?name=${name}${page > 1 ? `&page=${page}` : ''}`, {
+      headers: this.headers,
+    })
       .then((res) => res.json())
       .then((data) => {
-        if (data && data.docs) return data.docs;
-        throw new Error('Something wrong with API... Connect to the support.');
+        const next = data && data.info && data.info.next;
+        if (data && data.results) return [data.results, next];
+        if (data && data.error && data.error === 'There is nothing here') {
+          return [[], false];
+        }
+        throw new Error('Something wrong with API... Try connect with support.');
+      })
+      .catch((err: Error) => {
+        throw new Error(err.message);
+      });
+  }
+
+  async getCharacterByName(name = ''): Promise<ICardHome[] | never> {
+    try {
+      let arr: ICardHome[] = [];
+      for (let page = 1; ; page++) {
+        const res = await this.getCharacter(name, page);
+        if (res[0] && res[0].length) {
+          arr = [...arr, ...res[0]];
+        }
+        if (!res || !res[1] || !res[0].length || page > 50) break;
+      }
+      return arr;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  getCharacterById(id = ''): Promise<ICardHome | never> {
+    return fetch(`${this.path}/character/${id}`, { headers: this.headers })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.id) return data;
+        throw new Error('Something wrong with API... Try connect with support.');
       })
       .catch((err: Error) => {
         throw new Error(err.message);
