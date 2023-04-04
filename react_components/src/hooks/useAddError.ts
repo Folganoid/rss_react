@@ -3,7 +3,7 @@ import { useState } from 'react';
 export default function useAddError(delay = 5000) {
   const [errors, setErrors] = useState<string[]>([]);
 
-  const addErrors = (error: string) => {
+  const addErrors = (error: string): void => {
     setErrors((prev) => {
       return [...prev, error];
     });

@@ -16,7 +16,6 @@ export interface ICardHome {
 
 export interface ICardHomeWithSets extends ICardHome {
   setModal: (card: ICardHome) => void;
-  setIsLoading: (arg: boolean) => void;
 }
 
 export default function CardHome(props: ICardHomeWithSets) {
@@ -28,7 +27,7 @@ export default function CardHome(props: ICardHomeWithSets) {
     image = `${import.meta.env.VITE_IMAGES_DIR}male.png`;
   }
 
-  const { loadDataById } = useLoadCard(props.setModal, props.setIsLoading);
+  const { loadDataById } = useLoadCard(props.setModal);
   const cardHandler = () => {
     loadDataById(props.id);
   };

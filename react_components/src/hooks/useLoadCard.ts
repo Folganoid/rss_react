@@ -1,28 +1,26 @@
+import { ErrorContext, LoaderContext } from '../components/parts/Layout';
 import { ICardHome } from '../components/parts/CardHome/CardHome';
 import Api from '../services/API/Api';
-import useAddError from './useAddError';
+import { useContext } from 'react';
 
-export default function useLoadCard(
-  setModal: (card: ICardHome) => void,
-  setIsLoading: (arg: boolean) => void
-) {
-  const { errors, addErrors } = useAddError(5000);
+export default function useLoadCard(setModal: (card: ICardHome) => void) {
+  const loaderContext = useContext(LoaderContext);
+  const errorContext = useContext(ErrorContext);
 
   const loadDataById = async (id: number): Promise<void> => {
     try {
-      setIsLoading(true);
+      loaderContext.setIsLoading(true);
       const ApiService = new Api(import.meta.env.VITE_API_PATH);
       const res = await ApiService.getCharacterById(id);
       if (res) setModal(res);
     } catch (err) {
-      addErrors('Error: something wrong with API...');
+      errorContext.addErrors('Error: something wrong with API...');
     } finally {
-      setIsLoading(false);
+      loaderContext.setIsLoading(false);
     }
   };
 
   return {
-    errors,
     loadDataById,
   };
 }
