@@ -47,7 +47,7 @@ export default class Api {
     }
   }
 
-  getCharacterById(id = ''): Promise<ICardHome | never> {
+  getCharacterById(id: number): Promise<ICardHome | never> {
     return fetch(`${this.path}/character/${id}`, { headers: this.headers })
       .then((res) => res.json())
       .then((data) => {

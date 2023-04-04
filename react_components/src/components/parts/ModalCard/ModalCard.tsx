@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import cl from './ModalCard.module.scss';
 import { ICardHome } from '../CardHome/CardHome';
 
@@ -7,7 +7,8 @@ interface IProps extends ICardHome {
 }
 
 export default function ModalCard(props: IProps) {
-  const closeHandler = () => {
+  const closeHandler = (e: MouseEvent<HTMLElement>) => {
+    if (e.target !== e.currentTarget) return;
     props.setModal(null);
   };
 

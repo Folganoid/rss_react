@@ -11,10 +11,11 @@ import ModalCard from '../../components/parts/ModalCard/ModalCard';
 export default function Home() {
   const [search, setSearch] = useState<string>(localStorage.getItem('search') || '');
   const [modal, setModal] = useState<ICardHome | null>(null);
-  const { data, errors, isLoading, loadDataByName } = useLoadDataCards();
+  const [isLoading, setIsLoading] = useState(false);
+  const { data, errors, loadDataByName } = useLoadDataCards(setIsLoading);
 
   const getCardList = useMemo(() => {
-    return <CardList cardList={data} setModal={setModal} />;
+    return <CardList cardList={data} setModal={setModal} setIsLoading={setIsLoading} />;
   }, [data]);
 
   const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
@@ -40,7 +41,7 @@ export default function Home() {
       {modal && <ModalCard {...modal} setModal={setModal} />}
       <h1 className={cl.main__title}>Home page</h1>
       <br />
-      <h2 className={cl.main__title}>Let&apos;s search Rick and Morty characters by name...</h2>
+      <h2 className={cl.main__title}>Let&apos;s search Rick & Morty characters by name...</h2>
       <div className={cl.main__search}>
         <br />
         <Input

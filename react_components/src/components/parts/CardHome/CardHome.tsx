@@ -1,5 +1,6 @@
 import React from 'react';
 import cl from './CardHome.module.scss';
+import useLoadCard from '../../../hooks/useLoadCard';
 
 export interface ICardHome {
   id: number;
@@ -11,10 +12,14 @@ export interface ICardHome {
   image: string;
   created: string;
   url: string;
-  setModal?: (card: ICardHome) => void;
 }
 
-export default function CardHome(props: ICardHome) {
+export interface ICardHomeWithSets extends ICardHome {
+  setModal: (card: ICardHome) => void;
+  setIsLoading: (arg: boolean) => void;
+}
+
+export default function CardHome(props: ICardHomeWithSets) {
   let image = `${import.meta.env.VITE_IMAGES_DIR}unknown.svg`;
   if (props.gender?.toLocaleLowerCase() === 'female') {
     image = `${import.meta.env.VITE_IMAGES_DIR}female.png`;
@@ -23,8 +28,9 @@ export default function CardHome(props: ICardHome) {
     image = `${import.meta.env.VITE_IMAGES_DIR}male.png`;
   }
 
+  const { loadDataById } = useLoadCard(props.setModal, props.setIsLoading);
   const cardHandler = () => {
-    if (props.setModal) props.setModal(props);
+    loadDataById(props.id);
   };
 
   return (
