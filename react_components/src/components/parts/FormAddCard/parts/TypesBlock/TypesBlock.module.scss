@@ -1,0 +1,22 @@
+.typesBlock {
+  display: flex;
+  flex-direction: column;
+  margin: 0 20px;
+  background: inherit;
+
+  p {
+    background: inherit;
+  }
+}
+
+.errorMsg {
+  font-size: 0.6rem;
+  color: red;
+  background: inherit;
+  visibility: hidden;
+
+  &_invalid {
+    display: block;
+    visibility: visible;
+  }
+}

@@ -1,0 +1,33 @@
+.footer {
+  background: rgb(217, 217, 217);
+  background: linear-gradient(218deg, rgba(217, 217, 217, 1) 41%, rgba(54, 54, 54, 1) 100%);
+  height: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 0px;
+  z-index: 200;
+  opacity: 98%;
+
+  a {
+    background: none;
+    margin: 0 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__logo {
+    height: 25px;
+    background: none;
+    margin: 0;
+    transition: all 250ms ease;
+
+    &:hover {
+      transform: scale(1.2);
+      filter: invert(100);
+    }
+  }
+}
