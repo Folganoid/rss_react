@@ -20,8 +20,19 @@ describe('Home', () => {
     expect(screen.getAllByRole('article').length).toEqual(2);
   });
 
-  it('Home Local storage is empty', () => {
-    expect(localStorage.getItem('search')).toBe('');
+  it('Home search restore from Local storage', () => {
+    localStorage.setItem('search', '111');
+    render(<Home data={data} />);
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+    expect(input.value).toBe('111');
+  });
+
+  it('Home input empty value works', () => {
+    render(<Home data={data} />);
+    const input = screen.getByRole('textbox') as HTMLInputElement;
+    fireEvent.change(input, { target: { value: 'xxx' } });
+    fireEvent.change(input, { target: { value: '' } });
+    expect(input.value).toBe('');
   });
 
   it('Home input works', () => {

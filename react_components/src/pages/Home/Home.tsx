@@ -1,36 +1,39 @@
 import Input from '../../components/UI/Input';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import Card, { ICard } from '../../components/parts/Card/Card';
 import cl from './Home.module.scss';
 
-export default class Home extends React.Component<{ data: ICard[] }, { search: string }> {
-  state = {
-    search: localStorage.getItem('search') || '',
+export default function Home(props: { data: ICard[] }) {
+  const inputRef: React.RefObject<HTMLInputElement> = useRef(null);
+  let val = inputRef.current?.value;
+  const changeSearch = (): void => {
+    if (inputRef && inputRef.current) val = inputRef.current.value;
   };
 
-  changeSearch = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ search: e.target.value });
-  };
+  useEffect(() => {
+    return () => {
+      if (val) localStorage.setItem('search', val);
+      if (val === '') localStorage.setItem('search', '');
+    };
+  }, [val]);
 
-  componentWillUnmount() {
-    localStorage.setItem('search', this.state.search);
-  }
-
-  render() {
-    const search = this.state.search;
-    return (
-      <main className={[cl.main, 'main'].join(' ')}>
-        <h1 className={cl.main__title}>Home page</h1>
-        <div className={cl.main__search}>
-          <br />
-          <Input placeholder={'Search'} onChange={this.changeSearch} value={search} />
-        </div>
-        <div className={cl.main__cards}>
-          {this.props.data.map((el) => {
-            return <Card key={el.id} {...el} />;
-          })}
-        </div>
-      </main>
-    );
-  }
+  return (
+    <main className={[cl.main, 'main'].join(' ')}>
+      <h1 className={cl.main__title}>Home page</h1>
+      <div className={cl.main__search}>
+        <br />
+        <Input
+          placeholder={'Search'}
+          onChange={changeSearch}
+          ref={inputRef}
+          defaultValue={localStorage.getItem('search') || ''}
+        />
+      </div>
+      <div className={cl.main__cards}>
+        {props.data.map((el) => {
+          return <Card key={el.id} {...el} />;
+        })}
+      </div>
+    </main>
+  );
 }

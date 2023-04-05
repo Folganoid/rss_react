@@ -1,37 +1,23 @@
-import React, { Component, RefObject } from 'react';
+import React from 'react';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { IFormValues } from '../../FormAddCard';
 import cl from './SwitchBlock.module.scss';
 
 type IProps = {
-  refForwardIsOpenYes: RefObject<HTMLInputElement>;
-  refForwardIsOpenNo: RefObject<HTMLInputElement>;
+  register: UseFormRegister<IFormValues>;
+  errors: FieldErrors<IFormValues>;
 };
 
-export default class SwitchBlock extends Component<IProps> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <div className={cl.switchBlock}>
-        <p>Is open source:</p>
-        <label className={cl.switch}>
-          <input
-            type="radio"
-            name="isOpenSource"
-            defaultChecked={true}
-            ref={this.props.refForwardIsOpenYes}
-          />
-          Yes:&nbsp;&nbsp;&nbsp;
-          <input
-            type="radio"
-            name="isOpenSource"
-            defaultChecked={false}
-            ref={this.props.refForwardIsOpenNo}
-          />
-          No:
-        </label>
-      </div>
-    );
-  }
+export default function SwitchBlock(props: IProps) {
+  return (
+    <div className={cl.switchBlock}>
+      <p>Is open source:</p>
+      <label className={cl.switch}>
+        <input {...props.register('radio')} type="radio" value="true" defaultChecked={true} />
+        Yes:&nbsp;&nbsp;&nbsp;
+        <input {...props.register('radio')} type="radio" value="false" />
+        No:
+      </label>
+    </div>
+  );
 }
