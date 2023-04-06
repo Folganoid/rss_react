@@ -1,39 +1,52 @@
 import Input from '../../components/UI/Input';
-import React, { useEffect, useRef } from 'react';
-import Card, { ICard } from '../../components/parts/Card/Card';
+import React, { KeyboardEvent, useEffect, useMemo, useState } from 'react';
 import cl from './Home.module.scss';
+import CardList from '../../components/parts/CardList/CardList';
+import useLoadDataCards from '../../hooks/useLoadCardData';
+import { ICardHome } from '../../components/parts/CardHome/CardHome';
+import ModalCard from '../../components/parts/ModalCard/ModalCard';
 
-export default function Home(props: { data: ICard[] }) {
-  const inputRef: React.RefObject<HTMLInputElement> = useRef(null);
-  let val = inputRef.current?.value;
-  const changeSearch = (): void => {
-    if (inputRef && inputRef.current) val = inputRef.current.value;
+export default function Home() {
+  const [search, setSearch] = useState<string>(localStorage.getItem('search') || '');
+  const [modal, setModal] = useState<ICardHome | null>(null);
+  const { data, loadDataByName } = useLoadDataCards();
+
+  const getCardList = useMemo(() => {
+    return <CardList cardList={data} setModal={setModal} />;
+  }, [data]);
+
+  const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      localStorage.setItem('search', search);
+      loadDataByName(search);
+    }
+  };
+
+  const handlerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.value.match(/^[a-zA-Z]*$/)) setSearch(e.target.value);
   };
 
   useEffect(() => {
-    return () => {
-      if (val) localStorage.setItem('search', val);
-      if (val === '') localStorage.setItem('search', '');
-    };
-  }, [val]);
+    loadDataByName(localStorage.getItem('search') || '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className={[cl.main, 'main'].join(' ')}>
+      {modal && <ModalCard {...modal} setModal={setModal} />}
       <h1 className={cl.main__title}>Home page</h1>
+      <br />
+      <h2 className={cl.main__title}>Let&apos;s search Rick & Morty characters by name...</h2>
       <div className={cl.main__search}>
         <br />
         <Input
-          placeholder={'Search'}
-          onChange={changeSearch}
-          ref={inputRef}
-          defaultValue={localStorage.getItem('search') || ''}
+          placeholder={'Latin letters only'}
+          onKeyDown={handleKeyDown}
+          onChange={handlerChange}
+          value={search}
         />
       </div>
-      <div className={cl.main__cards}>
-        {props.data.map((el) => {
-          return <Card key={el.id} {...el} />;
-        })}
-      </div>
+      {data.length ? getCardList : <h1 className={cl.notFound}>Characters not found...</h1>}
     </main>
   );
 }

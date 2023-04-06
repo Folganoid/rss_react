@@ -1,0 +1,97 @@
+.card {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(25% - 20px);
+  min-height: 90px;
+  background: rgb(137, 137, 137);
+  margin: 10px;
+  border-radius: 10px;
+  -webkit-box-shadow: 9px 10px 15px -5px #000000;
+  box-shadow: 9px 10px 15px -5px #000000;
+  padding-bottom: 10px;
+  transition: all 200ms ease;
+
+  &:hover {
+    cursor: pointer;
+    background: rgb(167, 167, 167);
+    transform: scale(1.02);
+    -webkit-box-shadow: 9px 10px 15px -5px #000000;
+    box-shadow: 9px 10px 15px -5px #000000;
+  }
+
+  &__image {
+    height: auto;
+    width: auto;
+    max-width: 30%;
+    max-height: 80px;
+    margin: 5px;
+    border-radius: 10px;
+    justify-self: flex-start;
+    opacity: 0.85;
+    background: inherit;
+  }
+
+  &__body {
+    width: 40%;
+    margin: 5px;
+    background: inherit;
+    justify-self: center;
+    flex-grow: 1;
+    height: 50px;
+  }
+
+  &__title {
+    text-align: center;
+    margin-bottom: 10px;
+    background: inherit;
+    font-size: 1rem;
+  }
+
+  &__desc {
+    background: inherit;
+    width: 100%;
+    margin: 0px;
+    text-align: justify;
+
+    hr {
+      margin: 10px 0;
+      border: 1px dashed black;
+      background: inherit;
+    }
+
+    p {
+      text-align: start;
+      background: inherit;
+      a {
+        font-weight: 700;
+        background: inherit;
+      }
+
+      b {
+        font-weight: 700;
+        background: inherit;
+      }
+      .boldGrey {
+        color: lightgrey;
+        background: inherit;
+        font-weight: 900;
+      }
+      .grey {
+        color: lightgrey;
+        background: inherit;
+      }
+    }
+  }
+}
+
+@media (min-width: 841px) and (max-width: 1080px) {
+  .card {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 840px) {
+  .card {
+    width: calc(100% - 20px);
+  }
+}
