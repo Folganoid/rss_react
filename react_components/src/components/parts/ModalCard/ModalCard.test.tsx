@@ -5,39 +5,33 @@ import ModalCard from './ModalCard';
 
 describe('ModalCard', () => {
   const data = {
-    _id: '1',
-    height: '2',
-    race: 'race1',
+    id: 1,
+    name: '2',
+    status: '3',
+    species: '4',
+    type: '5',
     gender: 'Female',
-    birth: '5',
-    spouse: '6',
-    death: '7',
-    realm: '8',
-    hair: '9',
-    name: '10',
-    wikiUrl: 'NaN',
+    image: '7',
+    created: '8',
+    url: '9',
     setModal: vi.fn(),
   };
 
   it('ModalCard has data fields', () => {
     render(<ModalCard {...data} />);
     expect(screen.getByText('2')).toBeInTheDocument();
-    expect(screen.getByText('race1')).toBeInTheDocument();
+    expect(screen.getByText('3')).toBeInTheDocument();
     expect(screen.getByText('Female')).toBeInTheDocument();
+    expect(screen.getByText('4')).toBeInTheDocument();
     expect(screen.getByText('5')).toBeInTheDocument();
-    expect(screen.getByText('6')).toBeInTheDocument();
-    expect(screen.getByText('7')).toBeInTheDocument();
-    expect(screen.getByText('10')).toBeInTheDocument();
-    expect(screen.getByText('X')).toBeInTheDocument();
-    expect(screen.getByText('?')).toBeInTheDocument();
+    expect(screen.getByText('8')).toBeInTheDocument();
+    expect(screen.getByText('9')).toBeInTheDocument();
   });
 
-  it('ModalCard has data fields 2', async () => {
+  it('ModalCard has data fields 2 and button', async () => {
     data.gender = 'Male';
-    data.wikiUrl = 'xxx';
     render(<ModalCard {...data} />);
     expect(screen.getByText('Male')).toBeInTheDocument();
     expect(screen.getByText('X')).toBeInTheDocument();
-    expect(screen.getByText('xxx')).toBeInTheDocument();
   });
 });

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function useAddError(delay = 5000) {
+export default function useAddError(delay = 50) {
   const [errors, setErrors] = useState<string[]>([]);
 
   const addErrors = (error: string): void => {

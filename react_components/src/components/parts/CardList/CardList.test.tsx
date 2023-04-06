@@ -1,40 +1,36 @@
 import React from 'react';
-import { describe, it } from 'vitest';
+import { describe, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import CardList from './CardList';
 
 describe('CardList', () => {
   const data = [
     {
-      _id: '1',
-      height: '2',
-      race: 'race1',
+      id: 1,
+      name: '2',
+      status: '3',
+      species: '4',
+      type: '5',
       gender: 'Female',
-      birth: '5',
-      spouse: '6',
-      death: '7',
-      realm: '8',
-      hair: '9',
-      name: '10',
-      wikiUrl: '11',
+      image: '7',
+      created: '8',
+      url: '9',
     },
     {
-      _id: '11',
-      height: '22',
-      race: 'race11',
+      id: 11,
+      name: '22',
+      status: '33',
+      species: '44',
+      type: '55',
       gender: 'Male',
-      birth: '55',
-      spouse: '66',
-      death: '77',
-      realm: '88',
-      hair: '99',
-      name: '1010',
-      wikiUrl: '1111',
+      image: '77',
+      created: '88',
+      url: '99',
     },
   ];
 
   it('CardList has data fields', async () => {
-    render(<CardList cardList={data} />);
+    render(<CardList cardList={data} setModal={vi.fn} />);
     expect(screen.getAllByRole('article').length).toEqual(2);
     expect(screen.getAllByRole('img').length).toEqual(2);
     expect(screen.getAllByRole('heading').length).toEqual(3);
