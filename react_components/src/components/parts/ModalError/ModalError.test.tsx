@@ -1,7 +1,7 @@
 import React from 'react';
+import ModalError from './ModalError';
 import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import ModalError from './ModalError';
 
 describe('ModalError', () => {
   const errors = ['111', '222'];
