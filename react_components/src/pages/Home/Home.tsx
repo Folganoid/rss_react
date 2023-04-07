@@ -5,9 +5,12 @@ import CardList from '../../components/parts/CardList/CardList';
 import useLoadDataCards from '../../hooks/useLoadCardData';
 import { ICardHome } from '../../components/parts/CardHome/CardHome';
 import ModalCard from '../../components/parts/ModalCard/ModalCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { ISearchState, setSearch } from '../../store/searchSlice';
 
 export default function Home() {
-  const [search, setSearch] = useState<string>(localStorage.getItem('search') || '');
+  const dispatch = useDispatch();
+  const search = useSelector((state: ISearchState) => state.search.search);
   const [modal, setModal] = useState<ICardHome | null>(null);
   const { data, loadDataByName } = useLoadDataCards();
 
@@ -23,11 +26,13 @@ export default function Home() {
   };
 
   const handlerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value.match(/^[a-zA-Z]*$/)) setSearch(e.target.value);
+    dispatch(setSearch({ search: e.target.value }));
   };
 
   useEffect(() => {
-    loadDataByName(localStorage.getItem('search') || '');
+    if (localStorage.getItem('search') || '' === search) {
+      loadDataByName(search);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
