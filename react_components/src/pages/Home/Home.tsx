@@ -5,12 +5,12 @@ import CardList from '../../components/parts/CardList/CardList';
 import useLoadDataCards from '../../hooks/useLoadCardData';
 import { ICardHome } from '../../components/parts/CardHome/CardHome';
 import ModalCard from '../../components/parts/ModalCard/ModalCard';
-import { useDispatch, useSelector } from 'react-redux';
-import { ISearchState, setSearch } from '../../store/searchSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/rtk';
+import { setSearch } from '../../store/searchSlice';
 
 export default function Home() {
-  const dispatch = useDispatch();
-  const search = useSelector((state: ISearchState) => state.search.search);
+  const dispatch = useAppDispatch();
+  const search = useAppSelector((state) => state.search.search);
   const [modal, setModal] = useState<ICardHome | null>(null);
   const { data, loadDataByName } = useLoadDataCards();
 
@@ -26,7 +26,7 @@ export default function Home() {
   };
 
   const handlerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(setSearch({ search: e.target.value }));
+    dispatch(setSearch(e.target.value));
   };
 
   useEffect(() => {
