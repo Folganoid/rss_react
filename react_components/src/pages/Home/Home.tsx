@@ -12,15 +12,14 @@ export default function Home() {
   const dispatch = useAppDispatch();
   const search = useAppSelector((state) => state.search.search);
   const [modal, setModal] = useState<ICardHome | null>(null);
-  const { data, loadDataByName } = useLoadDataCards();
+  const { cardsList, loadDataByName } = useLoadDataCards();
 
   const getCardList = useMemo(() => {
-    return <CardList cardList={data} setModal={setModal} />;
-  }, [data]);
+    return <CardList cardList={cardsList} setModal={setModal} />;
+  }, [cardsList]);
 
   const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      localStorage.setItem('search', search);
       loadDataByName(search);
     }
   };
@@ -30,9 +29,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (localStorage.getItem('search') || '' === search) {
-      loadDataByName(search);
-    }
+    if (search === '' && cardsList.length === 0) loadDataByName('');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -51,7 +48,7 @@ export default function Home() {
           value={search}
         />
       </div>
-      {data.length ? getCardList : <h1 className={cl.notFound}>Characters not found...</h1>}
+      {cardsList.length ? getCardList : <h1 className={cl.notFound}>Characters not found...</h1>}
     </main>
   );
 }

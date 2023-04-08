@@ -4,12 +4,16 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import App from './App';
 import { MemoryRouter } from 'react-router-dom';
 import createFetchMock from 'vitest-fetch-mock';
+import { Provider } from 'react-redux';
+import store from './store';
 
 describe('App', () => {
   it('App <nav> exists', () => {
     render(
       <MemoryRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </MemoryRouter>
     );
     expect(screen.getByRole('navigation')).toBeInTheDocument();
@@ -40,7 +44,9 @@ describe('Home integration errors', () => {
   it('Home searching error', async () => {
     render(
       <MemoryRouter>
-        <App />
+        <Provider store={store}>
+          <App />
+        </Provider>
       </MemoryRouter>
     );
     await waitFor(async () => fireEvent.click(screen.queryAllByRole('link')[1]));

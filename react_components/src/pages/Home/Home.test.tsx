@@ -3,10 +3,16 @@ import { describe, it, vi } from 'vitest';
 import createFetchMock from 'vitest-fetch-mock';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Home from './Home';
+import { Provider } from 'react-redux';
+import store from '../../store';
 
 describe('Home', () => {
   it('Home the main tags exists', () => {
-    render(<Home />);
+    render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
     expect(screen.getByText(/home/i)).toBeInTheDocument();
     expect(screen.getAllByRole('heading').length).toEqual(3);
     expect(screen.getByRole('textbox')).toBeInTheDocument();
@@ -43,7 +49,11 @@ describe('Home integration', () => {
   });
 
   it('Home searching', async () => {
-    render(<Home />);
+    render(
+      <Provider store={store}>
+        <Home />
+      </Provider>
+    );
     const inp = screen.getByRole('textbox') as HTMLInputElement;
 
     await waitFor(async () => fireEvent.change(inp, { target: { value: 'hep' } }));

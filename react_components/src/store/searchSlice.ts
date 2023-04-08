@@ -5,7 +5,7 @@ export interface ISearchState {
 }
 
 const initialState: ISearchState = {
-  search: localStorage.getItem('search') || '',
+  search: '',
 };
 
 const searchSlice = createSlice({
