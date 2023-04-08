@@ -2,6 +2,8 @@ import React from 'react';
 import { describe, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import CardHome from './CardHome';
+import { Provider } from 'react-redux';
+import store from '../../../store';
 
 describe('CardHome', () => {
   it('CardHome has data fields', () => {
@@ -18,7 +20,11 @@ describe('CardHome', () => {
       setModal: vi.fn(),
     };
 
-    render(<CardHome {...data} />);
+    render(
+      <Provider store={store}>
+        <CardHome {...data} />
+      </Provider>
+    );
     expect(screen.getByRole('article')).toBeInTheDocument();
     expect(screen.getByRole('img')).toBeInTheDocument();
     expect(screen.getByRole('heading')).toBeInTheDocument();
@@ -40,7 +46,11 @@ describe('CardHome', () => {
       setModal: vi.fn(),
     };
 
-    render(<CardHome {...data} />);
+    render(
+      <Provider store={store}>
+        <CardHome {...data} />
+      </Provider>
+    );
     expect(screen.getByRole('article')).toBeInTheDocument();
     expect(screen.getByRole('img')).toBeInTheDocument();
     expect(screen.getByRole('heading')).toBeInTheDocument();

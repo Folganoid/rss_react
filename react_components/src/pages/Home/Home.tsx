@@ -7,10 +7,15 @@ import { ICardHome } from '../../components/parts/CardHome/CardHome';
 import ModalCard from '../../components/parts/ModalCard/ModalCard';
 import { useAppDispatch, useAppSelector } from '../../hooks/rtk';
 import { setSearch } from '../../store/searchSlice';
+import Loader from '../../components/parts/Loader/Loader';
+import ModalError from '../../components/parts/ModalError/ModalError';
 
 export default function Home() {
   const dispatch = useAppDispatch();
   const search = useAppSelector((state) => state.search.search);
+  const isLoading = useAppSelector((state) => state.loader.isLoading);
+  const errors = useAppSelector((state) => state.errors.errors);
+
   const [modal, setModal] = useState<ICardHome | null>(null);
   const { cardsList, loadDataByName } = useLoadDataCards();
 
@@ -35,6 +40,8 @@ export default function Home() {
 
   return (
     <main className={[cl.main, 'main'].join(' ')}>
+      {isLoading && <Loader />}
+      {errors.length ? <ModalError errors={errors} /> : ''}
       {modal && <ModalCard {...modal} setModal={setModal} />}
       <h1 className={cl.main__title}>Home page</h1>
       <br />
