@@ -3,6 +3,7 @@ import searchReducer from './searchSlice';
 import cardsListReducer from './cardsListSlice';
 import loaderSlice from './loaderSlice';
 import errorsSlice from './errorsSlice';
+import formSlice from './formSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     cardsList: cardsListReducer,
     loader: loaderSlice,
     errors: errorsSlice,
+    form: formSlice,
   },
 });
 

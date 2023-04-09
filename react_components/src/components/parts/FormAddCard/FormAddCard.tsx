@@ -8,9 +8,10 @@ import NameBlock from './parts/NameBlock/NameBlock';
 import DateBlock from './parts/DateBlock/DateBlock';
 import SwitchBlock from './parts/SwitchBlock/SwitchBlock';
 import TypesBlock from './parts/TypesBlock/TypesBlock';
+import { useAppDispatch, useAppSelector } from '../../../hooks/rtk';
+import { setCardList } from '../../../store/formSlice';
 
 interface IProps {
-  addCard: (card: ICard) => void;
   controlModalOk: (show: boolean) => void;
 }
 
@@ -33,6 +34,9 @@ export enum ETypes {
 }
 
 export default function FormAddCard(props: IProps) {
+  const dispatch = useAppDispatch();
+  const cards = useAppSelector((state) => state.form.cardList);
+
   const {
     register,
     handleSubmit,
@@ -47,10 +51,12 @@ export default function FormAddCard(props: IProps) {
       desc: '',
       site: '',
       image: '',
+      radio: 'true',
       fYear: '2010',
       fMonth: 'January',
     },
   });
+
   const onSubmit: SubmitHandler<IFormValues> = (data) => {
     let img = 'i_default.jpg';
     try {
@@ -69,7 +75,7 @@ export default function FormAddCard(props: IProps) {
       openSource: data.radio === 'true',
       type: data.checkbox,
     };
-    props.addCard(newCard);
+    dispatch(setCardList([...cards, newCard]));
     props.controlModalOk(true);
     reset();
   };
@@ -96,6 +102,14 @@ export default function FormAddCard(props: IProps) {
       >
         Submit
       </Button>
+      <button
+        className={cl.resetBtn}
+        onClick={() => {
+          reset();
+        }}
+      >
+        Reset
+      </button>
     </form>
   );
 }
