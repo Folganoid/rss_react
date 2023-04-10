@@ -4,7 +4,7 @@ import cl from './CardList.module.scss';
 
 interface IProps {
   cardList: ICardHome[];
-  setModal: (card: ICardHome) => void;
+  setModal: (id: number) => void;
 }
 
 export default function CardList(props: IProps) {

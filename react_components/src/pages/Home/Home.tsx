@@ -3,7 +3,6 @@ import React, { KeyboardEvent, useEffect, useMemo, useState } from 'react';
 import cl from './Home.module.scss';
 import CardList from '../../components/parts/CardList/CardList';
 import useLoadDataCards from '../../hooks/useLoadCardData';
-import { ICardHome } from '../../components/parts/CardHome/CardHome';
 import ModalCard from '../../components/parts/ModalCard/ModalCard';
 import { useAppDispatch, useAppSelector } from '../../hooks/rtk';
 import { setSearch } from '../../store/searchSlice';
@@ -16,7 +15,7 @@ export default function Home() {
   const isLoading = useAppSelector((state) => state.loader.isLoading);
   const errors = useAppSelector((state) => state.errors.errors);
 
-  const [modal, setModal] = useState<ICardHome | null>(null);
+  const [modal, setModal] = useState(0);
   const { cardsList, loadDataByName } = useLoadDataCards();
 
   const getCardList = useMemo(() => {
@@ -42,7 +41,7 @@ export default function Home() {
     <main className={[cl.main, 'main'].join(' ')}>
       {isLoading && <Loader />}
       {errors.length ? <ModalError errors={errors} /> : ''}
-      {modal && <ModalCard {...modal} setModal={setModal} />}
+      {modal > 0 && <ModalCard id={modal} setModal={setModal} />}
       <h1 className={cl.main__title}>Home page</h1>
       <br />
       <h2 className={cl.main__title}>Let&apos;s search Rick & Morty characters by name...</h2>
