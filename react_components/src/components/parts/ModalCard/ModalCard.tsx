@@ -2,8 +2,8 @@ import React, { MouseEvent, useEffect } from 'react';
 import cl from './ModalCard.module.scss';
 import { cardApi } from '../../../services/CardsService';
 import { setIsLoading } from '../../../store/loaderSlice';
-import { setErrors, delErrors } from '../../../store/errorsSlice';
-import { useAppDispatch, useAppSelector } from '../../../hooks/rtk';
+import { addError, delError } from '../../../store/errorsSlice';
+import { useAppDispatch } from '../../../hooks/rtk';
 
 interface IProps {
   setModal: (id: number) => void;
@@ -18,21 +18,20 @@ export default function ModalCard(props: IProps) {
 
   const dispatch = useAppDispatch();
 
-  const { data, error, isLoading } = cardApi.useFetchCardQuery(props.id);
-  const errors = useAppSelector((state) => state.errors.errors);
+  const { data, error, isFetching } = cardApi.useFetchCardQuery(props.id);
 
   useEffect(() => {
     if (error) {
-      dispatch(setErrors([...errors, 'Error: something wrong with API...']));
-      setTimeout(() => dispatch(delErrors()), 5000);
+      dispatch(addError('Error: something wrong with API...'));
+      setTimeout(() => dispatch(delError()), 5000);
     }
-  }, [error, dispatch, errors]);
+  }, [error, dispatch]);
 
   useEffect(() => {
-    dispatch(setIsLoading(isLoading));
-  }, [isLoading, dispatch]);
+    dispatch(setIsLoading(isFetching));
+  }, [isFetching, dispatch]);
 
-  if (isLoading || error || !data) return <></>;
+  if (isFetching || error || !data) return <></>;
 
   return (
     <div className={cl.modal} onClick={closeHandler}>

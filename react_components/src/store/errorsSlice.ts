@@ -12,14 +12,14 @@ const errorsSlice = createSlice({
   name: 'errors',
   initialState,
   reducers: {
-    setErrors(state, action: PayloadAction<string[]>) {
-      state.errors = action.payload;
+    addError(state, action: PayloadAction<string>) {
+      state.errors.push(action.payload);
     },
-    delErrors(state) {
-      state.errors = [];
+    delError(state) {
+      state.errors.shift();
     },
   },
 });
 
-export const { setErrors, delErrors } = errorsSlice.actions;
+export const { addError, delError } = errorsSlice.actions;
 export default errorsSlice.reducer;

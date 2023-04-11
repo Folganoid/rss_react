@@ -1,24 +1,27 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ISearchState {
-  search: string;
+  name: string;
+  page: number;
 }
 
 const initialState: ISearchState = {
-  search: '',
+  name: '',
+  page: 1,
 };
 
 const searchSlice = createSlice({
   name: 'search',
   initialState,
   reducers: {
-    setSearch(state, action: PayloadAction<string>) {
-      if (action.payload.match(/^[a-zA-Z]*$/)) {
-        state.search = action.payload;
-      }
+    setName(state, action: PayloadAction<string>) {
+      state.name = action.payload;
+    },
+    setPage(state, action: PayloadAction<number>) {
+      state.page = action.payload;
     },
   },
 });
 
-export const { setSearch } = searchSlice.actions;
+export const { setName, setPage } = searchSlice.actions;
 export default searchSlice.reducer;

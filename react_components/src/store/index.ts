@@ -4,7 +4,7 @@ import cardsListReducer from './cardsListSlice';
 import loaderSlice from './loaderSlice';
 import errorsSlice from './errorsSlice';
 import formSlice from './formSlice';
-import { cardApi } from '../services/CardsService';
+import { cardApi, cardsApi } from '../services/CardsService';
 
 const store = configureStore({
   reducer: {
@@ -14,8 +14,10 @@ const store = configureStore({
     errors: errorsSlice,
     form: formSlice,
     [cardApi.reducerPath]: cardApi.reducer,
+    [cardsApi.reducerPath]: cardsApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(cardApi.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(cardApi.middleware).concat(cardsApi.middleware),
 });
 
 export default store;

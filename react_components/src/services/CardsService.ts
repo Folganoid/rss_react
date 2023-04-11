@@ -12,3 +12,29 @@ export const cardApi = createApi({
     }),
   }),
 });
+
+export interface ICardListResponse {
+  results: ICardHome[];
+  info: {
+    count: number;
+    pages: number;
+    next: string | null;
+    prev: string | null;
+  };
+}
+
+export const cardsApi = createApi({
+  reducerPath: 'cardsApi',
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_API_PATH }),
+  endpoints: (build) => ({
+    fetchCards: build.query<ICardListResponse, { name: string; page: number }>({
+      query: (args: { name: string; page: number }) => ({
+        url: `/character`,
+        params: {
+          name: args.name,
+          page: args.page,
+        },
+      }),
+    }),
+  }),
+});

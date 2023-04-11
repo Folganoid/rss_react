@@ -12,17 +12,26 @@
   }
 
   &__title {
-    margin-left: 10px;
+    margin: 10px;    
   }
 
   &__search {
     margin-left: 10px;
   }
+
+  &__label {
+    font-weight: 700;
+    font-size: 1.2rem;
+  }
 }
 
-.notFound {
+.title {
   text-align: center;
-  margin: 50px 0;
+  margin: 0 0 10px 0;
+
+  b {
+    font-weight: 700;
+  }
 }
 
 @media (max-width: 840px) {
