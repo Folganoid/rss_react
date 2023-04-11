@@ -129,7 +129,6 @@ describe('FormAddCard components functional', () => {
     const inpDate = screen.getByTestId('lDate') as HTMLInputElement;
     const inpImage = screen.getByTestId('image') as HTMLInputElement;
 
-    // form is not filled
     await waitFor(async () => fireEvent.click(radios[0]));
     await waitFor(async () => fireEvent.change(inpName, { target: { value: 'XX' } }));
     await waitFor(async () => fireEvent.change(inpDesc, { target: { value: '123456789' } }));
@@ -173,7 +172,6 @@ describe('FormAddCard components functional', () => {
     await waitFor(async () => fireEvent.click(btn[0]));
     expect(inpName.value).toEqual('XXX');
 
-    // form filled
     await waitFor(async () => fireEvent.change(inpDate, { target: { value: '2022-01-01' } }));
     expect(btn[0].disabled).toBeFalsy();
     await waitFor(async () => fireEvent.click(btn[0]));
@@ -187,7 +185,6 @@ describe('FormAddCard components functional', () => {
     expect(checkboxes[1].checked).toEqual(false);
     expect(checkboxes[2].checked).toEqual(false);
 
-    //reset
     await waitFor(async () => fireEvent.click(checkboxes[2]));
     await waitFor(async () => fireEvent.click(btn[1]));
     expect(checkboxes[2].checked).toEqual(false);
