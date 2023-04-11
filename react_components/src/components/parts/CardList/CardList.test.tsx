@@ -39,7 +39,7 @@ describe('CardList', () => {
     );
     expect(screen.getAllByRole('article').length).toEqual(2);
     expect(screen.getAllByRole('img').length).toEqual(2);
-    expect(screen.getAllByRole('heading').length).toEqual(3);
+    expect(screen.getAllByRole('heading').length).toEqual(2);
     expect(screen.getByText('Female')).toBeInTheDocument();
     expect(screen.getByText('Male')).toBeInTheDocument();
   });

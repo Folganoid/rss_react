@@ -27,7 +27,7 @@ describe('Home integration errors', () => {
   const data99 = `{"id":99,"name":"Hepatitis C","status":"Dead","species":"Disease","type":"","gender":"unknown","origin":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"location":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"image":"https://rickandmortyapi.com/api/character/avatar/99.jpeg","episode":["https://rickandmortyapi.com/api/episode/3"],"url":"https://rickandmortyapi.com/api/character/99","created":"2017-12-01T12:02:00.935Z"}`;
 
   fetchMocker.mockIf(/^https?:\/\/.*$/, (req) => {
-    if (req.url.endsWith('/character?name=')) {
+    if (req.url.endsWith('/character?name=&page=1')) {
       return {
         body: data,
         headers: {

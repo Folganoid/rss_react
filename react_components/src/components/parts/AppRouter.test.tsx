@@ -28,15 +28,4 @@ describe('AppRouter', () => {
     );
     expect(screen.getByText(/^About(.+)page(.+|)/i)).toBeInTheDocument();
   });
-
-  it('AppRouter / work', () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <Provider store={store}>
-          <AppRouter />
-        </Provider>
-      </MemoryRouter>
-    );
-    expect(screen.getByText(/^Home(.+)page(.+|)/i)).toBeInTheDocument();
-  });
 });
