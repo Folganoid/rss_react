@@ -63,7 +63,7 @@ describe('FormA components exist', () => {
   });
 });
 
-describe('FormAddCard components functional', () => {
+describe('FormAddCard integration test', () => {
   it('FormAddCard <input name="name"> works', async () => {
     render(
       <Provider store={store}>

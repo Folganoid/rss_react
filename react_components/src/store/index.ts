@@ -1,9 +1,9 @@
-import { configureStore } from '@reduxjs/toolkit';
-import searchReducer from './searchSlice';
-import loaderSlice from './loaderSlice';
 import errorsSlice from './errorsSlice';
 import formSlice from './formSlice';
+import loaderSlice from './loaderSlice';
+import searchReducer from './searchSlice';
 import { cardApi, cardsApi } from '../services/CardsService';
+import { configureStore } from '@reduxjs/toolkit';
 
 const store = configureStore({
   reducer: {

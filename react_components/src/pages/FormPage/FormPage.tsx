@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import cl from './FormPage.module.scss';
-import FormAddCard from '../../components/parts/FormAddCard/FormAddCard';
 import Card from '../../components/parts/Card/Card';
-import clCard from '../Home/Home.module.scss';
+import FormAddCard from '../../components/parts/FormAddCard/FormAddCard';
 import ModalOk from '../../components/parts/ModalOk/ModalOk';
+import cl from './FormPage.module.scss';
+import clCard from '../Home/Home.module.scss';
 import { useAppSelector } from '../../hooks/rtk';
 
 export default function FormPage() {

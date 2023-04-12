@@ -1,9 +1,9 @@
 import React from 'react';
+import CardList from './CardList';
+import store from '../../../store';
+import { Provider } from 'react-redux';
 import { describe, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import CardList from './CardList';
-import { Provider } from 'react-redux';
-import store from '../../../store';
 
 describe('CardList', () => {
   const data = [

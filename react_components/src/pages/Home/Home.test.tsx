@@ -1,10 +1,16 @@
 import React from 'react';
-import { describe, it, vi } from 'vitest';
-import createFetchMock from 'vitest-fetch-mock';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import Home from './Home';
-import { Provider } from 'react-redux';
+import createFetchMock from 'vitest-fetch-mock';
 import store from '../../store';
+import { Provider } from 'react-redux';
+import { describe, it, vi } from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  response1row,
+  response3rows,
+  responsePage1,
+  responsePage2,
+} from '../../data/rickAndMortyTestResponse';
 
 describe('Home', () => {
   it('Home the main tags exists', () => {
@@ -22,36 +28,32 @@ describe('Home', () => {
 describe('Home integration', () => {
   const fetchMocker = createFetchMock(vi);
   fetchMocker.enableMocks();
-  const data = `{"info":{"count":3,"pages":1,"next":null,"prev":null},"results":[{"id":98,"name":"Hepatitis A","status":"Dead","species":"Disease","type":"","gender":"unknown","origin":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"location":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"image":"https://rickandmortyapi.com/api/character/avatar/98.jpeg","episode":["https://rickandmortyapi.com/api/episode/3"],"url":"https://rickandmortyapi.com/api/character/98","created":"2017-12-01T12:01:43.742Z"},{"id":99,"name":"Hepatitis C","status":"Dead","species":"Disease","type":"","gender":"unknown","origin":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"location":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"image":"https://rickandmortyapi.com/api/character/avatar/99.jpeg","episode":["https://rickandmortyapi.com/api/episode/3"],"url":"https://rickandmortyapi.com/api/character/99","created":"2017-12-01T12:02:00.935Z"},{"id":556,"name":"Hephaestus","status":"Alive","species":"Mythological Creature","type":"God","gender":"Male","origin":{"name":"Mount Olympus","url":"https://rickandmortyapi.com/api/location/90"},"location":{"name":"Heistotron Base","url":"https://rickandmortyapi.com/api/location/89"},"image":"https://rickandmortyapi.com/api/character/avatar/556.jpeg","episode":["https://rickandmortyapi.com/api/episode/34"],"url":"https://rickandmortyapi.com/api/character/556","created":"2020-05-07T10:19:57.456Z"}]}`;
-  const data3 = `{"id":99,"name":"Hepatitis C","status":"Dead","species":"Disease","type":"","gender":"unknown","origin":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"location":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"image":"https://rickandmortyapi.com/api/character/avatar/99.jpeg","episode":["https://rickandmortyapi.com/api/episode/3"],"url":"https://rickandmortyapi.com/api/character/99","created":"2017-12-01T12:02:00.935Z"}`;
-  const dataPage1 = `{"info":{"count":3,"pages":2,"next":"sdfs","prev":null},"results":[{"id":98,"name":"Hepatitis A","status":"Dead","species":"Disease","type":"","gender":"unknown","origin":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"location":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"image":"https://rickandmortyapi.com/api/character/avatar/98.jpeg","episode":["https://rickandmortyapi.com/api/episode/3"],"url":"https://rickandmortyapi.com/api/character/98","created":"2017-12-01T12:01:43.742Z"},{"id":99,"name":"Hepatitis C","status":"Dead","species":"Disease","type":"","gender":"unknown","origin":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"location":{"name":"Anatomy Park","url":"https://rickandmortyapi.com/api/location/5"},"image":"https://rickandmortyapi.com/api/character/avatar/99.jpeg","episode":["https://rickandmortyapi.com/api/episode/3"],"url":"https://rickandmortyapi.com/api/character/99","created":"2017-12-01T12:02:00.935Z"},{"id":556,"name":"Hephaestus","status":"Alive","species":"Mythological Creature","type":"God","gender":"Male","origin":{"name":"Mount Olympus","url":"https://rickandmortyapi.com/api/location/90"},"location":{"name":"Heistotron Base","url":"https://rickandmortyapi.com/api/location/89"},"image":"https://rickandmortyapi.com/api/character/avatar/556.jpeg","episode":["https://rickandmortyapi.com/api/episode/34"],"url":"https://rickandmortyapi.com/api/character/556","created":"2020-05-07T10:19:57.456Z"}]}`;
-  const dataPage2 = `{"info":{"count":3,"pages":2,"next":null,"prev":"dddd"},"results":[{"id":556,"name":"Hephaestus","status":"Alive","species":"Mythological Creature","type":"God","gender":"Male","origin":{"name":"Mount Olympus","url":"https://rickandmortyapi.com/api/location/90"},"location":{"name":"Heistotron Base","url":"https://rickandmortyapi.com/api/location/89"},"image":"https://rickandmortyapi.com/api/character/avatar/556.jpeg","episode":["https://rickandmortyapi.com/api/episode/34"],"url":"https://rickandmortyapi.com/api/character/556","created":"2020-05-07T10:19:57.456Z"}]}`;
 
   fetchMocker.mockIf(/^https?:\/\/.*$/, (req) => {
     if (req.url.endsWith('/character?name=hep&page=1')) {
       return {
-        body: data,
+        body: response3rows,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
         },
       };
     } else if (req.url.endsWith('/character/99')) {
       return {
-        body: data3,
+        body: response1row,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
         },
       };
     } else if (req.url.endsWith('/character?name=ppp&page=1')) {
       return {
-        body: dataPage1,
+        body: responsePage1,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
         },
       };
     } else if (req.url.endsWith('/character?name=ppp&page=2')) {
       return {
-        body: dataPage2,
+        body: responsePage2,
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
         },

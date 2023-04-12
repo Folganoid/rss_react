@@ -1,8 +1,8 @@
 import React, { MouseEvent, useEffect } from 'react';
 import cl from './ModalCard.module.scss';
+import { addError, delError } from '../../../store/errorsSlice';
 import { cardApi } from '../../../services/CardsService';
 import { setIsLoading } from '../../../store/loaderSlice';
-import { addError, delError } from '../../../store/errorsSlice';
 import { useAppDispatch } from '../../../hooks/rtk';
 
 interface IProps {
@@ -17,13 +17,12 @@ export default function ModalCard(props: IProps) {
   };
 
   const dispatch = useAppDispatch();
-
   const { data, error, isFetching } = cardApi.useFetchCardQuery(props.id);
 
   useEffect(() => {
     if (error) {
       dispatch(addError('Error: something wrong with API...'));
-      setTimeout(() => dispatch(delError()), 5000);
+      setTimeout(() => dispatch(delError()), +import.meta.env.VITE_ERRORS_DELAY);
     }
   }, [error, dispatch]);
 

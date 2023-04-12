@@ -1,35 +1,43 @@
-import Input from '../../components/UI/Input';
-import React, { KeyboardEvent, useEffect, useState } from 'react';
-import cl from './Home.module.scss';
+import React, { KeyboardEvent, useEffect, useMemo, useState } from 'react';
+import Button from '../../components/UI/Button';
 import CardList from '../../components/parts/CardList/CardList';
-import ModalCard from '../../components/parts/ModalCard/ModalCard';
-import { useAppDispatch, useAppSelector } from '../../hooks/rtk';
-import { setName, setPage } from '../../store/searchSlice';
+import Input from '../../components/UI/Input';
 import Loader from '../../components/parts/Loader/Loader';
+import ModalCard from '../../components/parts/ModalCard/ModalCard';
 import ModalError from '../../components/parts/ModalError/ModalError';
-import { cardsApi } from '../../services/CardsService';
-import { addError, delError } from '../../store/errorsSlice';
-import { setIsLoading } from '../../store/loaderSlice';
 import Select from '../../components/UI/Select';
+import cl from './Home.module.scss';
+import { addError, delError } from '../../store/errorsSlice';
+import { cardsApi } from '../../services/CardsService';
+import { setIsLoading } from '../../store/loaderSlice';
+import { setName, setPage } from '../../store/searchSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/rtk';
 
 export default function Home() {
   const dispatch = useAppDispatch();
   const name = useAppSelector((state) => state.search.name);
   const page = useAppSelector((state) => state.search.page);
   const spinner = useAppSelector((state) => state.loader.isLoading);
+  const errors = useAppSelector((state) => state.errors.errors);
+
   const [searchVal, setSearchVal] = useState(name);
   const [modal, setModal] = useState(0);
-  const errors = useAppSelector((state) => state.errors.errors);
   const { data, error, isFetching } = cardsApi.useFetchCardsQuery({
     name: name,
     page: page,
   });
 
-  const handleKeyDown = async (e: KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       dispatch(setName(searchVal));
       dispatch(setPage(1));
     }
+  };
+
+  const handleResetBtn = () => {
+    setSearchVal('');
+    dispatch(setName(''));
+    dispatch(setPage(1));
   };
 
   const handlerInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,21 +54,24 @@ export default function Home() {
     dispatch(setIsLoading(isFetching));
   }, [isFetching, dispatch]);
 
-  const pages: { name: string; value: string }[] = [];
-  if (data?.info?.pages) {
-    for (let i = 1; i <= data?.info.pages; i++) {
-      pages.push({ name: String(i), value: String(i) });
-    }
-  }
-
   useEffect(() => {
     if (error) {
       if (JSON.stringify(error) === '{"status":404,"data":{"error":"There is nothing here"}}')
         return;
       dispatch(addError('Error: something wrong with API...'));
-      setTimeout(() => dispatch(delError()), 5000);
+      setTimeout(() => dispatch(delError()), +import.meta.env.VITE_ERRORS_DELAY);
     }
   }, [error, dispatch]);
+
+  const pages = useMemo(() => {
+    const p: { name: string; value: string }[] = [];
+    if (data?.info?.pages) {
+      for (let i = 1; i <= data?.info.pages; i++) {
+        p.push({ name: String(i), value: String(i) });
+      }
+    }
+    return p;
+  }, [data]);
 
   return (
     <main className={[cl.main, 'main'].join(' ')}>
@@ -72,11 +83,14 @@ export default function Home() {
       <div className={cl.main__search}>
         <span className={cl.main__label}>Search: </span>
         <Input
-          placeholder={'Latin letters only'}
+          placeholder="Latin letters only"
           onKeyDown={handleKeyDown}
           onChange={handlerInputChange}
           value={searchVal}
         />
+        <Button className={cl.resetBtn} onClick={handleResetBtn}>
+          Reset
+        </Button>
         <br />
         <span className={cl.main__label}>Page: </span>
         <Select options={pages} onChange={handlerSelectChange} value={String(page)}></Select>

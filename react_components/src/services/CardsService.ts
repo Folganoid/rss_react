@@ -1,5 +1,5 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 import { ICardHome } from 'components/parts/CardHome/CardHome';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/dist/query/react';
 
 export const cardApi = createApi({
   reducerPath: 'cardApi',

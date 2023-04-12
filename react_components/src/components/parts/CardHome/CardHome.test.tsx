@@ -1,9 +1,9 @@
 import React from 'react';
+import CardHome from './CardHome';
+import store from '../../../store';
+import { Provider } from 'react-redux';
 import { describe, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import CardHome from './CardHome';
-import { Provider } from 'react-redux';
-import store from '../../../store';
 
 describe('CardHome', () => {
   it('CardHome has data fields', () => {

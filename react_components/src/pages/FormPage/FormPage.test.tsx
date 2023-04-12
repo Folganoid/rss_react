@@ -1,10 +1,10 @@
 import React from 'react';
-import { describe, it } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import FormPage from './FormPage';
+import store from '../../store';
 import user from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import store from '../../store';
+import { describe, it } from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 describe('FormPage', () => {
   it('FormPage <h1>Form...</h1> exists', () => {
@@ -17,7 +17,7 @@ describe('FormPage', () => {
     expect(screen.getByText(/form page/i)).toBeInTheDocument();
   });
 
-  it('FormPage Card creating', async () => {
+  it('FormPage Card integration test', async () => {
     await waitFor(async () =>
       render(
         <Provider store={store}>

@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICard } from 'components/parts/Card/Card';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IFormState {
   cardList: ICard[];

@@ -1,13 +1,13 @@
 import React from 'react';
+import cl from './TypesBlock.module.scss';
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
 import { ETypes, IFormValues } from '../../FormAddCard';
-import cl from './TypesBlock.module.scss';
 
-type IProps = {
+interface IProps {
   register: UseFormRegister<IFormValues>;
   errors: FieldErrors<IFormValues>;
   control: Control<IFormValues>;
-};
+}
 
 export default function TypesBlock(props: IProps) {
   const validateCheckbox = (value: string[]): boolean => {
