@@ -147,5 +147,9 @@ describe('Home integration', () => {
       fireEvent.keyDown(inp, { key: 'Enter', code: 'Enter', charCode: 13 })
     );
     expect(screen.getByText(/not found/i)).toBeInTheDocument();
+
+    const btn = screen.getByRole('button');
+    await waitFor(async () => fireEvent.click(btn));
+    expect(inp.value).toEqual('');
   });
 });

@@ -1,7 +1,18 @@
 import React from 'react';
-import AppRouter from './components/parts/AppRouter';
 import './App.scss';
+import AppRouter from './components/parts/AppRouter';
+import store from './store';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 export default function App() {
-  return <AppRouter />;
+  return (
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider store={store}>
+          <AppRouter />;
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
 }
