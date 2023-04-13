@@ -31,4 +31,22 @@ describe('Card', () => {
     expect(screen.getByText('2016 - Sep')).toBeInTheDocument();
     expect(screen.getByText('http://i_default.jpg')).toBeInTheDocument();
   });
+
+  it('Card has data field No', () => {
+    const data = {
+      id: 1,
+      image: 'http://sdfsf.i_angular.jpg',
+      name: 'Angular',
+      desc: 'Angular XXX',
+      site: 'http://i_default.jpg',
+      openSource: false,
+      type: ['WEB framework', 'JS library'],
+      firstReleaseYear: 2016,
+      firstReleaseMonth: 'Sep',
+      lastReleaseDate: '2023-03-01',
+    };
+
+    render(<Card {...data} />);
+    expect(screen.getByText('No')).toBeInTheDocument();
+  });
 });

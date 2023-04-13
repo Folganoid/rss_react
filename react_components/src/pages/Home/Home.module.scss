@@ -20,6 +20,11 @@
   }
 }
 
+.notFound {
+  text-align: center;
+  margin: 50px 0;
+}
+
 @media (max-width: 840px) {
   .main {
     &__cards {

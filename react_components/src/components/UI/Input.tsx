@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 import cl from './Input.module.scss';
 type IProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
   className?: string;
   placeholder?: string;
   value?: string;
