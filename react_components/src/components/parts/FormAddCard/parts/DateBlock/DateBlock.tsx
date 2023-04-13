@@ -1,15 +1,15 @@
+import React from 'react';
 import Input from '../../../../../components/UI/Input';
 import Select from '../../../../../components/UI/Select';
-import React from 'react';
 import cl from './DateBlock.module.scss';
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
 import { IFormValues } from '../../FormAddCard';
 
-type IProps = {
+interface IProps {
   register: UseFormRegister<IFormValues>;
   errors: FieldErrors<IFormValues>;
   control: Control<IFormValues>;
-};
+}
 
 export default function DateBlock(props: IProps) {
   const years = [

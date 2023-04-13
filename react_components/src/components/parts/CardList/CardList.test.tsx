@@ -1,7 +1,9 @@
 import React from 'react';
+import CardList from './CardList';
+import store from '../../../store';
+import { Provider } from 'react-redux';
 import { describe, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import CardList from './CardList';
 
 describe('CardList', () => {
   const data = [
@@ -30,10 +32,14 @@ describe('CardList', () => {
   ];
 
   it('CardList has data fields', async () => {
-    render(<CardList cardList={data} setModal={vi.fn} />);
+    render(
+      <Provider store={store}>
+        <CardList cardList={data} setModal={vi.fn} />
+      </Provider>
+    );
     expect(screen.getAllByRole('article').length).toEqual(2);
     expect(screen.getAllByRole('img').length).toEqual(2);
-    expect(screen.getAllByRole('heading').length).toEqual(3);
+    expect(screen.getAllByRole('heading').length).toEqual(2);
     expect(screen.getByText('Female')).toBeInTheDocument();
     expect(screen.getByText('Male')).toBeInTheDocument();
   });

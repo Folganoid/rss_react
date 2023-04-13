@@ -1,13 +1,13 @@
-import Input from '../../../../../components/UI/Input';
 import React from 'react';
+import Input from '../../../../../components/UI/Input';
 import cl from './Site.module.scss';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { IFormValues } from '../../FormAddCard';
 
-type IProps = {
+interface IProps {
   register: UseFormRegister<IFormValues>;
   errors: FieldErrors<IFormValues>;
-};
+}
 
 export default function Site(props: IProps) {
   return (

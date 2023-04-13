@@ -1,12 +1,12 @@
 import React from 'react';
+import cl from './SwitchBlock.module.scss';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { IFormValues } from '../../FormAddCard';
-import cl from './SwitchBlock.module.scss';
 
-type IProps = {
+interface IProps {
   register: UseFormRegister<IFormValues>;
   errors: FieldErrors<IFormValues>;
-};
+}
 
 export default function SwitchBlock(props: IProps) {
   return (

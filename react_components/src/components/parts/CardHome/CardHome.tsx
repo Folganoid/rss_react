@@ -1,6 +1,5 @@
 import React from 'react';
 import cl from './CardHome.module.scss';
-import useLoadCard from '../../../hooks/useLoadCard';
 
 export interface ICardHome {
   id: number;
@@ -15,7 +14,7 @@ export interface ICardHome {
 }
 
 export interface ICardHomeWithSets extends ICardHome {
-  setModal: (card: ICardHome) => void;
+  setModal: (id: number) => void;
 }
 
 export default function CardHome(props: ICardHomeWithSets) {
@@ -27,9 +26,8 @@ export default function CardHome(props: ICardHomeWithSets) {
     image = `${import.meta.env.VITE_IMAGES_DIR}male.png`;
   }
 
-  const { loadDataById } = useLoadCard(props.setModal);
   const cardHandler = () => {
-    loadDataById(props.id);
+    props.setModal(props.id);
   };
 
   return (

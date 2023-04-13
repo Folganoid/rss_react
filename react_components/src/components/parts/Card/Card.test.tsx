@@ -1,21 +1,21 @@
+import Card from './Card';
 import React from 'react';
 import { describe, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import Card from './Card';
 
 describe('Card', () => {
   it('Card has data fields', () => {
     const data = {
       id: 1,
-      image: 'http://sdfsf.i_angular.jpg',
-      name: 'Angular',
       desc: 'Angular XXX',
-      site: 'http://i_default.jpg',
-      openSource: true,
-      type: ['WEB framework', 'JS library'],
-      firstReleaseYear: 2016,
       firstReleaseMonth: 'Sep',
+      firstReleaseYear: 2016,
+      image: 'http://sdfsf.i_angular.jpg',
       lastReleaseDate: '2023-03-01',
+      name: 'Angular',
+      openSource: true,
+      site: 'http://i_default.jpg',
+      type: ['WEB framework', 'JS library'],
     };
 
     render(<Card {...data} />);
@@ -35,15 +35,15 @@ describe('Card', () => {
   it('Card has data field No', () => {
     const data = {
       id: 1,
-      image: 'http://sdfsf.i_angular.jpg',
-      name: 'Angular',
       desc: 'Angular XXX',
-      site: 'http://i_default.jpg',
-      openSource: false,
-      type: ['WEB framework', 'JS library'],
-      firstReleaseYear: 2016,
       firstReleaseMonth: 'Sep',
+      firstReleaseYear: 2016,
+      image: 'http://sdfsf.i_angular.jpg',
       lastReleaseDate: '2023-03-01',
+      name: 'Angular',
+      openSource: false,
+      site: 'http://i_default.jpg',
+      type: ['WEB framework', 'JS library'],
     };
 
     render(<Card {...data} />);

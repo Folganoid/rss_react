@@ -1,8 +1,8 @@
 import React from 'react';
-import { describe, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
 import NavBar from './NavBar';
 import { MemoryRouter } from 'react-router-dom';
+import { describe, it } from 'vitest';
+import { render, screen } from '@testing-library/react';
 
 describe('NavBar', () => {
   it('NavBar <nav> exists', () => {

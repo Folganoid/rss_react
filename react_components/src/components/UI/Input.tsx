@@ -1,6 +1,6 @@
 import React, { KeyboardEvent } from 'react';
 import cl from './Input.module.scss';
-type IProps = {
+interface IProps {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onKeyDown?: (e: KeyboardEvent<HTMLInputElement>) => void;
   className?: string;
@@ -8,7 +8,7 @@ type IProps = {
   value?: string;
   type?: string;
   ref?: HTMLInputElement;
-};
+}
 type Ref = HTMLInputElement;
 
 const Input = React.forwardRef<Ref, IProps>((props, ref) => (

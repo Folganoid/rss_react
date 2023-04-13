@@ -1,45 +1,65 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, useEffect } from 'react';
 import cl from './ModalCard.module.scss';
-import { ICardHome } from '../CardHome/CardHome';
+import { addError, delError } from '../../../store/errorsSlice';
+import { cardApi } from '../../../services/CardsService';
+import { setIsLoading } from '../../../store/loaderSlice';
+import { useAppDispatch } from '../../../hooks/rtk';
 
-interface IProps extends ICardHome {
-  setModal: (arg: ICardHome | null) => void;
+interface IProps {
+  setModal: (id: number) => void;
+  id: number;
 }
 
 export default function ModalCard(props: IProps) {
   const closeHandler = (e: MouseEvent<HTMLElement>) => {
     if (e.target !== e.currentTarget) return;
-    props.setModal(null);
+    props.setModal(0);
   };
+
+  const dispatch = useAppDispatch();
+  const { data, error, isFetching } = cardApi.useFetchCardQuery(props.id);
+
+  useEffect(() => {
+    if (error) {
+      dispatch(addError('Error: something wrong with API...'));
+      setTimeout(() => dispatch(delError()), +import.meta.env.VITE_ERRORS_DELAY);
+    }
+  }, [error, dispatch]);
+
+  useEffect(() => {
+    dispatch(setIsLoading(isFetching));
+  }, [isFetching, dispatch]);
+
+  if (isFetching || error || !data) return <></>;
 
   return (
     <div className={cl.modal} onClick={closeHandler}>
       <article className={cl.modal__card}>
         <div className={cl.modal__body}>
-          <img src={props.image} alt={props.name} className={cl.modal__image} />
+          <img src={data.image} alt={data.name} className={cl.modal__image} />
           <div className={cl.modal__desc}>
-            <h2 className={cl.modal__title}>{props.name}</h2>
+            <h2 className={cl.modal__title}>{data.name}</h2>
             <p>
               <b>Gender: </b>
-              <span className={cl.grey}>{props.gender}</span>
+              <span className={cl.grey}>{data.gender}</span>
             </p>
             <p>
               <b>Species: </b>
-              <span className={cl.boldGrey}>{props.species}</span>
+              <span className={cl.boldGrey}>{data.species}</span>
             </p>
             <hr />
             <p>
-              <b>Created: </b> {props.created}
+              <b>Created: </b> {data.created}
             </p>
             <p>
-              <b>Type: </b> {props.type}
+              <b>Type: </b> {data.type}
             </p>
             <hr />
             <p>
-              <b>status: </b> {props.status}
+              <b>status: </b> {data.status}
             </p>
             <p>
-              <b>URL: </b> <a href={props.url}>{props.url}</a>
+              <b>URL: </b> <a href={data.url}>{data.url}</a>
             </p>
           </div>
           <button className={cl.close} onClick={closeHandler}>

@@ -1,13 +1,13 @@
-import Input from '../../../../../components/UI/Input';
 import React from 'react';
+import Input from '../../../../../components/UI/Input';
 import cl from './NameBlock.module.scss';
 import { FieldErrors, UseFormRegister, Validate } from 'react-hook-form';
 import { IFormValues } from '../../FormAddCard';
 
-type IProps = {
+interface IProps {
   register: UseFormRegister<IFormValues>;
   errors: FieldErrors<IFormValues>;
-};
+}
 
 const validateImage: Validate<string | FileList, IFormValues> = (value) => {
   if (!value || !value[0]) {

@@ -1,5 +1,5 @@
-import Button from '../../../components/UI/Button';
 import React from 'react';
+import Button from '../../../components/UI/Button';
 import cl from './ModalOk.module.scss';
 
 interface IProps {

@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
-import cl from './FormPage.module.scss';
+import Card from '../../components/parts/Card/Card';
 import FormAddCard from '../../components/parts/FormAddCard/FormAddCard';
-import Card, { ICard } from '../../components/parts/Card/Card';
-import clCard from '../Home/Home.module.scss';
 import ModalOk from '../../components/parts/ModalOk/ModalOk';
+import cl from './FormPage.module.scss';
+import clCard from '../Home/Home.module.scss';
+import { useAppSelector } from '../../hooks/rtk';
 
 export default function FormPage() {
-  const [cards, setCards] = useState([] as ICard[]);
   const [showModalOk, setShowModalOk] = useState(false);
+  const cards = useAppSelector((state) => state.form.cardList);
 
   const controlModalOk = (show: boolean) => {
     setShowModalOk(show);
-  };
-
-  const addCard = (card: ICard): void => {
-    setCards([...cards, card]);
   };
 
   return (
@@ -22,7 +19,7 @@ export default function FormPage() {
       <h1>Form page</h1>
       <br />
       <ModalOk title={'Card created successfully!'} control={controlModalOk} show={showModalOk} />
-      <FormAddCard addCard={addCard} controlModalOk={controlModalOk} />
+      <FormAddCard controlModalOk={controlModalOk} />
       <br />
       <div className={clCard.main__cards}>
         {cards.map((el) => {

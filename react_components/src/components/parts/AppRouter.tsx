@@ -1,10 +1,10 @@
+import React from 'react';
 import About from '../../pages/About/About';
 import ErrorPage from '../../pages/ErrorPage/ErrorPage';
-import Home from '../../pages/Home/Home';
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import Layout from './Layout';
 import FormPage from '../../pages/FormPage/FormPage';
+import Home from '../../pages/Home/Home';
+import Layout from './Layout';
+import { Route, Routes } from 'react-router-dom';
 
 export default function AppRouter() {
   return (
