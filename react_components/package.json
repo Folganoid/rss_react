@@ -20,11 +20,13 @@
     "react-router-dom": "^6.8.2"
   },
   "devDependencies": {
+    "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/react": "^18.0.27",
     "@types/react-dom": "^18.0.10",
+    "@types/redux": "^3.6.0",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "@vitejs/plugin-react": "^3.1.0",
@@ -44,10 +46,14 @@
     "lint-staged": "^13.1.2",
     "prettier": "^2.8.4",
     "react-hook-form": "^7.43.8",
+    "react-redux": "^8.0.5",
+    "redux": "^4.2.1",
+    "redux-thunk": "^2.4.2",
     "sass": "^1.58.3",
     "typescript": "^4.9.3",
     "vite": "^4.1.0",
     "vite-plugin-eslint": "^1.8.1",
-    "vitest": "^0.29.2"
+    "vitest": "^0.29.2",
+    "vitest-fetch-mock": "^0.2.2"
   }
 }

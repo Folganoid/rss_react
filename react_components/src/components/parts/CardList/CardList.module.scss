@@ -1,0 +1,22 @@
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+
+.title {
+  text-align: center;
+  margin: 10px 0;
+
+  b {
+    font-weight: 700;
+  }
+}
+
+@media (max-width: 840px) {
+  .cards {
+    flex-wrap: nowrap;
+    flex-direction: column;
+  }
+}

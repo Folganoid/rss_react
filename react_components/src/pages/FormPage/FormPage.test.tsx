@@ -1,18 +1,30 @@
 import React from 'react';
+import FormPage from './FormPage';
+import store from '../../store';
+import user from '@testing-library/user-event';
+import { Provider } from 'react-redux';
 import { describe, it } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import FormPage from './FormPage';
-import user from '@testing-library/user-event';
 
 describe('FormPage', () => {
   it('FormPage <h1>Form...</h1> exists', () => {
-    render(<FormPage />);
+    render(
+      <Provider store={store}>
+        <FormPage />
+      </Provider>
+    );
     expect(screen.getAllByRole('heading')[0]).toBeInTheDocument();
     expect(screen.getByText(/form page/i)).toBeInTheDocument();
   });
 
-  it('FormPage Card creating', async () => {
-    await waitFor(async () => render(<FormPage />));
+  it('FormPage Card integration test', async () => {
+    await waitFor(async () =>
+      render(
+        <Provider store={store}>
+          <FormPage />
+        </Provider>
+      )
+    );
     const checkboxes = screen.getAllByRole('checkbox') as HTMLInputElement[];
     const radios = screen.getAllByRole('radio') as HTMLInputElement[];
     const btnOk = screen.getAllByRole('button')[0];
