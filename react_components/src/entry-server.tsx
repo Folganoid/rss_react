@@ -5,12 +5,16 @@ import formSlice from './store/formSlice';
 import loaderSlice from './store/loaderSlice';
 import searchReducer from './store/searchSlice';
 import { Provider } from 'react-redux';
-import { RenderToPipeableStreamOptions, renderToPipeableStream } from 'react-dom/server';
+import {
+  PipeableStream,
+  RenderToPipeableStreamOptions,
+  renderToPipeableStream,
+} from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom/server';
 import { cardApi, cardsApi } from './services/CardsService';
 import { configureStore } from '@reduxjs/toolkit';
 
-export default function render(url: string, opts: RenderToPipeableStreamOptions) {
+export function renderApp(url: string, opts: RenderToPipeableStreamOptions): PipeableStream {
   const store = configureStore({
     reducer: {
       search: searchReducer,
