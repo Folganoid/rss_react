@@ -12,7 +12,7 @@
     "build:client": "vite build --outDir=./dist/client",
     "build:server": "vite build --outDir=./dist/server --ssr ./src/entry-server.tsx",
     "build": "npm run build:client && npm run build:server",
-    "server": "node server.js"
+    "server": "npx ts-node --esm server.ts"
   },
   "dependencies": {
     "react": "^18.2.0",
