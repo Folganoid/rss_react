@@ -14,7 +14,15 @@
     "skipLibCheck": true,
     "baseUrl": "./src",
     "resolveJsonModule": true,
-    "allowJs": true
+    "allowJs": true,
+    "types": ["jest"],
   },
-  "include": ["./src/**/*", "styled.d.ts", "vite.config.ts", ".eslintrc"]
+  "include": [
+    "./src/**/*",
+    "styled.d.ts",
+    "vite.config.ts",
+    ".eslintrc",
+    "./node_modules/cypress",
+    "cypress/**/*.js"
+  ]
 }
