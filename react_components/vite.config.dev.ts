@@ -33,7 +33,7 @@ export default defineConfig({
   ssr: { noExternal: ['@reduxjs/toolkit'] },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, 'public'),
+      '@': path.resolve(__dirname),
     },
   },
 });

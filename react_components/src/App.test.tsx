@@ -1,11 +1,11 @@
 import React from 'react';
 import App from './App';
 import createFetchMock from 'vitest-fetch-mock';
-import store from './store';
-import { MemoryRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import { describe, it, vi } from 'vitest';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
 
 describe('App', () => {
   it('App <nav> exists', () => {

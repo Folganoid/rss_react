@@ -1,5 +1,8 @@
 import React from 'react';
 import cl from './CardHome.module.scss';
+import unknownImg from '@/images/unknown.svg';
+import maleImg from '@/images/male.png';
+import femaleImg from '@/images/female.png';
 
 export interface ICardHome {
   id: number;
@@ -18,12 +21,12 @@ export interface ICardHomeWithSets extends ICardHome {
 }
 
 export default function CardHome(props: ICardHomeWithSets) {
-  let image = `${import.meta.env.VITE_IMAGES_DIR}unknown.svg`;
+  let image = unknownImg;
   if (props.gender?.toLocaleLowerCase() === 'female') {
-    image = `${import.meta.env.VITE_IMAGES_DIR}female.png`;
+    image = femaleImg;
   }
   if (props.gender?.toLocaleLowerCase() === 'male') {
-    image = `${import.meta.env.VITE_IMAGES_DIR}male.png`;
+    image = maleImg;
   }
 
   const cardHandler = () => {
