@@ -1,18 +1,16 @@
 import { defineConfig } from 'cypress';
-import cov from '@cypress/code-coverage/task';
+import codecov from '@cypress/code-coverage/task';
 
 export default defineConfig({
-  e2e: {
-    setupNodeEvents(on, config) {
-      cov(on, config);
-      return config;
+  env: {
+    codeCoverage: {
+      exclude: 'cypress/**/*.*',
     },
   },
-
-  component: {
-    devServer: {
-      framework: 'react',
-      bundler: 'vite',
+  e2e: {
+    setupNodeEvents(on, config) {
+      codecov(on, config);
+      return config;
     },
   },
 });

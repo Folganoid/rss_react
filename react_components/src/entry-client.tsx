@@ -7,15 +7,28 @@ import { Provider } from 'react-redux';
 import { Store } from 'redux';
 
 function run(store: Store) {
-  ReactDOM.hydrateRoot(
-    document.getElementById('root') as HTMLElement,
-    <React.StrictMode>
-      <Provider store={store}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </Provider>
-    </React.StrictMode>
-  );
+  if (import.meta.env.MODE === 'production') {
+    ReactDOM.hydrateRoot(
+      document.getElementById('root') as HTMLElement,
+      <React.StrictMode>
+        <Provider store={store}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Provider>
+      </React.StrictMode>
+    );
+  } else {
+    ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+      <React.StrictMode>
+        <Provider store={store}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </Provider>
+      </React.StrictMode>
+    );
+  }
 }
+
 run(store);

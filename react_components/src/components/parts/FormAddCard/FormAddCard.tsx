@@ -104,7 +104,9 @@ export default function FormAddCard(props: IProps) {
       </Button>
       <button
         className={cl.resetBtn}
-        onClick={() => {
+        id="resetBtn"
+        onClick={(e) => {
+          e.preventDefault();
           reset();
         }}
       >
